@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PdfViewer</string>
+    <string name="pick_file">Pick file</string>
+    <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
+    <string name="action_about">About</string>
+    <string name="version">Version</string>
+    <string name="intro">Intro</string>
+    <string name="source_code">Source Code</string>
+    <string name="source_code_dec">Github</string>
+    <string name="author">Author</string>
+    <string name="author_name">Gokul Swaminathan</string>
+    <string name="author_job">Developer</string>
+    <string name="email">Email</string>
+    <string name="description_open">Of course this app is open source. You always have the privilege to make your own modifications to this app. The source code link is in the about section.</string>
+    <string name="title_open">Freedom</string>
+    <string name="title_intro">Pdf Viewer Plus</string>
+    <string name="description__intro">A simple Pdf document viewer.</string>
+</resources>
