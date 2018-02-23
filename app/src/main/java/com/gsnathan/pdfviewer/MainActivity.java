@@ -55,7 +55,12 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     protected void onCreate(Bundle savedInstanceState) {
         //setFullscreen(true);
         super.onCreate(savedInstanceState);
+        showIntro();
+        handleIntent(getIntent());
+    }
 
+    private void showIntro()
+    {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
@@ -66,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
         }
-
-        handleIntent(getIntent());
     }
 
     protected void onNewIntent(Intent intent) {

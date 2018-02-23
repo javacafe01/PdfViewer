@@ -13,8 +13,10 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.franmontiel.attributionpresenter.AttributionPresenter;
+import com.franmontiel.attributionpresenter.entities.Attribution;
+import com.franmontiel.attributionpresenter.entities.Library;
+import com.franmontiel.attributionpresenter.entities.License;
 
 /**
  * Created by Gokul Swaminathan on 2/22/2018.
@@ -71,7 +73,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
 
 
-        /*
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.myLicense)
                 .subText(R.string.myLicense_dec)
@@ -83,9 +84,9 @@ public class AboutActivity extends MaterialAboutActivity {
                     }
                 })
                 .build());
-        */
 
-        /*
+
+
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.privacy)
                 .subText(R.string.privacy_dec)
@@ -97,7 +98,7 @@ public class AboutActivity extends MaterialAboutActivity {
                     }
                 })
                 .build());
-        */
+
     }
 
     private void buildAuthor(MaterialAboutCard.Builder appBuilder, final Context context){
@@ -145,15 +146,83 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        new LibsBuilder()
-                                //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
-                                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR )
-                                .withActivityTheme(R.style.Lib_Light)
-                                //start the activity
-                                .start(getApplicationContext());
+                        showLibs();
                     }
                 })
                 .build());
+    }
+
+    private void showLibs()
+    {
+        AttributionPresenter attributionPresenter = new AttributionPresenter.Builder(this)
+                .addAttributions(
+                        new Attribution.Builder("AttributionPresenter")
+                                .addCopyrightNotice("Copyright 2017 Francisco José Montiel Navarro")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/franmontiel/AttributionPresenter")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("Android PdfViewer")
+                                .addCopyrightNotice("Copyright 2017 Bartosz Schiller")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/barteksc/AndroidPdfViewer")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("AndroidAnnotations")
+                                .addCopyrightNotice("Copyright 2012-2016 eBusiness Information\n" +
+                                        "Copyright 2016-2017 the AndroidAnnotations project")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/androidannotations/androidannotations")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("material-about-library")
+                                .addCopyrightNotice("Copyright 2016-2018 Daniel Stone")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/daniel-stoneuk/material-about-library")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("material-intro")
+                                .addCopyrightNotice("Copyright (c) 2017 Jan Heinrich Reimer")
+                                .addLicense(License.MIT)
+                                .setWebsite("https://github.com/heinrichreimer/material-intro")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("Android Open Source Project")
+                                .addCopyrightNotice("Copyright (c) 2016 The Android Open Source Project")
+                                .addLicense(License.APACHE)
+                                .setWebsite("http://developer.android.com/tools/support-library/index.html")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("Android Support Libraries")
+                                .addCopyrightNotice("Copyright (c) 2016 The Android Open Source Project")
+                                .addLicense(License.APACHE)
+                                .setWebsite("http://developer.android.com/tools/support-library/index.html")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("HtmlTextView for Android")
+                                .addCopyrightNotice("Copyright (c) 2013 Dominik Schürmann")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/PrivacyApps/html-textview")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("LicenseTextView")
+                                .addCopyrightNotice("Copyright 2016 JGabrielFreitas\n")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/jgabrielfreitas/LicenseTextView")
+                                .build()
+                )
+                .build();
+
+        //show license dialogue
+        attributionPresenter.showDialog("Open Source Libraries");
     }
 
     @Override

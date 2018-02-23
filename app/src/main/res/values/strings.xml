@@ -4,7 +4,7 @@
     <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
     <string name="action_about">About</string>
     <string name="version">Version</string>
-    <string name="intro">Intro</string>
+    <string name="intro">Replay Intro</string>
     <string name="source_code">Source Code</string>
     <string name="source_code_dec">Github</string>
     <string name="author">Author</string>
@@ -16,5 +16,27 @@
     <string name="title_intro">Pdf Viewer Plus</string>
     <string name="description__intro">A simple Pdf document viewer.</string>
     <string name="open_source">Open Source</string>
-    <string name="open_license">Open Source Licenses</string>
+    <string name="open_license">Libraries</string>
+    <string name="myLicense">Pdf Viewer Plus License</string>
+    <string name="myLicense_dec">MIT License</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="privacy_dec">More Info</string>
+
+    <string name="license">
+        MIT License\n\nCopyright (c) 2018 Gokul Swaminathan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+    </string>
+
+
 </resources>

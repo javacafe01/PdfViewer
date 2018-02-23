@@ -50,12 +50,12 @@ dependencies {
     //Intro Library
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
 
-    //About License Library
-    implementation('com.mikepenz:aboutlibraries:6.0.5@aar') {
-        transitive = true
-    }
+    //License Presenter Library
+    compile 'com.github.franmontiel:AttributionPresenter:1.0'
 
-    //required to support About License Library
-    implementation "com.android.support:recyclerview-v7:26.1.0"
-    implementation "com.android.support:support-annotations:26.1.0"
+    //View for Privacy Policy
+    compile 'org.sufficientlysecure:html-textview:3.5'
+
+    //View for App Licence
+    compile 'com.jgabrielfreitas:licensetextview:1.1.2'
 }

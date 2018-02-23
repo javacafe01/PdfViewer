@@ -15,17 +15,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- About Libraries Theme -->
-    <style name="Lib_Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Here we setting appcompat’s actionBarStyle -->
-        <item name="drawerArrowStyle">@style/AboutLibrariesTheme.DrawerArrowStyle</item>
-
-        <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@android:color/white</item>
+    <!-- About Libs Theme -->
+    <style name="AttributionName" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textSize">16sp</item>
     </style>
-
+    <style name="AttributionCopyright" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="AttributionLicense" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
 
 </resources>
