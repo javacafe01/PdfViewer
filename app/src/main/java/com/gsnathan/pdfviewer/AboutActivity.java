@@ -61,19 +61,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 })
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.source_code)
-                .subText(R.string.source_code_dec)
-                .icon(R.drawable.code_tags)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JavaCafe01/PdfViewer")));
-                    }
-                })
-                .build());
-
-
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.myLicense)
                 .subText(R.string.myLicense_dec)
                 .icon(R.drawable.document_icon)
@@ -84,9 +71,6 @@ public class AboutActivity extends MaterialAboutActivity {
                     }
                 })
                 .build());
-
-
-
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.privacy)
                 .subText(R.string.privacy_dec)
@@ -141,12 +125,34 @@ public class AboutActivity extends MaterialAboutActivity {
     private void buildOpenLicenses(MaterialAboutCard.Builder appBuilder, final Context context){
         appBuilder.title(R.string.open_source);
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text(R.string.source_code)
+                .subText(R.string.source_code_dec)
+                .icon(R.drawable.code_tags)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JavaCafe01/PdfViewer")));
+                    }
+                })
+                .build());
+        appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.open_license)
                 .icon(R.drawable.document_icon)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
                         showLibs();
+                    }
+                })
+                .build());
+        appBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text(R.string.icon)
+                .subText(R.string.icon_desc)
+                .icon(R.drawable.favicon)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://materialdesignicons.com/")));
                     }
                 })
                 .build());

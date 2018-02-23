@@ -37,6 +37,8 @@
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
     </string>
+    <string name="icon">Icons</string>
+    <string name="icon_desc">By Material Design Icons</string>
 
 
 </resources>
