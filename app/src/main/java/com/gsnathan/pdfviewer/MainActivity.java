@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setFullscreen(true);
@@ -64,6 +65,21 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
             SharedPreferences.Editor editor = wmbPreference.edit();
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
+        }
+
+        handleIntent(getIntent());
+    }
+
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        Uri appLinkData = intent.getData();
+        String appLinkAction = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
+            uri = appLinkData;
         }
     }
 
