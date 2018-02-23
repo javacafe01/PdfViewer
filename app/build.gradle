@@ -49,4 +49,13 @@ dependencies {
 
     //Intro Library
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+
+    //About License Library
+    implementation('com.mikepenz:aboutlibraries:6.0.5@aar') {
+        transitive = true
+    }
+
+    //required to support About License Library
+    implementation "com.android.support:recyclerview-v7:26.1.0"
+    implementation "com.android.support:support-annotations:26.1.0"
 }

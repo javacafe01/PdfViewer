@@ -13,6 +13,9 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction
 import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
 /**
  * Created by Gokul Swaminathan on 2/22/2018.
  */
@@ -62,7 +65,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JavaCafe01/Compass")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JavaCafe01/PdfViewer")));
                     }
                 })
                 .build());
@@ -135,7 +138,6 @@ public class AboutActivity extends MaterialAboutActivity {
 
 
     private void buildOpenLicenses(MaterialAboutCard.Builder appBuilder, final Context context){
-        /*
         appBuilder.title(R.string.open_source);
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.open_license)
@@ -145,14 +147,13 @@ public class AboutActivity extends MaterialAboutActivity {
                     public void onClick() {
                         new LibsBuilder()
                                 //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
-                                .withActivityStyle(theme)
-                                .withActivityTheme(style)
+                                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR )
+                                .withActivityTheme(R.style.Lib_Light)
                                 //start the activity
                                 .start(getApplicationContext());
                     }
                 })
                 .build());
-    */
     }
 
     @Override

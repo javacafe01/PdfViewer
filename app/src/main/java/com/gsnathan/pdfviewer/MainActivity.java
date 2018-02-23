@@ -2,10 +2,12 @@ package com.gsnathan.pdfviewer;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -47,6 +49,24 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
 
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        //setFullscreen(true);
+        super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+        if (isFirstRun)
+        {
+            startActivity(new Intent(this, MainIntroActivity.class));
+            SharedPreferences.Editor editor = wmbPreference.edit();
+            editor.putBoolean("FIRSTRUN", false);
+            editor.commit();
+        }
+    }
+
 
     @ViewById
     PDFView pdfView;
@@ -139,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
-        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
+        setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
     }
 
     public String getFileName(Uri uri) {
