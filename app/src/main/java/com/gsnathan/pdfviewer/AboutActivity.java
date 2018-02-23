@@ -17,6 +17,7 @@ import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
 import com.franmontiel.attributionpresenter.entities.Library;
 import com.franmontiel.attributionpresenter.entities.License;
+import com.webianks.easy_feedback.EasyFeedback;
 
 /**
  * Created by Gokul Swaminathan on 2/22/2018.
@@ -36,7 +37,9 @@ public class AboutActivity extends MaterialAboutActivity {
         buildAuthor(authorBuilder, context);
         MaterialAboutCard.Builder openBuilder = new MaterialAboutCard.Builder();
         buildOpenLicenses(openBuilder, context);
-        return new MaterialAboutList(appBuilder.build(), authorBuilder.build(), openBuilder.build());
+        MaterialAboutCard.Builder rateBuilder = new MaterialAboutCard.Builder();
+        buildRateAndReview(rateBuilder, context);
+        return new MaterialAboutList(appBuilder.build(), authorBuilder.build(), openBuilder.build(), rateBuilder.build());
 
     }
 
@@ -137,6 +140,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.open_license)
+                .subText(R.string.open_license_desc)
                 .icon(R.drawable.document_icon)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -156,6 +160,39 @@ public class AboutActivity extends MaterialAboutActivity {
                     }
                 })
                 .build());
+    }
+
+    private void buildRateAndReview(MaterialAboutCard.Builder appBuilder, final Context context){
+        appBuilder.title(R.string.rateReview_title);
+        appBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text(R.string.rate)
+                .icon(R.drawable.star)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer")));
+                    }
+                })
+                .build());
+        appBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text(R.string.review)
+                .icon(R.drawable.message_draw)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        showReviewPage();
+                    }
+                })
+                .build());
+    }
+
+    private void showReviewPage()
+    {
+        new EasyFeedback.Builder(this)
+                .withEmail("gsnathandev@outlook.com")
+                .withSystemInfo()
+                .build()
+                .start();
     }
 
     private void showLibs()
@@ -192,37 +229,44 @@ public class AboutActivity extends MaterialAboutActivity {
                 )
                 .addAttributions(
                         new Attribution.Builder("material-intro")
-                                .addCopyrightNotice("Copyright (c) 2017 Jan Heinrich Reimer")
+                                .addCopyrightNotice("Copyright 2017 Jan Heinrich Reimer")
                                 .addLicense(License.MIT)
                                 .setWebsite("https://github.com/heinrichreimer/material-intro")
                                 .build()
                 )
                 .addAttributions(
                         new Attribution.Builder("Android Open Source Project")
-                                .addCopyrightNotice("Copyright (c) 2016 The Android Open Source Project")
+                                .addCopyrightNotice("Copyright 2016 The Android Open Source Project")
                                 .addLicense(License.APACHE)
                                 .setWebsite("http://developer.android.com/tools/support-library/index.html")
                                 .build()
                 )
                 .addAttributions(
                         new Attribution.Builder("Android Support Libraries")
-                                .addCopyrightNotice("Copyright (c) 2016 The Android Open Source Project")
+                                .addCopyrightNotice("Copyright 2016 The Android Open Source Project")
                                 .addLicense(License.APACHE)
                                 .setWebsite("http://developer.android.com/tools/support-library/index.html")
                                 .build()
                 )
                 .addAttributions(
                         new Attribution.Builder("HtmlTextView for Android")
-                                .addCopyrightNotice("Copyright (c) 2013 Dominik Schürmann")
+                                .addCopyrightNotice("Copyright 2013 Dominik Schürmann")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/PrivacyApps/html-textview")
                                 .build()
                 )
                 .addAttributions(
                         new Attribution.Builder("LicenseTextView")
-                                .addCopyrightNotice("Copyright 2016 JGabrielFreitas\n")
+                                .addCopyrightNotice("Copyright 2016 JGabrielFreitas")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/jgabrielfreitas/LicenseTextView")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("EasyFeedback")
+                                .addCopyrightNotice("Copyright 2017 Ramankit Singh")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/webianks/EasyFeedback")
                                 .build()
                 )
                 .build();

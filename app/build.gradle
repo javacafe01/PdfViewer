@@ -58,4 +58,7 @@ dependencies {
 
     //View for App Licence
     compile 'com.jgabrielfreitas:licensetextview:1.1.2'
+
+    //Review Dialogue
+    compile 'com.webianks.library:easy-feedback:1.0.2'
 }

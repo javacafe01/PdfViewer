@@ -39,6 +39,10 @@
     </string>
     <string name="icon">Icons</string>
     <string name="icon_desc">By Material Design Icons</string>
+    <string name="rateReview_title">Rate and Review</string>
+    <string name="open_license_desc">Special Thanks</string>
+    <string name="rate">Rate</string>
+    <string name="review">Review</string>
 
 
 </resources>
