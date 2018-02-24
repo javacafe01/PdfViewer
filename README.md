@@ -28,6 +28,9 @@ You can contribute to this project in many ways:
 * Fork and make pull requests
 * Help to translate the application (if so contact me --> gsnathandev@outlookcom)
 
+## Donate
+
+[Buy the developer a coffee](paypal.me/gsnathan)
 
 ## License
 
