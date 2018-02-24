@@ -10,7 +10,7 @@
 
 [Github Releases](https://github.com/JavaCafe01/PdfViewer/releases)
 
-<a href=''><img width="250" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer'><img width="250" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
 
 
@@ -30,7 +30,7 @@ You can contribute to this project in many ways:
 
 ## Donate
 
-[Buy the developer a coffee](paypal.me/gsnathan)
+[Buy the developer a coffee](https://www.paypal.me/gsnathan)
 
 ## License
 
