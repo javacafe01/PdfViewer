@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
@@ -15,9 +16,7 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
-import com.franmontiel.attributionpresenter.entities.Library;
 import com.franmontiel.attributionpresenter.entities.License;
-import com.webianks.easy_feedback.EasyFeedback;
 
 /**
  * Created by Gokul Swaminathan on 2/22/2018.
@@ -49,8 +48,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .icon(R.mipmap.ic_launcher)
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.version)
-                .subText(BuildConfig.VERSION_NAME)
+                .text("Version " + BuildConfig.VERSION_NAME)
                 .icon(R.drawable.info_outline)
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
@@ -65,7 +63,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.myLicense)
-                .subText(R.string.myLicense_dec)
                 .icon(R.drawable.document_icon)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -76,7 +73,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.privacy)
-                .subText(R.string.privacy_dec)
                 .icon(R.drawable.file_lock)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -92,7 +88,6 @@ public class AboutActivity extends MaterialAboutActivity {
         appBuilder.title(R.string.author);
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.author_name)
-                .subText(R.string.author_job)
                 .icon(R.drawable.account_circle)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -103,7 +98,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.email)
-                .subText(EMAIL)
                 .icon(R.drawable.email)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -129,7 +123,6 @@ public class AboutActivity extends MaterialAboutActivity {
         appBuilder.title(R.string.open_source);
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.source_code)
-                .subText(R.string.source_code_dec)
                 .icon(R.drawable.code_tags)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -140,7 +133,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.open_license)
-                .subText(R.string.open_license_desc)
                 .icon(R.drawable.document_icon)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -151,7 +143,6 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.icon)
-                .subText(R.string.icon_desc)
                 .icon(R.drawable.favicon)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
@@ -188,11 +179,12 @@ public class AboutActivity extends MaterialAboutActivity {
 
     private void showReviewPage()
     {
-        new EasyFeedback.Builder(this)
-                .withEmail("gsnathandev@outlook.com")
-                .withSystemInfo()
-                .build()
-                .start();
+        Intent Email = new Intent(Intent.ACTION_SEND);
+        Email.setType("text/email");
+        Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "gsnathandev@outlook.com" });
+        Email.putExtra(Intent.EXTRA_SUBJECT, "Pdf Viewer Plus Review");
+        Email.putExtra(Intent.EXTRA_TEXT, Utils.getAndroidVersion() + "\n\nFeedback:\n");
+        startActivity(Intent.createChooser(Email, "Send Feedback:"));
     }
 
     private void showLibs()
