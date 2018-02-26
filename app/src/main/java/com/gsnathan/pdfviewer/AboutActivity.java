@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
@@ -20,6 +19,9 @@ import com.franmontiel.attributionpresenter.entities.License;
 
 /**
  * Created by Gokul Swaminathan on 2/22/2018.
+ *
+ * NOT IN USE
+ *
  */
 
 public class AboutActivity extends MaterialAboutActivity {
@@ -48,7 +50,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .icon(R.mipmap.ic_launcher)
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Version " + BuildConfig.VERSION_NAME)
+                .text("Version " + Utils.getAppVersion())
                 .icon(R.drawable.info_outline)
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
@@ -57,7 +59,18 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(getApplicationContext(), MainIntroActivity.class));
+                        startActivity(Utils.navIntent(getApplicationContext(), MainIntroActivity.class));
+                    }
+                })
+                .build());
+        appBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text(R.string.appChangelog)
+                .icon(R.drawable.clipboard_alert)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        LogFragment log = new LogFragment();
+                        log.show(getSupportFragmentManager(), "Log Fragment");
                     }
                 })
                 .build());
@@ -67,7 +80,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(getApplicationContext(), LicenseActivity.class));
+                        startActivity(Utils.navIntent(getApplicationContext(), LicenseActivity.class));
                     }
                 })
                 .build());
@@ -77,7 +90,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(getApplicationContext(), PrivacyActivity.class));
+                        startActivity(Utils.navIntent(getApplicationContext(), PrivacyActivity.class));
                     }
                 })
                 .build());
@@ -92,7 +105,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JavaCafe01")));
+                        startActivity(Utils.linkIntent("https://github.com/JavaCafe01"));
                     }
                 })
                 .build());
@@ -127,7 +140,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JavaCafe01/PdfViewer")));
+                        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer"));
                     }
                 })
                 .build());
@@ -137,17 +150,17 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        showLibs();
+                       showLibs();
                     }
                 })
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.icon)
-                .icon(R.drawable.favicon)
+                .icon(R.drawable.favicon_black)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://materialdesignicons.com/")));
+                        startActivity(Utils.linkIntent("https://materialdesignicons.com/"));
                     }
                 })
                 .build());
@@ -161,7 +174,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer")));
+                        startActivity(Utils.linkIntent("http://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer"));
                     }
                 })
                 .build());
@@ -171,20 +184,10 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        showReviewPage();
+                        startActivity(Utils.emailIntent(EMAIL,"Pdf Viewer Plus Review", Utils.getAndroidVersion() + "\n\nFeedback:\n", "Send Feedback:"));
                     }
                 })
                 .build());
-    }
-
-    private void showReviewPage()
-    {
-        Intent Email = new Intent(Intent.ACTION_SEND);
-        Email.setType("text/email");
-        Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "gsnathandev@outlook.com" });
-        Email.putExtra(Intent.EXTRA_SUBJECT, "Pdf Viewer Plus Review");
-        Email.putExtra(Intent.EXTRA_TEXT, Utils.getAndroidVersion() + "\n\nFeedback:\n");
-        startActivity(Intent.createChooser(Email, "Send Feedback:"));
     }
 
     private void showLibs()
@@ -261,11 +264,28 @@ public class AboutActivity extends MaterialAboutActivity {
                                 .setWebsite("https://github.com/webianks/EasyFeedback")
                                 .build()
                 )
+                .addAttributions(
+                        new Attribution.Builder("Material About")
+                                .addCopyrightNotice("Copyright 2016 Arleu Cezar Vansuita Júnior")
+                                .addLicense(License.MIT)
+                                .setWebsite("https://github.com/jrvansuita/MaterialAbout")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("ChangeLog Library")
+                                .addCopyrightNotice("Copyright 2013-2015 Gabriele Mariotti")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/gabrielemariotti/changeloglib")
+                                .build()
+                )
                 .build();
 
         //show license dialogue
         attributionPresenter.showDialog("Open Source Libraries");
     }
+
+
+
 
     @Override
     protected CharSequence getActivityTitle() {

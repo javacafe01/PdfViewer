@@ -17,7 +17,7 @@
     <string name="description__intro">A simple Pdf document viewer.</string>
     <string name="open_source">Open Source</string>
     <string name="open_license">Libraries</string>
-    <string name="myLicense">Pdf Viewer Plus License</string>
+    <string name="myLicense">License</string>
     <string name="myLicense_dec">MIT License</string>
     <string name="privacy">Privacy Policy</string>
     <string name="privacy_dec">More Info</string>
@@ -43,6 +43,10 @@
     <string name="open_license_desc">Special Thanks</string>
     <string name="rate">Rate</string>
     <string name="review">Review</string>
+    <string name="open_license2">Libraries Used</string>
+    <string name="appChangelog">Change Log</string>
+    <string name="ok">Ok</string>
+    <string name="action_about2">About 2</string>
 
 
 </resources>

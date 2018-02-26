@@ -261,8 +261,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
-                Intent intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
+                startActivity(Utils.navIntent(this, MaterialAboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
