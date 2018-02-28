@@ -12,7 +12,6 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,11 +34,15 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+
 
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.options)
-public class MainActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener,
+public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
         OnPageErrorListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -50,24 +53,25 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
+    private URL downloadUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setFullscreen(true);
         super.onCreate(savedInstanceState);
-        showIntro();
+        onStartUp();
         handleIntent(getIntent());
     }
 
-    private void showIntro()
+    private void onStartUp()
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences wmbPreference = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+        boolean isFirstRun = prefs.getBoolean("FIRSTRUN", true);
         if (isFirstRun)
         {
             startActivity(new Intent(this, MainIntroActivity.class));
-            SharedPreferences.Editor editor = wmbPreference.edit();
+            SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("FIRSTRUN", false);
             editor.commit();
         }
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
 
     @AfterViews
     void afterViews() {
+        showProgressDialog();
         pdfView.setBackgroundColor(Color.LTGRAY);
         if (uri != null) {
             displayFromUri(uri);
@@ -136,12 +141,13 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
             displayFromAsset(SAMPLE_FILE);
         }
         setTitle(pdfFileName);
+        hideProgressDialog();
     }
 
-    private void displayFromAsset(String assetFileName) {
+    void displayFromAsset(String assetFileName) {
         pdfFileName = assetFileName;
 
-        pdfView.fromAsset(SAMPLE_FILE)
+        pdfView.fromAsset(assetFileName)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
@@ -153,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
                 .load();
     }
 
-    private void displayFromUri(Uri uri) {
+    void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
 
         pdfView.fromUri(uri)
@@ -168,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     }
 
     @OnActivityResult(REQUEST_CODE)
-    public void onResult(int resultCode, Intent intent) {
+    void onResult(int resultCode, Intent intent) {
         if (resultCode == RESULT_OK) {
             uri = intent.getData();
             displayFromUri(uri);

@@ -47,6 +47,8 @@
     <string name="appChangelog">Change Log</string>
     <string name="ok">Ok</string>
     <string name="action_about2">About 2</string>
+    <string name="title_permission">Storage Permissions</string>
+    <string name="description__permission">Of course this app needs permission to access the phone\'s storage. Please click on the button and allow the app the to read the phone\'s storage. Without it, the app will not work properly.</string>
 
 
 </resources>

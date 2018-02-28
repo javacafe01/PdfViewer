@@ -6,8 +6,8 @@ android {
         applicationId "com.gsnathan.pdfviewer"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -24,7 +24,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,32 +47,31 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    //Pdf Viewer Library
+    //Pdf Viewer Library (Proguard config done)
     compile 'com.github.barteksc:android-pdf-viewer:3.0.0-beta.5'
 
-    //Android Annotations Library
+    //Android Annotations Library (Proguard config not needed)
     provided 'org.androidannotations:androidannotations:4.4.0'
     compile 'org.androidannotations:androidannotations-api:4.4.0'
 
-    //About Page Library
+    //About Page Library (Proguard config not needed)
     compile 'com.github.daniel-stoneuk:material-about-library:2.2.3-support26.1.0'
 
-    //Intro Library
+    //Intro Library (Proguard config not needed)
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
 
-    //License Presenter Library
+    //License Presenter Library (Proguard config not needed)
     compile 'com.github.franmontiel:AttributionPresenter:1.0'
 
-    //View for Privacy Policy
+    //View for Privacy Policy (Proguard config not needed)
     compile 'org.sufficientlysecure:html-textview:3.5'
 
-    //View for App Licence
+    //View for App Licence (Proguard config not needed)
     compile 'com.jgabrielfreitas:licensetextview:1.1.2'
 
-    //Material About Page Library
+    //Material About Page Library (Proguard config not needed)
     compile 'com.github.jrvansuita:MaterialAbout:0.2.0'
 
-    //Changelog Library
+    //Changelog Library (Proguard config not needed)
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
-
 }

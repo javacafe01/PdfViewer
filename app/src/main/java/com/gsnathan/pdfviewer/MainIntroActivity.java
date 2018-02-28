@@ -1,5 +1,6 @@
 package com.gsnathan.pdfviewer;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
@@ -30,6 +31,16 @@ public class MainIntroActivity extends IntroActivity {
                 .background(R.color.colorPrimary)
                 .backgroundDark(R.color.colorPrimaryDark)
                 .scrollable(false)
+                .build());
+
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.title_permission)
+                .description(R.string.description__permission)
+                .image(R.drawable.patterns_permissions)
+                .background(R.color.colorPrimary)
+                .backgroundDark(R.color.colorPrimaryDark)
+                .scrollable(false)
+                .permission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .build());
         // Add slides, edit configuration...
     }
