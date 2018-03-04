@@ -10,15 +10,18 @@
 
 [Github Releases](https://github.com/JavaCafe01/PdfViewer/releases)
 
-<a href='https://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer'><img width="250" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
-
+<a href="https://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer">
+    <img alt="Get it on Google Play"
+        height="80"
+        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
+</a>
 
 
 ## Screenshots
 
 | Main Page | Settings Page |
 |:-:|:-:|
-| <img src ="./images/mainpage.png" width="190" height="360"/> | <img src ="./images/mainpage2.png" width="190" height="360"/> |
+| <img src ="./images/mainpage.png" width="190" height="340"/> | <img src ="./images/mainpage2.png" width="190" height="340"/> |
 | [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java) |  [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java)  | 
 
 
