@@ -24,6 +24,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
 
 import org.androidannotations.annotations.AfterViews;
@@ -53,26 +54,45 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
-    private URL downloadUrl;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setFullscreen(true);
         super.onCreate(savedInstanceState);
-        onStartUp();
+        onFirstInstall();
+        onFirstUpdate();
         handleIntent(getIntent());
+
+        // Custom condition: 5 days and 5 launches
+        RateThisApp.Config config = new RateThisApp.Config(5, 5);
+        RateThisApp.init(config);
+        // Monitor launch times and interval from installation
+        RateThisApp.onCreate(this);
+        // If the condition is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
     }
 
-    private void onStartUp()
+    private void onFirstInstall()
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = prefs.getBoolean("FIRSTRUN", true);
+        boolean isFirstRun = prefs.getBoolean("FIRSTINSTALL", true);
         if (isFirstRun)
         {
             startActivity(new Intent(this, MainIntroActivity.class));
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("FIRSTRUN", false);
+            editor.putBoolean("FIRSTINSTALL", false);
+            editor.commit();
+        }
+    }
+
+    private void onFirstUpdate()
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isFirstRun = prefs.getBoolean("1.7.0", true);
+        if (isFirstRun)
+        {
+            showLog();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("1.7.0", false);
             editor.commit();
         }
     }
@@ -118,6 +138,11 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
 
         launchPicker();
+    }
+
+    @OptionsItem(R.id.shareFile)
+    void shareFile() {
+        startActivity(Utils.emailIntent(pdfFileName,"","Share File", uri));
     }
 
     void launchPicker() {
@@ -267,12 +292,17 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
-                startActivity(Utils.navIntent(this, MaterialAboutActivity.class));
+                startActivity(Utils.navIntent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void showLog()
+    {
+        LogFragment log = new LogFragment();
+        log.show(getSupportFragmentManager(), "Log Fragment");
+    }
 
 }

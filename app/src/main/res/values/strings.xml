@@ -5,22 +5,14 @@
     <string name="action_about">About</string>
     <string name="version">Version</string>
     <string name="intro">Replay Intro</string>
-    <string name="source_code">Source Code</string>
-    <string name="source_code_dec">Github</string>
     <string name="author">Author</string>
-    <string name="author_name">Gokul Swaminathan</string>
-    <string name="author_job">Developer</string>
     <string name="email">Email</string>
     <string name="description_open">Of course this app is open source. You always have the privilege to make your own modifications to this app. The source code link is in the about section.</string>
     <string name="title_open">Freedom</string>
     <string name="title_intro">Pdf Viewer Plus</string>
     <string name="description__intro">A simple Pdf document viewer.</string>
-    <string name="open_source">Open Source</string>
-    <string name="open_license">Libraries</string>
     <string name="myLicense">License</string>
-    <string name="myLicense_dec">MIT License</string>
     <string name="privacy">Privacy Policy</string>
-    <string name="privacy_dec">More Info</string>
 
     <string name="license">
         MIT License\n\nCopyright (c) 2018 Gokul Swaminathan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,18 +29,16 @@
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
     </string>
-    <string name="icon">Icons</string>
-    <string name="icon_desc">By Material Design Icons</string>
-    <string name="rateReview_title">Rate and Review</string>
-    <string name="open_license_desc">Special Thanks</string>
-    <string name="rate">Rate</string>
-    <string name="review">Review</string>
-    <string name="open_license2">Libraries Used</string>
     <string name="appChangelog">Change Log</string>
     <string name="ok">Ok</string>
-    <string name="action_about2">About 2</string>
     <string name="title_permission">Storage Permissions</string>
     <string name="description__permission">Of course this app needs permission to access the phone\'s storage. Please click on the button and allow the app the to read the phone\'s storage. Without it, the app will not work properly.</string>
 
+    <string name="libs">Open Source Libraries</string>
+    <string name="git">Github</string>
+    <string name="code">Source Code</string>
+
+    <string name="share">Share File</string>
+    <string name="print">Print File</string>
 
 </resources>

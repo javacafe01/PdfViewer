@@ -1,196 +1,73 @@
 package com.gsnathan.pdfviewer;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 
-import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
-import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
-import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction;
-import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
-import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
-import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
 import com.franmontiel.attributionpresenter.entities.License;
 
 /**
  * Created by Gokul Swaminathan on 2/22/2018.
- *
- * NOT IN USE
- *
  */
 
-public class AboutActivity extends MaterialAboutActivity {
+public class AboutActivity extends AppCompatActivity{
 
-    private final String EMAIL = "gsnathandev@outlook.com";
+    TextView versionView;   //shows the version
+    private final String APP_VERSION_RELEASE = "Version " + Utils.getAppVersion();   //contains Version + the version number
+    private final String APP_VERSION_DEBUG = "Version " + Utils.getAppVersion() + "-debug";   //contains Version + the version number + debug
 
     @Override
-    @NonNull
-    protected MaterialAboutList getMaterialAboutList(@NonNull Context context) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
 
-        MaterialAboutCard.Builder appBuilder = new MaterialAboutCard.Builder();
-        buildApp(appBuilder, context);
-        MaterialAboutCard.Builder authorBuilder = new MaterialAboutCard.Builder();
-        buildAuthor(authorBuilder, context);
-        MaterialAboutCard.Builder openBuilder = new MaterialAboutCard.Builder();
-        buildOpenLicenses(openBuilder, context);
-        MaterialAboutCard.Builder rateBuilder = new MaterialAboutCard.Builder();
-        buildRateAndReview(rateBuilder, context);
-        return new MaterialAboutList(appBuilder.build(), authorBuilder.build(), openBuilder.build(), rateBuilder.build());
-
+        initUI();
     }
 
-    private void buildApp(MaterialAboutCard.Builder appBuilder, final Context context){
-        appBuilder.addItem(new MaterialAboutTitleItem.Builder()
-                .text(getString(R.string.app_name))
-                .icon(R.mipmap.ic_launcher)
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Version " + Utils.getAppVersion())
-                .icon(R.drawable.info_outline)
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.intro)
-                .icon(R.drawable.arrow_right_drop_circle_outline)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.navIntent(getApplicationContext(), MainIntroActivity.class));
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.appChangelog)
-                .icon(R.drawable.clipboard_alert)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        LogFragment log = new LogFragment();
-                        log.show(getSupportFragmentManager(), "Log Fragment");
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.myLicense)
-                .icon(R.drawable.document_icon)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.navIntent(getApplicationContext(), LicenseActivity.class));
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.privacy)
-                .icon(R.drawable.file_lock)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.navIntent(getApplicationContext(), PrivacyActivity.class));
-                    }
-                })
-                .build());
+    private void initUI() {
+        //initialize the textview
+        versionView = (TextView) findViewById(R.id.text_version);
 
+        // check if app is debug
+        if (BuildConfig.DEBUG) {
+            versionView.setText(APP_VERSION_DEBUG);
+        } else    //if app is release
+        {
+            versionView.setText(APP_VERSION_RELEASE);
+        }
     }
 
-    private void buildAuthor(MaterialAboutCard.Builder appBuilder, final Context context){
-        appBuilder.title(R.string.author);
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.author_name)
-                .icon(R.drawable.account_circle)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.linkIntent("https://github.com/JavaCafe01"));
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.email)
-                .icon(R.drawable.email)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        Uri uri = Uri.parse("mailto:" + EMAIL);
-                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                        startActivity(Intent.createChooser(emailIntent, "Email with... "));
-                    }
-                })
-                .setOnLongClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Dev Email", EMAIL);
-                        clipboard.setPrimaryClip(clip);
-                    }
-                })
-                .build());
+    public void replayIntro(View v) {
+        //navigate to intro class (replay the intro)
+        startActivity(Utils.navIntent(getApplicationContext(), MainIntroActivity.class));
     }
 
-
-    private void buildOpenLicenses(MaterialAboutCard.Builder appBuilder, final Context context){
-        appBuilder.title(R.string.open_source);
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.source_code)
-                .icon(R.drawable.code_tags)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer"));
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.open_license)
-                .icon(R.drawable.document_icon)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                       showLibs();
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.icon)
-                .icon(R.drawable.favicon_black)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.linkIntent("https://materialdesignicons.com/"));
-                    }
-                })
-                .build());
+    public void showLog(View v)
+    {
+        LogFragment log = new LogFragment();
+        log.show(getSupportFragmentManager(), "Log Fragment");
     }
 
-    private void buildRateAndReview(MaterialAboutCard.Builder appBuilder, final Context context){
-        appBuilder.title(R.string.rateReview_title);
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.rate)
-                .icon(R.drawable.star)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.linkIntent("http://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer"));
-                    }
-                })
-                .build());
-        appBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text(R.string.review)
-                .icon(R.drawable.message_draw)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        startActivity(Utils.emailIntent(EMAIL,"Pdf Viewer Plus Review", Utils.getAndroidVersion() + "\n\nFeedback:\n", "Send Feedback:"));
-                    }
-                })
-                .build());
+    public void showPrivacy(View v)
+    {
+        startActivity(Utils.navIntent(getApplicationContext(), PrivacyActivity.class));
     }
 
-    private void showLibs()
+    public void showMaterial(View v)
+    {
+        startActivity(Utils.linkIntent("https://materialdesignicons.com/"));
+    }
+
+    public void showLicense(View v)
+    {
+        startActivity(Utils.navIntent(getApplicationContext(), LicenseActivity.class));
+    }
+
+    public void showLibraries(View v)
     {
         AttributionPresenter attributionPresenter = new AttributionPresenter.Builder(this)
                 .addAttributions(
@@ -213,13 +90,6 @@ public class AboutActivity extends MaterialAboutActivity {
                                         "Copyright 2016-2017 the AndroidAnnotations project")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/androidannotations/androidannotations")
-                                .build()
-                )
-                .addAttributions(
-                        new Attribution.Builder("material-about-library")
-                                .addCopyrightNotice("Copyright 2016-2018 Daniel Stone")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/daniel-stoneuk/material-about-library")
                                 .build()
                 )
                 .addAttributions(
@@ -265,9 +135,9 @@ public class AboutActivity extends MaterialAboutActivity {
                                 .build()
                 )
                 .addAttributions(
-                        new Attribution.Builder("Material About")
+                        new Attribution.Builder("Material Design Icons")
                                 .addCopyrightNotice("Copyright 2016 Arleu Cezar Vansuita Júnior")
-                                .addLicense(License.MIT)
+                                .addLicense("SIL Open Font", "https://github.com/Templarian/MaterialDesign/blob/master/LICENSE")
                                 .setWebsite("https://github.com/jrvansuita/MaterialAbout")
                                 .build()
                 )
@@ -284,11 +154,15 @@ public class AboutActivity extends MaterialAboutActivity {
         attributionPresenter.showDialog("Open Source Libraries");
     }
 
+    public void emailDev(View v) {
+        startActivity(Utils.emailIntent("gokulswaminathan@outlook.com", "Android-Scouter", APP_VERSION_RELEASE, "Send email..."));
+    }
 
+    public void navToGit(View v) {
+        startActivity(Utils.linkIntent("https://github.com/JavaCafe01"));
+    }
 
-
-    @Override
-    protected CharSequence getActivityTitle() {
-        return getString(R.string.action_about);
+    public void navToSourceCode(View v) {
+        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/TorchLight"));
     }
 }

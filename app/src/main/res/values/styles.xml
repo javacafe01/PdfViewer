@@ -8,13 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- About Page Theme -->
-    <style name="AppTheme.MaterialAboutActivity" parent="Theme.Mal.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <!-- About Libs Theme -->
     <style name="AttributionName" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/colorAccent</item>
@@ -25,13 +18,6 @@
     </style>
     <style name="AttributionLicense" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
-    </style>
-
-    <!-- Material About Theme -->
-    <style name="AppThemeCustom" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <!-- Change Log Style -->

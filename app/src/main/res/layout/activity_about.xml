@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gsnathan.pdfviewer.AboutActivity">
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="?android:dividerHorizontal"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:divider="?android:dividerHorizontal"
+                android:elevation="100dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="PrivateResource">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@mipmap/ic_launcher" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/app_name"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:elevation="100dp"
+                card_view:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:divider="?android:dividerHorizontal"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/version"
+                                android:src="@drawable/version_icon" />
+
+                            <TextView
+                                android:id="@+id/text_version"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="replayIntro"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/intro"
+                                android:src="@drawable/replay_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/intro"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="showLog"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/appChangelog"
+                                android:src="@drawable/log_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/appChangelog"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="showLicense"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/myLicense"
+                                android:src="@drawable/license_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/myLicense"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="showPrivacy"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/privacy"
+                                android:src="@drawable/privacy_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/privacy"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="navToSourceCode"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/code"
+                                android:src="@drawable/code_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/code"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="showLibraries"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/libs"
+                                android:src="@drawable/lib_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/libs"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:elevation="100dp"
+                card_view:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:divider="?android:dividerHorizontal"
+                    android:elevation="100dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:showDividers="middle"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:divider="?android:dividerHorizontal"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        tools:ignore="PrivateResource">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="15dp"
+                            android:contentDescription="@string/author"
+                            android:src="@drawable/myprofile" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/author"
+                            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                    </LinearLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="emailDev"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/email"
+                                android:src="@drawable/email_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/email"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:onClick="navToGit"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/git"
+                                android:src="@drawable/github_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/git"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

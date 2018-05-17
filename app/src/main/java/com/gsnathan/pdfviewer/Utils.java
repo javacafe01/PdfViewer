@@ -33,6 +33,16 @@ public class Utils extends AppCompatActivity{
         return Intent.createChooser(email, title);
     }
 
+    public static Intent emailIntent(String subject, String text, String title, Uri filePath)
+    {
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.setType("text/email");
+        email.putExtra(Intent.EXTRA_SUBJECT, subject);
+        email.putExtra(Intent.EXTRA_TEXT, text);
+        email.putExtra(Intent.EXTRA_STREAM, filePath);
+        return Intent.createChooser(email, title);
+    }
+
     public static Intent linkIntent(String url)
     {
         Intent link = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
