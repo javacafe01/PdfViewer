@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.8" changeDate="May 18, 2018">
+        <changelogtext>[b]Fix![/b] Bug fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.7" changeDate="May 16, 2018">
         <changelogtext>[b]New![/b] Share the pdf</changelogtext>
         <changelogtext>[b]New![/b] About page</changelogtext>

@@ -136,9 +136,9 @@ public class AboutActivity extends AppCompatActivity{
                 )
                 .addAttributions(
                         new Attribution.Builder("Material Design Icons")
-                                .addCopyrightNotice("Copyright 2016 Arleu Cezar Vansuita Júnior")
+                                .addCopyrightNotice("Copyright 2014, Austin Andrews")
                                 .addLicense("SIL Open Font", "https://github.com/Templarian/MaterialDesign/blob/master/LICENSE")
-                                .setWebsite("https://github.com/jrvansuita/MaterialAbout")
+                                .setWebsite("https://materialdesignicons.com/")
                                 .build()
                 )
                 .addAttributions(
