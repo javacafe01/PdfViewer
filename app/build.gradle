@@ -78,4 +78,8 @@ dependencies {
 
     //Changelog Library (Proguard config not needed)
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
+
+    //Circle Image View
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 }
