@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.gsnathan.pdfviewer.AboutActivity">
-
-    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/my_app_bar_about"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:fitsSystemWindows="true"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_about"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,14 +77,13 @@
                         app:civ_border_color="#FF000000"/>
 
                     <TextView
+                        android:id="@+id/text_version"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="@string/app_name"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -68,10 +92,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:elevation="100dp"
-                card_view:cardCornerRadius="5dp">
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:elevation="8dp"
+                card_view:cardCornerRadius="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,40 +105,6 @@
                     android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical">
-
-                    <com.balysv.materialripple.MaterialRippleLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:mrl_rippleColor="@color/colorAccent"
-                        app:mrl_rippleDelayClick="false"
-                        app:mrl_rippleDuration="350">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            tools:ignore="PrivateResource">
-
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_margin="15dp"
-                                android:contentDescription="@string/version"
-                                android:src="@drawable/version_icon" />
-
-                            <TextView
-                                android:id="@+id/text_version"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="30dp"
-                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
-
-                        </LinearLayout>
-
-                    </com.balysv.materialripple.MaterialRippleLayout>
 
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:layout_width="match_parent"
@@ -377,10 +367,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:elevation="100dp"
-                card_view:cardCornerRadius="5dp">
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:elevation="8dp"
+                card_view:cardCornerRadius="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -484,6 +474,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -35,9 +35,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 

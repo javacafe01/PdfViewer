@@ -70,7 +70,7 @@
             android:name=".AboutActivity"
             android:label="About"
             android:parentActivityName="MainActivity_"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppThemeNoActionBar">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

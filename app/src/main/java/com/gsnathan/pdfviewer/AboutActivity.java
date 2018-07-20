@@ -3,7 +3,9 @@ package com.gsnathan.pdfviewer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.franmontiel.attributionpresenter.AttributionPresenter;
@@ -14,23 +16,32 @@ import com.franmontiel.attributionpresenter.entities.License;
  * Created by Gokul Swaminathan on 2/22/2018.
  */
 
-public class AboutActivity extends AppCompatActivity{
+public class AboutActivity extends AppCompatActivity {
 
     TextView versionView;   //shows the version
     private final String APP_VERSION_RELEASE = "Version " + Utils.getAppVersion();   //contains Version + the version number
     private final String APP_VERSION_DEBUG = "Version " + Utils.getAppVersion() + "-debug";   //contains Version + the version number + debug
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
         initUI();
+        setUpToolBar();
+    }
+
+    private void setUpToolBar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.app_name);
     }
 
     private void initUI() {
         //initialize the textview
         versionView = (TextView) findViewById(R.id.text_version);
+        //initialize the toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_about);
 
         // check if app is debug
         if (BuildConfig.DEBUG) {
@@ -46,29 +57,24 @@ public class AboutActivity extends AppCompatActivity{
         startActivity(Utils.navIntent(getApplicationContext(), MainIntroActivity.class));
     }
 
-    public void showLog(View v)
-    {
+    public void showLog(View v) {
         LogFragment log = new LogFragment();
         log.show(getSupportFragmentManager(), "Log Fragment");
     }
 
-    public void showPrivacy(View v)
-    {
+    public void showPrivacy(View v) {
         startActivity(Utils.navIntent(getApplicationContext(), PrivacyActivity.class));
     }
 
-    public void showMaterial(View v)
-    {
+    public void showMaterial(View v) {
         startActivity(Utils.linkIntent("https://materialdesignicons.com/"));
     }
 
-    public void showLicense(View v)
-    {
+    public void showLicense(View v) {
         startActivity(Utils.navIntent(getApplicationContext(), LicenseActivity.class));
     }
 
-    public void showLibraries(View v)
-    {
+    public void showLibraries(View v) {
         AttributionPresenter attributionPresenter = new AttributionPresenter.Builder(this)
                 .addAttributions(
                         new Attribution.Builder("AttributionPresenter")
