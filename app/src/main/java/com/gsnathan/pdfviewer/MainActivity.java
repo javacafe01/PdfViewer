@@ -37,7 +37,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.options)
 public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
@@ -84,12 +83,12 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private void onFirstUpdate()
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = prefs.getBoolean("1.7.0", true);
+        boolean isFirstRun = prefs.getBoolean(Utils.getAppVersion(), true);
         if (isFirstRun)
         {
             showLog();
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("1.7.0", false);
+            editor.putBoolean(Utils.getAppVersion(), false);
             editor.commit();
         }
     }
