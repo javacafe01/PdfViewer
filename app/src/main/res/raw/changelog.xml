@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="1.9" changeDate="May 18, 2018">
+    <changelogversion versionName="1.9" changeDate="July 24, 2018">
         <changelogtext>[b]Fix![/b] About page layout</changelogtext>
     </changelogversion>
 
