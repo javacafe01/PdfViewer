@@ -1,5 +1,28 @@
-package com.gsnathan.pdfviewer;
+/*
+ * MIT License
+ *
+ * Copyright (c) 2018 Gokul Swaminathan
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
+package com.gsnathan.pdfviewer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +34,6 @@ import android.widget.TextView;
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
 import com.franmontiel.attributionpresenter.entities.License;
-
-/**
- * Created by Gokul Swaminathan on 2/22/2018.
- */
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -161,7 +180,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     public void emailDev(View v) {
-        startActivity(Utils.emailIntent("gokulswaminathan@outlook.com", "Android-Scouter", APP_VERSION_RELEASE, "Send email..."));
+        startActivity(Utils.emailIntent("gokulswami@live.com", "Pdf Viewer Plus", APP_VERSION_RELEASE, "Send email..."));
     }
 
     public void navToGit(View v) {
