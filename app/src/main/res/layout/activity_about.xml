@@ -416,6 +416,41 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:gravity="center_vertical"
+                            android:onClick="showNotice"
+                            android:orientation="horizontal"
+                            tools:ignore="PrivateResource">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:contentDescription="@string/devnotice"
+                                android:src="@drawable/alert_icon" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:text="@string/devnotice"
+                                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                        </LinearLayout>
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleColor="@color/colorAccent"
+                        app:mrl_rippleDelayClick="false"
+                        app:mrl_rippleDuration="350">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
                             android:onClick="emailDev"
                             android:orientation="horizontal"
                             tools:ignore="PrivateResource">

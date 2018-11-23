@@ -53,6 +53,18 @@
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
     </string>
+
+    <string name="notice">
+        Hello Users,\n\n
+
+        As you all know, this app has not gotten any updates recently. I am in my senior year of high school, bombarded with classes and college
+        apps, which results in not that much free time for this app. Pdf Viewer Plus is open source, if any of you all would like to contribute, please
+        do so. Because I have only been programming since the beginning of my high school career, my code might not be neat or follow up with any models or standards (that is why I need you guys!).
+        Send me an email through the about page, or you can just go on to the Github repo(which the link is also in the about page).\n\n
+
+        Thanks for your patience!
+    </string>
+
     <string name="appChangelog">Change Log</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Storage Permissions</string>
@@ -64,5 +76,6 @@
 
     <string name="share">Share File</string>
     <string name="print">Print File</string>
+    <string name="devnotice">Developer Notice</string>
 
 </resources>

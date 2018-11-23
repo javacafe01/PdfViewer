@@ -27,6 +27,7 @@
 
     <changelogversion versionName="2.0" changeDate="November 22, 2018">
         <changelogtext>[b]Fix![/b] Bug fixes</changelogtext>
+        <changelogtext>[b]New![/b] Updated sdk, gradle, and libraries</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="1.9" changeDate="July 24, 2018">

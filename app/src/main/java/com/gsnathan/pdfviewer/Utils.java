@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -33,9 +34,23 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 public class Utils extends AppCompatActivity{
+
+    public static void showNotice(Context context){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Developer Notice")
+                .setMessage(R.string.notice)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setIcon(R.drawable.alert_icon)
+                .show();
+    }
 
     public static String getAndroidVersion() {
         String release = Build.VERSION.RELEASE;

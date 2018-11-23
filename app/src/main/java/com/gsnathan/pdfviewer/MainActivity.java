@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,6 +38,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,7 +78,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //setFullscreen(true);
         super.onCreate(savedInstanceState);
         onFirstInstall();
         onFirstUpdate();
@@ -85,9 +86,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         // Custom condition: 5 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(5, 5);
         RateThisApp.init(config);
-        // Monitor launch times and interval from installation
         RateThisApp.onCreate(this);
-        // If the condition is satisfied, "Rate this app" dialog will be shown
         RateThisApp.showRateDialogIfNeeded(this);
     }
 
@@ -111,11 +110,14 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         if (isFirstRun)
         {
             showLog();
+            Utils.showNotice(this);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();
         }
     }
+
+
 
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

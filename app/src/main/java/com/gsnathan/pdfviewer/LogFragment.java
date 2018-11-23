@@ -46,6 +46,7 @@ public class LogFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle)
                 .setTitle(R.string.appChangelog)
                 .setView(chgList)
+                .setIcon(R.drawable.log_icon)
                 .setPositiveButton(R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {

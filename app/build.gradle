@@ -85,17 +85,17 @@ dependencies {
     implementation  'io.github.kobakei:ratethisapp:1.2.0'
 
     //Pdf Viewer Library (Proguard config done)
-    implementation 'com.github.barteksc:android-pdf-viewer:3.0.0-beta.5'
+    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
 
     //Android Annotations Library (Proguard config not needed)
-    compileOnly 'org.androidannotations:androidannotations:4.4.0'
-    implementation 'org.androidannotations:androidannotations-api:4.4.0'
+    compileOnly 'org.androidannotations:androidannotations:4.5.2'
+    implementation 'org.androidannotations:androidannotations-api:4.5.2'
 
     //License Presenter Library (Proguard config not needed)
-    implementation 'com.github.franmontiel:AttributionPresenter:1.0'
+    implementation 'com.github.franmontiel:AttributionPresenter:1.0.1'
 
     //View for Privacy Policy (Proguard config not needed)
-    implementation 'org.sufficientlysecure:html-textview:3.5'
+    implementation 'org.sufficientlysecure:html-textview:3.6'
 
     //View for App Licence (Proguard config not needed)
     implementation 'com.jgabrielfreitas:licensetextview:1.1.2'
@@ -105,5 +105,4 @@ dependencies {
 
     //Circle Image View
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-
 }

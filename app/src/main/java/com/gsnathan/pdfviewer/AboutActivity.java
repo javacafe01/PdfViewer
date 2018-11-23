@@ -190,4 +190,8 @@ public class AboutActivity extends AppCompatActivity {
     public void navToSourceCode(View v) {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/TorchLight"));
     }
+
+    public void showNotice(View v) {
+        Utils.showNotice(this);
+    }
 }
