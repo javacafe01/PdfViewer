@@ -25,8 +25,8 @@
 package com.gsnathan.pdfviewer;
 
 import android.app.ProgressDialog;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ProgressActivity extends AppCompatActivity {
 

@@ -25,43 +25,54 @@
 package com.gsnathan.pdfviewer;
 
 import android.Manifest;
+import android.graphics.Color;
 import android.os.Bundle;
 
-import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
+import com.github.paolorotolo.appintro.AppIntro;
+import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.github.paolorotolo.appintro.model.SliderPage;
 
-public class MainIntroActivity extends IntroActivity {
-    @Override protected void onCreate(Bundle savedInstanceState){
-        //setFullscreen(true);
+import androidx.fragment.app.Fragment;
+
+public class MainIntroActivity extends AppIntro {
+
+    int bg = Color.parseColor("#2481a1");
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
 
-        addSlide(new SimpleSlide.Builder()
-                .title(R.string.title_intro)
-                .description(R.string.description__intro)
-                .image(R.mipmap.ic_launcher)
-                .background(R.color.colorPrimary)
-                .backgroundDark(R.color.colorPrimaryDark)
-                .scrollable(false)
-                .build());
+        SliderPage first = new SliderPage();
+        first.setTitle(getString(R.string.title_intro));
+        first.setDescription(getString(R.string.description__intro));
+        first.setImageDrawable(R.mipmap.ic_launcher);
+        first.setBgColor(bg);
+        addSlide(AppIntroFragment.newInstance(first));
 
-        addSlide(new SimpleSlide.Builder()
-                .title(R.string.title_open)
-                .description(R.string.description_open)
-                .image(R.drawable.opensource_wide)
-                .background(R.color.colorPrimary)
-                .backgroundDark(R.color.colorPrimaryDark)
-                .scrollable(false)
-                .build());
+        SliderPage second = new SliderPage();
+        second.setTitle(getString(R.string.title_open));
+        second.setDescription(getString(R.string.description_open));
+        second.setImageDrawable(R.drawable.opensource_wide);
+        second.setBgColor(bg);
+        addSlide(AppIntroFragment.newInstance(second));
 
-        addSlide(new SimpleSlide.Builder()
-                .title(R.string.title_permission)
-                .description(R.string.description__permission)
-                .image(R.drawable.patterns_permissions)
-                .background(R.color.colorPrimary)
-                .backgroundDark(R.color.colorPrimaryDark)
-                .scrollable(false)
-                .permission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .build());
-        // Add slides, edit configuration...
+        SliderPage third = new SliderPage();
+        third.setTitle(getString(R.string.title_permission));
+        third.setDescription(getString(R.string.description__permission));
+        third.setImageDrawable(R.drawable.patterns_permissions);
+        third.setBgColor(bg);
+        addSlide(AppIntroFragment.newInstance(third));
+
+        showSkipButton(false);
+        askForPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
+        showStatusBar(false);
+        setNavBarColor("#2481a1");
+    }
+
+    @Override
+    public void onDonePressed(Fragment currentFragment) {
+        super.onDonePressed(currentFragment);
+        finish();
     }
 }

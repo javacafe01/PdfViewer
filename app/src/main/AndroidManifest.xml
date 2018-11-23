@@ -80,7 +80,7 @@
         </activity>
 
         <activity android:name=".MainIntroActivity"
-            android:theme="@style/Theme.Intro"/>
+            android:label="@string/intro" />
 
         <!-- Privacy Policy -->
         <activity
