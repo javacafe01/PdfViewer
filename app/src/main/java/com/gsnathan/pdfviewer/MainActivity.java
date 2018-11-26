@@ -31,6 +31,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 import androidx.annotation.NonNull;
@@ -66,6 +67,8 @@ import java.util.List;
 @OptionsMenu(R.menu.options)
 public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
         OnPageErrorListener {
+
+
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -124,6 +127,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     private void handleIntent(Intent intent) {
+        //Kinda not recommended by google but watever
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         Uri appLinkData = intent.getData();
         String appLinkAction = intent.getAction();
         if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
