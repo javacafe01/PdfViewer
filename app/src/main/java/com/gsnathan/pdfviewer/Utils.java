@@ -35,9 +35,8 @@ import android.os.Build;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class Utils extends AppCompatActivity{
+public class Utils {
 
     public static void showNotice(Context context){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

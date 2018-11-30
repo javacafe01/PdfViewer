@@ -38,7 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +50,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
 
@@ -67,8 +68,6 @@ import java.util.List;
 @OptionsMenu(R.menu.options)
 public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
         OnPageErrorListener {
-
-
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -151,7 +150,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     String pdfFileName;
 
     @OptionsItem(R.id.pickFile)
-    void pickFile() {
+    public void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 READ_EXTERNAL_STORAGE);
 
@@ -314,6 +313,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         switch (item.getItemId()) {
             case R.id.action_about:
                 startActivity(Utils.navIntent(this, AboutActivity.class));
+                return true;
+            case R.id.theme:
+                startActivity(Utils.navIntent(getApplicationContext(), CyaneaSettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

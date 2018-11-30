@@ -25,12 +25,15 @@
 package com.gsnathan.pdfviewer;
 
 import android.os.Bundle;
+
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
-public class PrivacyActivity extends AppCompatActivity {
+public class PrivacyActivity extends CyaneaAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){

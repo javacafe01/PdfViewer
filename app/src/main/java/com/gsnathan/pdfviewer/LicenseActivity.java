@@ -25,9 +25,12 @@
 package com.gsnathan.pdfviewer;
 
 import android.os.Bundle;
+
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LicenseActivity  extends AppCompatActivity {
+public class LicenseActivity  extends CyaneaAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

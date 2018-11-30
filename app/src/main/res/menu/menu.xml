@@ -30,5 +30,11 @@
         android:id="@+id/action_about"
         android:orderInCategory="1"
         android:title="@string/action_about"
-        app:showAsAction="never" />
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/theme"
+        android:orderInCategory="2"
+        android:title="@string/theme_picker"
+        android:showAsAction="never" />
 </menu>

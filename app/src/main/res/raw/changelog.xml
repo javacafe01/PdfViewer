@@ -25,6 +25,10 @@
 
 <changelog bulletedList="true">
 
+    <changelogversion versionName="2.2" changeDate="November 29, 2018">
+        <changelogtext>[b]New![/b] Brand new theme manager!</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="2.1" changeDate="November 25, 2018">
         <changelogtext>[b]Fix![/b] Bug fixes</changelogtext>
     </changelogversion>
