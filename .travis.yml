@@ -20,18 +20,16 @@ before_script:
 - chmod +x gradlew
 script:
 - "./gradlew build --stacktrace"
-before_install:
-- openssl aes-256-cbc -K $encrypted_785176d5c346_key -iv $encrypted_785176d5c346_iv
-  -in travis_store.jks.enc -out travis_store.jks -d
-
 deploy:
   provider: releases
-  skip_cleanup: true
-  overwrite: true
   api_key:
-    secure: 62ab1bdc84f57de742088536f681063b9be5dc42
-  file_glob: true
-  file: /home/travis/build/JavaCafe01/PdfViewer/app/build/outputs/apk/release/*
+    secure: dvlyMy1EquQm/bjCnS2vjkVwGwzo6ag+XjQxZpI8GcUYo4hF4PPb9et1GkfvnECDo4h7Cz/stJ4RVenKOO38IQvfsVnJrKl7Y0STu0kWXscwMIN1uAob/8MV6yZrruh2AW7diKMH5LklPHDJlLicKxymDkyLbJfQk3djQhA7UGvrC+onEShaO43Rhqk1uIye/teXW+QyoCs6lVj0yHqnBG9iUtpMo0NvO1FBuj7jK+Bf7R0cqEl/GKPnfnxLLGH8UTYdXq+CJ9M0zW86eAtZAYazPkFSUUeqjORoI7hFS4ZPsSoffkaFF63oxgt6vBqspYq1nn2gJHZgEUZ+0GArhP2o8rI3GAfa9TzzcnVNORID0jua6JkGtFIOfRdXtTwTluOhX0iqLSUB8A+6kBuPkCHYa6J+ciaqK0cu4/RIRXq+zwJacFGTQNPIvk1HkLXCUCUS92BBgbkjOHWTR3hzaKycFifTjJ+3DhdYUNUcOd4JLrtazVSZ13FOURC8jC2F3cwlzzR+W1bsl/lyYYa5MlCW1DRerk76BrD9cfmwDuF572qyfeRvn9hSDYTrtCE1ss9b8S3dbTwSjNDpzzzJhVGm71E6NAC/b5JlBech8XRUzx3yYhWDmMbA0vtqn9nr6MdIUfC1dwOABtLpRwhY2/LlSVO9cHBhaS6AzYOimOU=
+  file: PdfViewer/build/outputs/apk/PdfViewer*release*.apk
+  file_glob: "true"
+  skip_cleanup: true
   on:
+    branch: master
     repo: JavaCafe01/PdfViewer
-    tags: true
+
+after_success:
+- sh set_tags.sh
