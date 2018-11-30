@@ -1,24 +1,37 @@
 sudo: required
 language: android
 jdk: oraclejdk8
-
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
 android:
- components:
-    - platform-tools
-    - tools
-    - build-tools-28.0.3
-    - android-28
-    - extra-android-m2repository
+  components:
+  - platform-tools
+  - tools
+  - build-tools-28.0.3
+  - android-28
+  - extra-android-m2repository
 before_script:
- - chmod +x gradlew
+- chmod +x gradlew
 script:
-- ./gradlew build --stacktrace
+- "./gradlew build --stacktrace"
+before_install:
+- openssl aes-256-cbc -K $encrypted_785176d5c346_key -iv $encrypted_785176d5c346_iv
+  -in travis_store.jks.enc -out travis_store.jks -d
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  overwrite: true
+  api_key:
+    secure: 62ab1bdc84f57de742088536f681063b9be5dc42
+  file_glob: true
+  file: /home/travis/build/JavaCafe01/PdfViewer/app/build/outputs/apk/release/*
+  on:
+    repo: JavaCafe01/PdfViewer
+    tags: true
