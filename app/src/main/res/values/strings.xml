@@ -24,7 +24,7 @@
 
 <resources>
     <string name="app_name">Pdf Viewer Plus</string>
-    <string name="pick_file">Pick file</string>
+    <string name="pick_file">Pick File</string>
     <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
     <string name="action_about">About</string>
     <string name="version">Version</string>
@@ -73,6 +73,6 @@
     <string name="share">Share File</string>
     <string name="print">Print File</string>
     <string name="devnotice">Developer Notice</string>
-    <string name="theme_picker">Change theme</string>
+    <string name="theme_picker">Change Theme</string>
 
 </resources>

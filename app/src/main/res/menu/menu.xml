@@ -28,13 +28,13 @@
 
     <item
         android:id="@+id/action_about"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="@string/action_about"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/theme"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="@string/theme_picker"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 </menu>
