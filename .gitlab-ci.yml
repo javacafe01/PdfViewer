@@ -1,0 +1,113 @@
+image: jangrewe/gitlab-ci-android
+
+variables:
+  ANDROID_COMPILE_SDK: "28"
+  APP_NAME: "Pdf Viewer Plus"
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .m2/
+    - .gradle/
+
+stages:
+  - build
+  - test
+  - package
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
+  - apt-get update -y && apt-get install wget -y
+
+
+########################################################################
+# BUILD
+
+.build_template: &build
+  stage: build
+  artifacts:
+    expire_in: 4 hours
+    paths:
+      - app/build/outputs/
+
+build:develop:
+  <<: *build
+  only:
+    - develop
+  script:
+    - ./gradlew assembleDebug
+
+build:release:
+  <<: *build
+  only:
+    - master
+  script:
+    - ./gradlew assembleRelease
+
+
+########################################################################
+# TESTS
+
+.test_template: &test
+  stage: test
+  only:
+    - master
+    - develop
+
+test:unit:
+  <<: *test
+  script:
+    - ./gradlew test
+
+test:functional:
+  <<: *test
+  script:
+    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+    - chmod +x android-wait-for-emulator
+    - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86"
+    - echo y | ${ANDROID_HOME}/tools/bin/sdkmanager --update
+    - echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -k "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86" -n test
+    - ${ANDROID_HOME}/tools/emulator -avd test -no-window -no-audio
+    - ./android-wait-for-emulator
+    - adb shell input keyevent 82
+    - ./gradlew cAT
+
+
+########################################################################
+# PACKAGE
+
+.package_template: &package
+  before_script:
+    - export VERSION_NAME=`egrep '^[[:blank:]]+versionName[[:blank:]]'  app/build.gradle | awk '{print $2}' | sed s/\"//g`
+    - mkdir -p exported
+
+package:develop:
+  <<: *package
+  stage: package
+  environment: Development
+  only:
+    - develop
+  script:
+    - mv app/build/outputs/apk/debug/app-debug.apk ./exported/${APP_NAME}-v$VERSION_NAME-debug.apk
+  dependencies:
+    - build:develop
+  artifacts:
+    expire_in: 7 days
+    paths:
+      - exported
+
+package:release:unsigned:
+  <<: *package
+  stage: package
+  environment: Release
+  only:
+    - master
+  script:
+    - mv app/build/outputs/apk/release/app-release-unsigned.apk ./exported/${APP_NAME}-v$VERSION_NAME-release-unsigned.apk
+  dependencies:
+      - build:release
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - exported
