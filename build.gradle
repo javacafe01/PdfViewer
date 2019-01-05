@@ -41,7 +41,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
-        maven { url  "http://dl.bintray.com/jgabrielfreitas/maven" }
+        maven { url  "https://dl.bintray.com/jgabrielfreitas/maven" }
         maven { url  "https://google.bintray.com/flexbox-layout" }
         google()
         jcenter()

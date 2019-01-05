@@ -42,6 +42,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -83,6 +84,15 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstInstall();
         onFirstUpdate();
         handleIntent(getIntent());
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        })
+
+
 
         // Custom condition: 5 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(5, 5);
