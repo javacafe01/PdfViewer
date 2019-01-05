@@ -85,15 +85,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstUpdate();
         handleIntent(getIntent());
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        })
-
-
-
         // Custom condition: 5 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(5, 5);
         RateThisApp.init(config);
