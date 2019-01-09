@@ -199,7 +199,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void navToSourceCode(View v) {
-        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/TorchLight"));
+        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer"));
     }
 
     public void showNotice(View v) {
