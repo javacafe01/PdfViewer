@@ -25,6 +25,10 @@
 
 <changelog bulletedList="true">
 
+    <changelogversion versionName="2.4" changeDate="January 8, 2019">
+        <changelogtext>[b]Fix![/b] Bug fixes for FDroid</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="2.3" changeDate="November 30, 2018">
         <changelogtext>[b]Fix![/b] Placed icons back on toolbar.</changelogtext>
     </changelogversion>

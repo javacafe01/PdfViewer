@@ -62,30 +62,8 @@
             android:label="@string/intro" />
 
         <!-- Privacy Policy -->
-        <activity
-            android:name=".PrivacyActivity"
-            android:label="Privacy Policy"
-            android:parentActivityName=".AboutActivity"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AboutActivity" />
-        </activity>
 
         <!-- License Page -->
-        <activity
-            android:name=".LicenseActivity"
-            android:label="License"
-            android:parentActivityName=".AboutActivity"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AboutActivity" />
-        </activity>
     </application>
 
 </manifest>

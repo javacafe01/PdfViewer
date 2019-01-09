@@ -27,6 +27,7 @@ apply plugin: 'com.android.application'
 android {
 
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
     }
 
@@ -36,8 +37,8 @@ android {
         applicationId "com.gsnathan.pdfviewer"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 14
-        versionName "2.3"
+        versionCode 15
+        versionName "2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -95,12 +96,6 @@ dependencies {
 
     //License Presenter Library (Proguard config not needed)
     implementation 'com.github.franmontiel:AttributionPresenter:1.0.1'
-
-    //View for Privacy Policy (Proguard config not needed)
-    implementation 'org.sufficientlysecure:html-textview:3.6'
-
-    //View for App Licence (Proguard config not needed)
-    implementation 'com.jgabrielfreitas:licensetextview:1.1.2'
 
     //Changelog Library (Proguard config not needed)
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'

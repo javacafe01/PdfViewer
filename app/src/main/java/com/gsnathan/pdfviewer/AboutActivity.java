@@ -25,8 +25,10 @@
 package com.gsnathan.pdfviewer;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -84,7 +86,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void showPrivacy(View v) {
-        startActivity(Utils.navIntent(getApplicationContext(), PrivacyActivity.class));
+        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/privacy_policy.md"));
     }
 
     public void showMaterial(View v) {
@@ -92,7 +94,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void showLicense(View v) {
-        startActivity(Utils.navIntent(getApplicationContext(), LicenseActivity.class));
+        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/LICENSE"));
     }
 
     public void showLibraries(View v) {
