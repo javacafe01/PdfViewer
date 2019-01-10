@@ -18,10 +18,10 @@
 
 ## Screenshots
 
-| Main Page | Settings Page |
-|:-:|:-:|
-| <img src ="./images/mainpage.png" width="190" height="340"/> | <img src ="./images/mainpage2.png" width="190" height="340"/> |
-| [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java) |  [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java)  | 
+| Main Page |
+|:-:|
+| <img src ="./images/mainpage.png" width="190" height="340"/> |
+| [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java) |
 
 
 ## Contribute
