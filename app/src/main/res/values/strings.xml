@@ -55,10 +55,7 @@
     </string>
 
     <string name="notice">
-        Hello Users,\n\nAs you all know, this app has not gotten any updates recently. I am in my senior year of high school, bombarded with classes and college
-        apps, which results in not that much free time for this app. Pdf Viewer Plus is open source, if any of you all would like to contribute, please
-        do so. Because I have only been programming since the beginning of my high school career, my code might not be neat or follow up with any models or standards (that is why I need you guys!).
-        Send me an email through the about page, or you can just go on to the Github repo (which the link is also in the about page).\n\nThanks for your patience!
+        Hello Users,\n\nPdf Viewer Plus is now also on F-Droid!
     </string>
 
     <string name="appChangelog">Change Log</string>
@@ -74,5 +71,7 @@
     <string name="print">Print File</string>
     <string name="devnotice">Developer Notice</string>
     <string name="theme_picker">Change Theme</string>
+    <string name="app_info">App Info</string>
+    <string name="author_info">Author Info</string>
 
 </resources>

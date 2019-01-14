@@ -57,12 +57,11 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     private void setUpToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.app_name);
     }
 
     private void initUI() {
         //initialize the textview
-        versionView = (TextView) findViewById(R.id.text_version);
+        versionView = (TextView) findViewById(R.id.versionTextView);
         //initialize the toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_about);
 
