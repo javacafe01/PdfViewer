@@ -25,7 +25,7 @@
 
 You can contribute to this project in many ways:
 * Fork and make pull requests
-* Help to translate the application (if so contact me --> gsnathandev@outlookcom)
+* Help to translate the application (if so contact me --> gokulswamilive@gmail.com)
 
 ## License
 
