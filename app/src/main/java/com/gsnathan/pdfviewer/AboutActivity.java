@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.franmontiel.attributionpresenter.AttributionPresenter;
@@ -38,6 +39,7 @@ import com.franmontiel.attributionpresenter.entities.License;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity;
+import com.jawnnypoo.physicslayout.PhysicsLinearLayout;
 
 public class AboutActivity extends CyaneaAppCompatActivity {
 
@@ -82,6 +84,10 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     public void showLog(View v) {
         LogFragment log = new LogFragment();
         log.show(getSupportFragmentManager(), "Log Fragment");
+    }
+
+    public void showContributors(View v){
+        startActivity(Utils.navIntent(getApplicationContext(), ContributeActivity.class));
     }
 
     public void showPrivacy(View v) {

@@ -37,8 +37,8 @@ android {
         applicationId "com.gsnathan.pdfviewer"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 15
-        versionName "2.4"
+        versionCode 16
+        versionName "2.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.balysv:material-ripple:1.0.2'
 
     //Rating Library
-    implementation  'io.github.kobakei:ratethisapp:1.2.0'
+    implementation 'io.github.kobakei:ratethisapp:1.2.0'
 
     //Pdf Viewer Library (Proguard config done)
     implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
@@ -105,4 +105,7 @@ dependencies {
 
     //Theme Engine
     implementation 'com.jaredrummler:cyanea:1.0.0'
+
+    //Physics Layout
+    implementation 'com.github.Jawnnypoo:PhysicsLayout:2.1.0'
 }

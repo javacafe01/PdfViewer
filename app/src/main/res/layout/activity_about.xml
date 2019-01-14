@@ -23,7 +23,7 @@
   ~ SOFTWARE.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -47,14 +47,15 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:fillViewport="true">
+        android:fillViewport="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
         <LinearLayout
@@ -79,7 +80,8 @@
                 android:text="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:textAllCaps="false"
-                android:textSize="26sp" />
+                android:textSize="26sp"
+                android:textColor="@color/cyanea_background_black"/>
 
             <TextView
                 android:id="@+id/versionTextView"
@@ -88,7 +90,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="40dp"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/cyanea_background_black"/>
 
 
         </LinearLayout>
@@ -217,8 +220,16 @@
                 android:text="@string/git"
                 android:textSize="16sp" />
 
+            <TextView
+                android:onClick="showContributors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16sp"
+                android:text="@string/contribution"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

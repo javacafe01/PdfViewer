@@ -73,5 +73,6 @@
     <string name="theme_picker">Change Theme</string>
     <string name="app_info">App Info</string>
     <string name="author_info">Author Info</string>
+    <string name="contribution">Contributors</string>
 
 </resources>
