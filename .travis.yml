@@ -2,6 +2,8 @@ language: android
 jdk: oraclejdk8
 sudo: required
 after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
+notifications:
+  slack: pdfviewerplus:ODw20YfhNtVZkbdA4K3mVFnS
 
 android:
   components:
