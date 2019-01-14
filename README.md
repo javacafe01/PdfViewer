@@ -3,7 +3,8 @@
 [//]: # (Shields)
 
 [![Build Status](https://gitlab.com/JavaCafe01/PdfViewer/badges/master/build.svg)](https://gitlab.com/JavaCafe01/PdfViewer)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JavaCafe01/PdfViewer/blob/master/LICENSE) 
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JavaCafe01/PdfViewer/blob/master/LICENSE)
+[![PayPal donation](https://img.shields.io/badge/donate-paypal-yellow.svg)](https://www.paypal.me/gsnathan)
 
 ## Download
 
@@ -29,10 +30,6 @@
 You can contribute to this project in many ways:
 * Fork and make pull requests
 * Help to translate the application (if so contact me --> gsnathandev@outlookcom)
-
-## Donate
-
-[Buy the developer a coffee](https://www.paypal.me/gsnathan)
 
 ## License
 
