@@ -175,10 +175,10 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .build()
                 )
                 .addAttributions(
-                        new Attribution.Builder("ChangeLog Library")
-                                .addCopyrightNotice("Copyright 2013-2015 Gabriele Mariotti")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/gabrielemariotti/changeloglib")
+                        new Attribution.Builder("WhatsNew")
+                                .addCopyrightNotice("Copyright 2017 Lizhaotailang")
+                                .addLicense(License.MIT)
+                                .setWebsite("https://github.com/TonnyL/WhatsNew")
                                 .build()
                 )
                 .addAttributions(
@@ -186,6 +186,13 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .addCopyrightNotice("Copyright 2018 Jared Rummler")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/jaredrummler/Cyanea")
+                                .build()
+                )
+                .addAttributions(
+                        new Attribution.Builder("PhysicsLayout")
+                                .addCopyrightNotice("Copyright 2016 John Carlson")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/Jawnnypoo/PhysicsLayout")
                                 .build()
                 )
                 .build();
