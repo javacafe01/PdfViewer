@@ -1,0 +1,25 @@
+language: android
+jdk: oraclejdk8
+sudo: required
+after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
+notifications:
+  slack: pdfviewerplus:ODw20YfhNtVZkbdA4K3mVFnS
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-28.0.3
+    - android-21
+    - android-28
+    - sys-img-armeabi-v7a-android-21
+    - extra-android-m2repository
+
+before_script:
+  # Create and start emulator
+  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script: ./gradlew connectedAndroidTest
