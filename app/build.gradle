@@ -98,7 +98,7 @@ dependencies {
     implementation 'com.github.franmontiel:AttributionPresenter:1.0.1'
 
     //Changelog Library (Proguard config not needed)
-    implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
+    implementation 'io.github.tonnyl:whatsnew:0.1.1'
 
     //Circle Image View
     implementation 'de.hdodenhof:circleimageview:2.2.0'

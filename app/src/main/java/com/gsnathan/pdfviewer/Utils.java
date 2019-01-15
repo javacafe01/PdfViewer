@@ -29,16 +29,35 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.appcompat.app.AlertDialog;
+import io.github.tonnyl.whatsnew.WhatsNew;
+import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 
 public class Utils {
 
-    public static void showNotice(Context context){
+    static void showLog(AppCompatActivity context) {
+
+        WhatsNew log = WhatsNew.newInstance(
+                new WhatsNewItem("F-Droid", "Pdf Viewer Plus is now on F-Droid!", R.drawable.star_icon),
+                new WhatsNewItem("About Page", "The about page got a revamp.", R.drawable.thumbs_icon));
+        log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
+        log.setButtonBackground(ContextCompat.getColor(context, R.color.colorPrimary));
+        log.setButtonTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        log.setItemTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
+        log.setItemContentColor(Color.parseColor("#808080"));
+
+        log.show(context.getSupportFragmentManager(), "Log");
+    }
+
+    static void showNotice(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Developer Notice")
                 .setMessage(R.string.notice)
@@ -53,21 +72,19 @@ public class Utils {
     public static String getAndroidVersion() {
         String release = Build.VERSION.RELEASE;
         int sdkVersion = Build.VERSION.SDK_INT;
-        return "Android SDK: " + sdkVersion + " (" + release +")";
+        return "Android SDK: " + sdkVersion + " (" + release + ")";
     }
 
-    public static Intent emailIntent(String emailAddress, String subject, String text, String title)
-    {
+    static Intent emailIntent(String emailAddress, String subject, String text, String title) {
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("text/email");
-        email.putExtra(Intent.EXTRA_EMAIL, new String[] { emailAddress });
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
         email.putExtra(Intent.EXTRA_TEXT, text);
         return Intent.createChooser(email, title);
     }
 
-    public static Intent emailIntent(String subject, String text, String title, Uri filePath)
-    {
+    static Intent emailIntent(String subject, String text, String title, Uri filePath) {
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("text/email");
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -76,20 +93,17 @@ public class Utils {
         return Intent.createChooser(email, title);
     }
 
-    public static Intent linkIntent(String url)
-    {
+    static Intent linkIntent(String url) {
         Intent link = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         return link;
     }
 
-    public static Intent navIntent(Context context, Class activity)
-    {
+    static Intent navIntent(Context context, Class activity) {
         Intent navigate = new Intent(context, activity);
-        return  navigate;
+        return navigate;
     }
 
-    public static String getAppVersion()
-    {
+    static String getAppVersion() {
         return BuildConfig.VERSION_NAME;
     }
 

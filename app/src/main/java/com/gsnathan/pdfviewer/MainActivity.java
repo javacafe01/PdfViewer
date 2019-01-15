@@ -111,7 +111,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         boolean isFirstRun = prefs.getBoolean(Utils.getAppVersion(), true);
         if (isFirstRun)
         {
-            showLog();
+            Utils.showLog(this);
             Utils.showNotice(this);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
@@ -322,11 +322,4 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    private void showLog()
-    {
-        LogFragment log = new LogFragment();
-        log.show(getSupportFragmentManager(), "Log Fragment");
-    }
-
 }

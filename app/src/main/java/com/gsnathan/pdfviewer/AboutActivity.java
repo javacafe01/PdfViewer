@@ -82,8 +82,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void showLog(View v) {
-        LogFragment log = new LogFragment();
-        log.show(getSupportFragmentManager(), "Log Fragment");
+        Utils.showLog(this);
     }
 
     public void showContributors(View v){
