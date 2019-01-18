@@ -46,6 +46,7 @@ public class Utils {
     static void showLog(AppCompatActivity context) {
 
         WhatsNew log = WhatsNew.newInstance(
+                new WhatsNewItem("Translations", "Pdf Viewer Plus is now translated to German.", R.drawable.star_icon),
                 new WhatsNewItem("F-Droid", "Pdf Viewer Plus is now on F-Droid!", R.drawable.star_icon),
                 new WhatsNewItem("About Page", "The about page got a revamp.", R.drawable.thumbs_icon));
         log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));

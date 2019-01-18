@@ -26,20 +26,15 @@ package com.gsnathan.pdfviewer;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
 import com.franmontiel.attributionpresenter.entities.License;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity;
-import com.jawnnypoo.physicslayout.PhysicsLinearLayout;
 
 public class AboutActivity extends CyaneaAppCompatActivity {
 
