@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pick_file">Datei auswählen</string>
+    <string name="toast_pick_file_error">Datei konnte nicht ausgewählt werden. Bitte überprüfen Sie Ihren Dateimanager.</string>
+    <string name="action_about">Über</string>
+    <string name="version">Version</string>
+    <string name="intro">Einführung wiederholen</string>
+    <string name="email">E-Mail</string>
+    <string name="description_open">Diese App ist natürlich quelloffen (open source). Sie können gerne Ihre eigenen Modifikationen an der App vornehmen. Den Link zum Quellcode finden Sie im Bereich Über.</string>
+    <string name="title_open">Freiheit</string>
+    <string name="description__intro">Ein einfacher Dokumentenbetrachter für Pdf-Dateien.</string>
+    <string name="myLicense">Lizenz</string>
+    <string name="privacy">Datenschutz-Bestimmungen</string>
+    <string name="notice">Liebe Nutzer, Pdf Viewer Plus ist nun auch in F-Droid verfügbar!</string>
+    <string name="appChangelog">Änderungshistorie</string>
+    <string name="ok">Ok</string>
+    <string name="title_permission">Speicherberechtigungen</string>
+    <string name="description__permission">Diese App braucht natürlicherweise die Berechtigung, auf den Telefonspeicher zugreifen zu können. Bitte drücken Sie auf die Schaltfläche und erlauben Sie der App das Lesen des Telefonspeichers. Andernfalls funktioniert die App nicht ordnungsgemäß.</string>
+    <string name="libs">Open Source-Bibliotheken</string>
+    <string name="code">Quellcode</string>
+    <string name="share">Datei teilen</string>
+    <string name="print">Datei drucken</string>
+    <string name="devnotice">Hinweise vom Entwickler</string>
+    <string name="theme_picker">Ansicht ändern</string>
+    <string name="app_info">App-Info</string>
+    <string name="author_info">Autor-Info</string>
+    <string name="contribution">Mitwirkende</string>
+    <string name="label_theme_picker">Themenauswahl</string>
+    <string name="pref_theme_title">Themen</string>
+    <string name="pref_theme_summary">Vorinstalliertes Thema auswählen</string>
+    <string name="pref_primary_color_summary">Wird überwiegend in der App verwendet.</string>
+    <string name="pref_primary_color_title">Hauptfarbe</string>
+    <string name="pref_accent_color_title">Akzentfarbe</string>
+    <string name="pref_accent_color_summary">Hebt ausgewählten Bereich der Benutzeroberfläche hervor.</string>
+    <string name="pref_background_color_title">Hintergrundfarbe</string>
+    <string name="pref_background_color_summary">Farbe für den Hintergrund des App-Inhaltes</string>
+    <string name="pref_category_appearance">Erscheinungsbild</string>
+    <string name="pref_colored_navigation_bar_title">Farbe der Navigationsleiste</string>
+    <string name="pref_colored_navigation_bar_summary">Hauptfarbe auf die Navigationsleiste anwenden</string>
+</resources>
