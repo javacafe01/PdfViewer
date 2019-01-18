@@ -9,11 +9,9 @@
 
 ## Download
 
-[Github Releases](https://github.com/JavaCafe01/PdfViewer/releases)
-
 <a href="https://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download on Google Play" height="100"></a><a href="https://f-droid.org/en/packages/com.gsnathan.pdfviewer"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
 
-
+<a href="https://github.com/JavaCafe01/PdfViewer/releases/latest"><img src="http://yt3dl.net/images/apk-download-badge.png" alt="Get it on Github" height="100"></a>
 
 ## Screenshots
 
