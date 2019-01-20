@@ -58,18 +58,6 @@ public class Utils {
         log.show(context.getSupportFragmentManager(), "Log");
     }
 
-    static void showNotice(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Developer Notice")
-                .setMessage(R.string.notice)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setIcon(R.drawable.alert_icon)
-                .show();
-    }
-
     public static String getAndroidVersion() {
         String release = Build.VERSION.RELEASE;
         int sdkVersion = Build.VERSION.SDK_INT;

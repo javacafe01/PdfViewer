@@ -112,7 +112,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         if (isFirstRun)
         {
             Utils.showLog(this);
-            Utils.showNotice(this);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();

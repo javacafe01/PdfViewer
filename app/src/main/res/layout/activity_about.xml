@@ -185,18 +185,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/noticeView"
-                android:onClick="showNotice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:drawableStart="@drawable/alert_icon"
-                android:drawablePadding="16dp"
-                android:padding="16sp"
-                android:text="@string/devnotice"
-                android:textSize="16sp" />
-
-            <TextView
                 android:id="@+id/emailView"
                 android:onClick="emailDev"
                 android:layout_width="match_parent"
