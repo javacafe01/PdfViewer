@@ -34,6 +34,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 
+import java.io.File;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -43,8 +45,16 @@ import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 
 public class Utils {
 
-    static void showLog(AppCompatActivity context) {
+    public static String getFileSize(File file) {
+        long size = file.length() / 1024; // Get size and convert bytes into Kb.
+        if (size >= 1024) {
+            return (size / 1024) + " Mb";
+        } else {
+            return size + " Kb";
+        }
+    }
 
+    static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
                 new WhatsNewItem("Translations", "Pdf Viewer Plus is now translated to German.", R.drawable.star_icon),
                 new WhatsNewItem("F-Droid", "Pdf Viewer Plus is now on F-Droid!", R.drawable.star_icon),

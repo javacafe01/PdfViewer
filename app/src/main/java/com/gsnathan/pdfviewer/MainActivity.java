@@ -24,7 +24,9 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -36,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -45,7 +48,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -53,11 +56,11 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.github.barteksc.pdfviewer.util.FileUtils;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
-import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -67,6 +70,8 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @EActivity(R.layout.activity_main)
@@ -271,17 +276,55 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     @OptionsItem(R.id.unlockFile)
     void unlockPDF() {
-        new LovelyTextInputDialog(this)
+
+        final EditText input = new EditText(this);
+        input.setPadding(19, 19, 19, 19);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.password)
-                .setConfirmButton(R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
+                .setView(input)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onTextInputConfirmed(String text) {
-                        PDF_PASSWORD = text;
+                    public void onClick(DialogInterface dialog, int which) {
+                        PDF_PASSWORD = input.getText().toString();
                         if (uri != null)
                             displayFromUri(uri);
                     }
                 })
+                .setIcon(R.drawable.lock_icon)
                 .show();
+    }
+
+    @OptionsItem(R.id.metaFile)
+    void getMeta() {
+        File file;
+        String fileSize = "";
+        if (uri != null) {
+            file = new File(uri.getPath());
+            fileSize = Utils.getFileSize(file);
+        } else {
+            try {
+                file = FileUtils.fileFromAsset(this, SAMPLE_FILE);
+                fileSize = Utils.getFileSize(file);
+            } catch (IOException i) {
+                i.printStackTrace();
+            }
+        }
+
+        PdfDocument.Meta meta = pdfView.getDocumentMeta();
+        if (meta != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.file_info)
+                    .setMessage(meta.getTitle() + "\n" + meta.getAuthor() + "\n" + meta.getCreationDate() + "\n" + fileSize)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(R.drawable.alert_icon)
+                    .show();
+        }
+
     }
 
     public void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {

@@ -33,6 +33,11 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/metaFile"
+        android:title="@string/meta"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/unlockFile"
         android:icon="@drawable/lock_icon"
         android:title="@string/unlock"
