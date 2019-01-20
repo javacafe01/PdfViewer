@@ -34,11 +34,14 @@ import android.net.Uri;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +57,7 @@ import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
+import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -77,6 +81,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    private static String PDF_PASSWORD = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,12 +97,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         RateThisApp.showRateDialogIfNeeded(this);
     }
 
-    private void onFirstInstall()
-    {
+    private void onFirstInstall() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = prefs.getBoolean("FIRSTINSTALL", true);
-        if (isFirstRun)
-        {
+        if (isFirstRun) {
             startActivity(new Intent(this, MainIntroActivity.class));
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("FIRSTINSTALL", false);
@@ -105,19 +108,16 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    private void onFirstUpdate()
-    {
+    private void onFirstUpdate() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = prefs.getBoolean(Utils.getAppVersion(), true);
-        if (isFirstRun)
-        {
+        if (isFirstRun) {
             Utils.showLog(this);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();
         }
     }
-
 
 
     protected void onNewIntent(Intent intent) {
@@ -169,7 +169,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     @OptionsItem(R.id.shareFile)
     void shareFile() {
-        startActivity(Utils.emailIntent(pdfFileName,"","Share File", uri));
+        startActivity(Utils.emailIntent(pdfFileName, "", "Share File", uri));
     }
 
     void launchPicker() {
@@ -203,11 +203,13 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
+                .enableAntialiasing(true)
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
                 .pageFitPolicy(FitPolicy.BOTH)
+                .password(PDF_PASSWORD)
                 .load();
     }
 
@@ -222,7 +224,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
+                .pageFitPolicy(FitPolicy.BOTH)
+                .password(PDF_PASSWORD)
                 .load();
+
     }
 
     @OnActivityResult(REQUEST_CODE)
@@ -261,18 +266,22 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     @Override
     public void loadComplete(int nbPages) {
-        PdfDocument.Meta meta = pdfView.getDocumentMeta();
-        Log.e(TAG, "title = " + meta.getTitle());
-        Log.e(TAG, "author = " + meta.getAuthor());
-        Log.e(TAG, "subject = " + meta.getSubject());
-        Log.e(TAG, "keywords = " + meta.getKeywords());
-        Log.e(TAG, "creator = " + meta.getCreator());
-        Log.e(TAG, "producer = " + meta.getProducer());
-        Log.e(TAG, "creationDate = " + meta.getCreationDate());
-        Log.e(TAG, "modDate = " + meta.getModDate());
+        Log.d(TAG, "PDF loaded");
+    }
 
-        printBookmarksTree(pdfView.getTableOfContents(), "-");
-
+    @OptionsItem(R.id.unlockFile)
+    void unlockPDF() {
+        new LovelyTextInputDialog(this)
+                .setTitle(R.string.password)
+                .setConfirmButton(R.string.ok, new LovelyTextInputDialog.OnTextInputConfirmListener() {
+                    @Override
+                    public void onTextInputConfirmed(String text) {
+                        PDF_PASSWORD = text;
+                        if (uri != null)
+                            displayFromUri(uri);
+                    }
+                })
+                .show();
     }
 
     public void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {

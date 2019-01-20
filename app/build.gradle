@@ -108,4 +108,7 @@ dependencies {
 
     //Physics Layout
     implementation 'com.github.Jawnnypoo:PhysicsLayout:2.1.0'
+
+    //Dialog
+    implementation 'com.yarolegovich:lovely-dialog:1.1.0'
 }

@@ -92,5 +92,7 @@
 
     <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
     <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
+    <string name="password" translatable="false">Password</string>
+    <string name="unlock" translatable="false">Set Password</string>
 
 </resources>

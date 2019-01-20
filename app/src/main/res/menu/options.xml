@@ -33,6 +33,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/unlockFile"
+        android:icon="@drawable/lock_icon"
+        android:title="@string/unlock"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/shareFile"
         android:icon="@drawable/share_icon"
         android:title="@string/share"
