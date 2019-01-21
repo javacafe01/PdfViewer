@@ -31,6 +31,7 @@ import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.github.paolorotolo.appintro.model.SliderPage;
+import com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity;
 
 import androidx.fragment.app.Fragment;
 
@@ -73,6 +74,7 @@ public class MainIntroActivity extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+        startActivity(Utils.navIntent(this, CyaneaThemePickerActivity.class));
         finish();
     }
 }

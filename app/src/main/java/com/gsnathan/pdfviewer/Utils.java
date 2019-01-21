@@ -45,21 +45,16 @@ import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 
 public class Utils {
 
-    public static String getFileSize(File file) {
-        long size = file.length() / 1024; // Get size and convert bytes into Kb.
-        if (size >= 1024) {
-            return (size / 1024) + " Mb";
-        } else {
-            return size + " Kb";
-        }
-    }
+    public static boolean tempBool = false;
 
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("Translations", "Pdf Viewer Plus is now translated to German.", R.drawable.star_icon),
+                new WhatsNewItem("Settings", "A lot of PDF rendering settings have been added.", R.drawable.thumbs_icon),
                 new WhatsNewItem("F-Droid", "Pdf Viewer Plus is now on F-Droid!", R.drawable.star_icon),
-                new WhatsNewItem("About Page", "The about page got a revamp.", R.drawable.thumbs_icon));
+                new WhatsNewItem("Menu", "Brand new menu that holds all the options.", R.drawable.thumbs_icon));
         log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
+        log.setTitleText(context.getResources().getString(R.string.appChangelog));
+        log.setButtonText(context.getResources().getString(R.string.buttonLog));
         log.setButtonBackground(ContextCompat.getColor(context, R.color.colorPrimary));
         log.setButtonTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         log.setItemTitleColor(ContextCompat.getColor(context, R.color.colorAccent));

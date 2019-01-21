@@ -35,4 +35,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <io.github.yavski.fabspeeddial.FabSpeedDial
+            android:id="@+id/fabMain"
+            app:fabBackgroundTint="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:fabGravity="bottom_end"
+            app:fabMenu="@menu/fab_menu"
+            app:miniFabBackgroundTint="@color/colorPrimaryDark"
+            app:miniFabDrawableTint="@color/colorWhite"
+            app:miniFabTitleBackgroundTint="@color/colorPrimary"
+            app:miniFabTitleTextColor="@color/colorWhite" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

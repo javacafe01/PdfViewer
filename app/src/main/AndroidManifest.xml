@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+
         <activity
             android:name=".MainActivity_"
             android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
@@ -68,9 +69,7 @@
                 <data android:scheme="content" />
                 <data android:mimeType="application/pdf" />
             </intent-filter>
-        </activity>
-
-        <!-- About -->
+        </activity> <!-- About -->
         <activity
             android:name=".AboutActivity"
             android:label="About"
@@ -81,16 +80,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity_" />
-
         </activity>
-
-
-
         <activity
             android:name=".MainIntroActivity"
-            android:label="@string/intro" />
-
-        <!-- Contr -->
+            android:label="@string/intro" /> <!-- Contr -->
         <activity
             android:name=".ContributeActivity"
             android:label="Contributors"
@@ -103,6 +96,17 @@
                 android:value="MainActivity_" />
         </activity>
 
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity_"
+            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity_" />
+        </activity>
     </application>
 
 </manifest>

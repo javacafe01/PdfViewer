@@ -190,6 +190,13 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .setWebsite("https://github.com/Jawnnypoo/PhysicsLayout")
                                 .build()
                 )
+                .addAttributions(
+                        new Attribution.Builder("fab-speed-dial")
+                                .addCopyrightNotice("Copyright 2016 Yavor Ivanov")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/yavski/fab-speed-dial")
+                                .build()
+                )
                 .build();
 
         //show license dialogue

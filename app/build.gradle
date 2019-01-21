@@ -45,6 +45,9 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true
+                arguments = [
+                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
+                ]
             }
         }
     }
@@ -108,4 +111,7 @@ dependencies {
 
     //Physics Layout
     implementation 'com.github.Jawnnypoo:PhysicsLayout:2.1.0'
+
+    //FAB
+    implementation 'io.github.yavski:fab-speed-dial:1.0.6'
 }
