@@ -5,6 +5,9 @@ after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
 notifications:
   slack: pdfviewerplus:ODw20YfhNtVZkbdA4K3mVFnS
 
+before_install:
+ - chmod +x gradlew
+
 android:
   components:
     - platform-tools
