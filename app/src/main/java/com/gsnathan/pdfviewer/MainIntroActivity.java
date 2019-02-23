@@ -74,7 +74,6 @@ public class MainIntroActivity extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        startActivity(Utils.navIntent(this, CyaneaThemePickerActivity.class));
         finish();
     }
 }

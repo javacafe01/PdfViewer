@@ -57,12 +57,8 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.github.barteksc.pdfviewer.util.FileUtils;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.jaredrummler.cyanea.Cyanea;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaThemePickerLauncher;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
 
@@ -70,12 +66,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 @EActivity(R.layout.activity_main)
