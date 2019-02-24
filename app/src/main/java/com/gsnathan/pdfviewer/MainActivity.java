@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -34,14 +35,21 @@ import android.net.Uri;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
+
 import android.os.Bundle;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -58,14 +66,11 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
 @EActivity(R.layout.activity_main)
-@OptionsMenu(R.menu.options)
 public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
         OnPageErrorListener {
 
@@ -76,13 +81,19 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    private static String PDF_PASSWORD = "";
+    private SharedPreferences prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefManager = PreferenceManager.getDefaultSharedPreferences(this);
         onFirstInstall();
         onFirstUpdate();
         handleIntent(getIntent());
+
+        if (Utils.tempBool && getIntent().getStringExtra("uri") != null)
+            uri = Uri.parse(getIntent().getStringExtra("uri"));
 
         // Custom condition: 5 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(5, 5);
@@ -91,12 +102,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         RateThisApp.showRateDialogIfNeeded(this);
     }
 
-    private void onFirstInstall()
-    {
+    private void onFirstInstall() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = prefs.getBoolean("FIRSTINSTALL", true);
-        if (isFirstRun)
-        {
+        if (isFirstRun) {
             startActivity(new Intent(this, MainIntroActivity.class));
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("FIRSTINSTALL", false);
@@ -104,20 +113,16 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    private void onFirstUpdate()
-    {
+    private void onFirstUpdate() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = prefs.getBoolean(Utils.getAppVersion(), true);
-        if (isFirstRun)
-        {
-            showLog();
-            Utils.showNotice(this);
+        if (isFirstRun) {
+            Utils.showLog(this);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();
         }
     }
-
 
 
     protected void onNewIntent(Intent intent) {
@@ -141,6 +146,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @ViewById
     PDFView pdfView;
 
+    @ViewById
+    FabSpeedDial fabMain;
+
     @NonConfigurationInstance
     Uri uri;
 
@@ -149,8 +157,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     String pdfFileName;
 
-    @OptionsItem(R.id.pickFile)
-    public void pickFile() {
+    private void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 READ_EXTERNAL_STORAGE);
 
@@ -167,9 +174,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         launchPicker();
     }
 
-    @OptionsItem(R.id.shareFile)
     void shareFile() {
-        startActivity(Utils.emailIntent(pdfFileName,"","Share File", uri));
+        startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
     }
 
     void launchPicker() {
@@ -199,30 +205,56 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     void displayFromAsset(String assetFileName) {
         pdfFileName = assetFileName;
 
+        pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+
         pdfView.fromAsset(assetFileName)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
+                .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
                 .pageFitPolicy(FitPolicy.BOTH)
+                .password(PDF_PASSWORD)
+                .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
+                .autoSpacing(prefManager.getBoolean("scroll_pref", false))
+                .pageSnap(prefManager.getBoolean("snap_pref", false))
+                .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
     }
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
+        Utils.tempBool = true;
+        SharedPreferences.Editor editor = prefManager.edit();
+        editor.putString("uri", uri.toString());
+        editor.apply();
+
+        pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
 
         pdfView.fromUri(uri)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
+                .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
+                .pageFitPolicy(FitPolicy.BOTH)
+                .password(PDF_PASSWORD)
+                .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
+                .autoSpacing(prefManager.getBoolean("scroll_pref", false))
+                .pageSnap(prefManager.getBoolean("snap_pref", false))
+                .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
+
+    }
+
+    void navToSettings() {
+        startActivity(Utils.navIntent(this, SettingsActivity.class));
     }
 
     @OnActivityResult(REQUEST_CODE)
@@ -261,17 +293,66 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     @Override
     public void loadComplete(int nbPages) {
-        PdfDocument.Meta meta = pdfView.getDocumentMeta();
-        Log.e(TAG, "title = " + meta.getTitle());
-        Log.e(TAG, "author = " + meta.getAuthor());
-        Log.e(TAG, "subject = " + meta.getSubject());
-        Log.e(TAG, "keywords = " + meta.getKeywords());
-        Log.e(TAG, "creator = " + meta.getCreator());
-        Log.e(TAG, "producer = " + meta.getProducer());
-        Log.e(TAG, "creationDate = " + meta.getCreationDate());
-        Log.e(TAG, "modDate = " + meta.getModDate());
+        Log.d(TAG, "PDF loaded");
+        fabMain.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.pickFile:
+                        pickFile();
+                        break;
+                    case R.id.metaFile:
+                        getMeta();
+                        break;
+                    case R.id.unlockFile:
+                        unlockPDF();
+                        break;
+                    case R.id.shareFile:
+                        shareFile();
+                        break;
+                    default:
+                        break;
 
-        printBookmarksTree(pdfView.getTableOfContents(), "-");
+                }
+                return false;
+            }
+        });
+    }
+
+    void unlockPDF() {
+
+        final EditText input = new EditText(this);
+        input.setPadding(19, 19, 19, 19);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.password)
+                .setView(input)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PDF_PASSWORD = input.getText().toString();
+                        if (uri != null)
+                            displayFromUri(uri);
+                    }
+                })
+                .setIcon(R.drawable.lock_icon)
+                .show();
+    }
+
+    void getMeta() {
+        PdfDocument.Meta meta = pdfView.getDocumentMeta();
+        if (meta != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.meta)
+                    .setMessage("Title: " + meta.getTitle() + "\n" + "Author: " + meta.getAuthor() + "\n" + "Creation Date: " + meta.getCreationDate())
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(R.drawable.alert_icon)
+                    .show();
+        }
 
     }
 
@@ -317,15 +398,11 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             case R.id.theme:
                 startActivity(Utils.navIntent(getApplicationContext(), CyaneaSettingsActivity.class));
                 return true;
+            case R.id.settings:
+                navToSettings();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    private void showLog()
-    {
-        LogFragment log = new LogFragment();
-        log.show(getSupportFragmentManager(), "Log Fragment");
-    }
-
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/pickFile"
+        android:icon="@drawable/folder_icon"
+        android:title="@string/pick_file"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/metaFile"
+        android:icon="@drawable/meta_info"
+        android:title="@string/meta"
+        android:orderInCategory="4"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/unlockFile"
+        android:icon="@drawable/lock_icon"
+        android:title="@string/unlock"
+        android:orderInCategory="3"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/shareFile"
+        android:icon="@drawable/share_icon"
+        android:title="@string/share"
+        android:orderInCategory="2"
+        app:showAsAction="always"  />
+
+</menu>

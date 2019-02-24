@@ -3,8 +3,14 @@
     "theme_name": "Pdf Viewer Plus",
     "base_theme": "LIGHT",
     "primary": "#2481a1",
+    "primary_dark": "#1a5e76",
+    "primary_light": "#2481a1",
     "accent": "#00cc99",
-    "background": "#FFFAFAFA"
+    "accent_dark": "#029873",
+    "accent_light": "#03dda6",
+    "background": "#FAFAFA",
+    "background_dark": "#D4D4D4",
+    "background_light": "#FAFAFA"
   },
   {
     "theme_name": "Cyanea",

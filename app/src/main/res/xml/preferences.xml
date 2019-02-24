@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/qualitysettings">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/quality" android:key="quality_pref"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/alias" android:key="alias_pref"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/scrollsettings">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/scroll" android:key="scroll_pref"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/snap" android:key="snap_pref"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/fling" android:key="fling_pref"/>
+
+    </PreferenceCategory>
+
+    <Preference android:title="@string/reload"
+        android:key="reload_pref"
+        android:summary="@string/reload_sum"/>
+
+</PreferenceScreen>
