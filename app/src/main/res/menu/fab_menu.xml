@@ -30,4 +30,11 @@
         android:orderInCategory="2"
         app:showAsAction="always"  />
 
+    <item
+        android:id="@+id/printFile"
+        android:icon="@drawable/print_icon"
+        android:title="@string/print"
+        android:orderInCategory="6"
+        app:showAsAction="always"  />
+
 </menu>

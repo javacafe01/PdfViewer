@@ -34,12 +34,17 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
@@ -76,6 +81,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private PrintManager mgr = null;
+
     private final static int REQUEST_CODE = 42;
     public static final int PERMISSION_CODE = 42042;
 
@@ -94,6 +101,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
         if (Utils.tempBool && getIntent().getStringExtra("uri") != null)
             uri = Uri.parse(getIntent().getStringExtra("uri"));
+
+        mgr = (PrintManager) getSystemService(PRINT_SERVICE);
 
         // Custom condition: 5 days and 5 launches
         RateThisApp.Config config = new RateThisApp.Config(5, 5);
@@ -150,7 +159,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     FabSpeedDial fabMain;
 
     @NonConfigurationInstance
-    Uri uri;
+    static Uri uri;
 
     @NonConfigurationInstance
     Integer pageNumber = 0;
@@ -196,10 +205,40 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         if (uri != null) {
             displayFromUri(uri);
         } else {
-            displayFromAsset(SAMPLE_FILE);
+            //displayFromAsset(SAMPLE_FILE);
         }
         setTitle(pdfFileName);
         hideProgressDialog();
+
+        fabMain.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.pickFile:
+                        pickFile();
+                        break;
+                    case R.id.metaFile:
+                        getMeta();
+                        break;
+                    case R.id.unlockFile:
+                        unlockPDF();
+                        break;
+                    case R.id.shareFile:
+                        shareFile();
+                        break;
+                    case R.id.printFile:
+                        print(pdfView.getDocumentMeta().getTitle(),
+                                new PdfDocumentAdapter(getApplicationContext()),
+                                new PrintAttributes.Builder().build());
+
+                        break;
+                    default:
+                        break;
+
+                }
+                return false;
+            }
+        });
     }
 
     void displayFromAsset(String assetFileName) {
@@ -294,29 +333,14 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @Override
     public void loadComplete(int nbPages) {
         Log.d(TAG, "PDF loaded");
-        fabMain.setMenuListener(new SimpleMenuListenerAdapter() {
-            @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.pickFile:
-                        pickFile();
-                        break;
-                    case R.id.metaFile:
-                        getMeta();
-                        break;
-                    case R.id.unlockFile:
-                        unlockPDF();
-                        break;
-                    case R.id.shareFile:
-                        shareFile();
-                        break;
-                    default:
-                        break;
 
-                }
-                return false;
-            }
-        });
+    }
+
+    private PrintJob print(String name, PrintDocumentAdapter adapter,
+                           PrintAttributes attrs) {
+        startService(new Intent(this, PrintJobMonitorService.class));
+
+        return (mgr.print(name, adapter, attrs));
     }
 
     void unlockPDF() {
