@@ -33,6 +33,7 @@ You can contribute to this project in many ways:
 | ------------- | ------------- |
 | German  | [Etamuk](https://github.com/Etamuk)  |
 | French  | [Raspbeguy](https://github.com/raspbeguy)  |
+| Russian  | [Greynar](https://github.com/Greynar)  |
 
 ## License
 
