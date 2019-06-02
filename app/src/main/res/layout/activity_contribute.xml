@@ -20,6 +20,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp"
             app:layout_shape="circle"
             app:layout_bodyType="dynamic"
             android:src="@drawable/myprofile" />
@@ -28,6 +30,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/orelio"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp"
             app:layout_shape="circle"
             app:layout_bodyType="dynamic" />
 
@@ -35,6 +39,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/etamuk"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp"
             app:layout_shape="circle"
             app:layout_bodyType="dynamic" />
 
@@ -42,6 +48,17 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/rasbeguy"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp"
+            app:layout_shape="circle"
+            app:layout_bodyType="dynamic" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/greynar"
+            app:civ_border_color="@color/colorWhite"
+            app:civ_border_width="2dp"
             app:layout_shape="circle"
             app:layout_bodyType="dynamic" />
 
