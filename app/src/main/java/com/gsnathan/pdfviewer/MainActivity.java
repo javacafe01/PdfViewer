@@ -64,6 +64,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
+import com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
 
@@ -205,10 +206,11 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         if (uri != null) {
             displayFromUri(uri);
         } else {
-            //displayFromAsset(SAMPLE_FILE);
+            displayFromAsset(SAMPLE_FILE);
         }
         setTitle(pdfFileName);
         hideProgressDialog();
+
 
         fabMain.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
@@ -218,18 +220,22 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                         pickFile();
                         break;
                     case R.id.metaFile:
-                        getMeta();
+                        if (uri != null)
+                            getMeta();
                         break;
                     case R.id.unlockFile:
-                        unlockPDF();
+                        if (uri != null)
+                            unlockPDF();
                         break;
                     case R.id.shareFile:
-                        shareFile();
+                        if (uri != null)
+                            shareFile();
                         break;
                     case R.id.printFile:
-                        print(pdfView.getDocumentMeta().getTitle(),
-                                new PdfDocumentAdapter(getApplicationContext()),
-                                new PrintAttributes.Builder().build());
+                        if (uri != null)
+                            print(pdfView.getDocumentMeta().getTitle(),
+                                    new PdfDocumentAdapter(getApplicationContext()),
+                                    new PrintAttributes.Builder().build());
 
                         break;
                     default:
@@ -240,6 +246,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             }
         });
     }
+
 
     void displayFromAsset(String assetFileName) {
         pdfFileName = assetFileName;

@@ -37,8 +37,8 @@ android {
         applicationId "com.gsnathan.pdfviewer"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 19
-        versionName "2.8"
+        versionCode 20
+        versionName "2.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -107,7 +107,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //Theme Engine
-    implementation 'com.jaredrummler:cyanea:1.0.0'
+    implementation 'com.jaredrummler:cyanea:1.0.1'
 
     //Physics Layout
     implementation 'com.github.Jawnnypoo:PhysicsLayout:2.1.0'
