@@ -95,6 +95,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pdfFileName = "";
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
         onFirstInstall();
         onFirstUpdate();
@@ -233,10 +234,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                         break;
                     case R.id.printFile:
                         if (uri != null)
-                            print(pdfView.getDocumentMeta().getTitle(),
+                            print(pdfFileName,
                                     new PdfDocumentAdapter(getApplicationContext()),
                                     new PrintAttributes.Builder().build());
-
                         break;
                     default:
                         break;

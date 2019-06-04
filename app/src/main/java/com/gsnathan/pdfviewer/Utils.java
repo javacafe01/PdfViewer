@@ -49,8 +49,8 @@ public class Utils {
 
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("Translation", "Added Russian localization", R.drawable.thumbs_icon),
-                new WhatsNewItem("Printing", "Implemented printing options", R.drawable.star_icon));
+                new WhatsNewItem("Bug Fixes", "Fixed Printing Bug", R.drawable.thumbs_icon),
+                new WhatsNewItem("Printing", "Fixed Nav Bar Bug", R.drawable.star_icon));
         log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
         log.setButtonText(context.getResources().getString(R.string.buttonLog));
