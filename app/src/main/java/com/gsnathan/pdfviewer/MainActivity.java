@@ -64,7 +64,6 @@ import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaThemePickerActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
 
