@@ -24,10 +24,13 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.os.Binder;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -53,7 +56,9 @@ public class AboutActivity extends CyaneaAppCompatActivity {
 
     private void setUpToolBar() {
         setSupportActionBar(toolbar);
+        final long token = Binder.clearCallingIdentity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void initUI() {
@@ -214,4 +219,13 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     public void navToSourceCode(View v) {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer"));
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -80,10 +80,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     private void setupActionBar() {
         ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            // Show the Up button in the action bar.
+        if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
 

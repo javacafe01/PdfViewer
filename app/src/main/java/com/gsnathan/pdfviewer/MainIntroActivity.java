@@ -66,7 +66,7 @@ public class MainIntroActivity extends AppIntro {
         addSlide(AppIntroFragment.newInstance(third));
 
         showSkipButton(false);
-        askForPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
+        askForPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
         showStatusBar(false);
         setNavBarColor("#2481a1");
     }
