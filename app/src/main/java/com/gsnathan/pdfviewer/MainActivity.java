@@ -322,7 +322,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (indexDisplayName != -1) {
+                        result = cursor.getString(indexDisplayName);
+                    }
                 }
             } finally {
                 if (cursor != null) {
