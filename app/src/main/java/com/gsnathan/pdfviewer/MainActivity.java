@@ -406,7 +406,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    if(indexDisplayName != -1) {
+                    if (indexDisplayName != -1) {
                         result = cursor.getString(indexDisplayName);
                     }
                 }
