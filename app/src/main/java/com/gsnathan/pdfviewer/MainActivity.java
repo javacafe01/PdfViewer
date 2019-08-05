@@ -24,6 +24,7 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
@@ -73,6 +75,13 @@ import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 
 @EActivity(R.layout.activity_main)
@@ -84,12 +93,15 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private PrintManager mgr = null;
 
     private final static int REQUEST_CODE = 42;
+    public static final int PERMISSION_SAVE = 1;
     public static final int PERMISSION_CODE = 42042;
 
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +178,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     Integer pageNumber = 0;
 
     String pdfFileName;
+
+    String pdfTempFilePath;
 
     private void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -277,9 +291,36 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         editor.putString("uri", uri.toString());
         editor.apply();
 
+        if (uri.getScheme().contains("http")) {
+            // we will get the pdf asynchronously with the RetrievePDFStream object
+            RetrievePDFStream retrievePDFStream = new RetrievePDFStream(this);
+            retrievePDFStream.execute(uri.toString(), pdfFileName);
+        } else {
+            pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+
+            pdfView.fromUri(uri)
+                    .defaultPage(pageNumber)
+                    .onPageChange(this)
+                    .enableAnnotationRendering(true)
+                    .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
+                    .onLoad(this)
+                    .scrollHandle(new DefaultScrollHandle(this))
+                    .spacing(10) // in dp
+                    .onPageError(this)
+                    .pageFitPolicy(FitPolicy.BOTH)
+                    .password(PDF_PASSWORD)
+                    .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
+                    .autoSpacing(prefManager.getBoolean("scroll_pref", false))
+                    .pageSnap(prefManager.getBoolean("snap_pref", false))
+                    .pageFling(prefManager.getBoolean("fling_pref", false))
+                    .load();
+        }
+    }
+
+    void displayFromFile(File file) {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
 
-        pdfView.fromUri(uri)
+        pdfView.fromFile(file)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
@@ -296,6 +337,48 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
 
+    }
+
+    public void saveFileAndDisplay (File file) {
+        String filePath = saveTempFileToFile(file);
+
+        pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+
+        File newFile = new File(filePath);
+
+        displayFromFile(newFile);
+    }
+
+    String saveTempFileToFile(File tempFile) {
+        try {
+            // check if the permission to write to external storage is granted
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                InputStream inputStream = new FileInputStream(tempFile);
+                File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), pdfFileName);
+                OutputStream outputStream = new FileOutputStream(newFile);
+                Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
+
+                return tempFile.getPath();
+            } else {
+                // case if the permission hasn't been granted, we will store the pdf in a temp file
+                //store the temporary file path, to be able to save it when permission will be granted
+                pdfTempFilePath = tempFile.getPath();
+
+                // request for the permission to write to external storage
+                requestPermissions(
+                        new String[] {
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        },
+                        PERMISSION_SAVE
+                );
+                return pdfTempFilePath;
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "ERROR FILE " + e.getMessage() + e.getStackTrace());
+        }
+
+        return null;
     }
 
     void navToSettings() {
@@ -322,7 +405,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if(indexDisplayName != -1) {
+                        result = cursor.getString(indexDisplayName);
+                    }
                 }
             } finally {
                 if (cursor != null) {
@@ -400,13 +486,24 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                launchPicker();
-            }
+        int indexPermission = 0;
+        switch (requestCode) {
+            case PERMISSION_CODE:
+                indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.READ_EXTERNAL_STORAGE);
+                if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
+                    launchPicker();
+                }
+                break;
+            case PERMISSION_SAVE:
+                indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
+                    File file = new File(pdfTempFilePath);
+                    saveTempFileToFile(file);
+                }
+                break;
         }
     }
+
 
     @Override
     public void onPageError(int page, Throwable t) {
