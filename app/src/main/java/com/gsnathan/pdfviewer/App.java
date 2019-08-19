@@ -5,8 +5,6 @@ import android.content.res.Configuration;
 
 import com.jaredrummler.cyanea.Cyanea;
 
-import java.util.Properties;
-
 public class App extends Application {
 
     @Override
