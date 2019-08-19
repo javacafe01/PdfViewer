@@ -93,20 +93,19 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private PrintManager mgr = null;
 
     private final static int REQUEST_CODE = 42;
-    public static final int PERMISSION_SAVE = 1;
-    public static final int PERMISSION_CODE = 42042;
+
+    public static final int PERMISSION_WRITE = 42041;
+    public static final int PERMISSION_READ = 42042;
 
     public static final String SAMPLE_FILE = "pdf_sample.pdf";
-    public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pdfFileName = "";
+
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
         onFirstInstall();
         onFirstUpdate();
@@ -183,13 +182,13 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     private void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
-                READ_EXTERNAL_STORAGE);
+                Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{READ_EXTERNAL_STORAGE},
-                    PERMISSION_CODE
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_READ
             );
 
             return;
@@ -290,8 +289,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         SharedPreferences.Editor editor = prefManager.edit();
         editor.putString("uri", uri.toString());
         editor.apply();
+        String scheme = uri.getScheme();
 
-        if (uri.getScheme().contains("http")) {
+        if (scheme != null && scheme.contains("http")) {
             // we will get the pdf asynchronously with the RetrievePDFStream object
             RetrievePDFStream retrievePDFStream = new RetrievePDFStream(this);
             retrievePDFStream.execute(uri.toString(), pdfFileName);
@@ -362,20 +362,22 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             } else {
                 // case if the permission hasn't been granted, we will store the pdf in a temp file
                 //store the temporary file path, to be able to save it when permission will be granted
-                pdfTempFilePath = tempFile.getPath();
+
 
                 // request for the permission to write to external storage
-                requestPermissions(
+                ActivityCompat.requestPermissions(
+                        this,
                         new String[] {
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
                         },
-                        PERMISSION_SAVE
+                        PERMISSION_WRITE
                 );
                 return pdfTempFilePath;
             }
         } catch (IOException e) {
-            Log.e(TAG, "ERROR FILE " + e.getMessage() + e.getStackTrace());
+            Log.e(TAG, "Error on file : " + e.getMessage());
+            e.printStackTrace();
         }
 
         return null;
@@ -401,12 +403,12 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     public String getFileName(Uri uri) {
         String result = null;
-        if (uri.getScheme().equals("content")) {
+        if (uri.getScheme() != null && uri.getScheme().equals("content")) {
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    if (indexDisplayName != -1) {
+                    if(indexDisplayName != -1) {
                         result = cursor.getString(indexDisplayName);
                     }
                 }
@@ -484,17 +486,17 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        int indexPermission = 0;
+        int indexPermission;
         switch (requestCode) {
-            case PERMISSION_CODE:
+            case PERMISSION_READ:
                 indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.READ_EXTERNAL_STORAGE);
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
                     launchPicker();
                 }
                 break;
-            case PERMISSION_SAVE:
+            case PERMISSION_WRITE:
                 indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
                     File file = new File(pdfTempFilePath);
@@ -503,7 +505,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 break;
         }
     }
-
 
     @Override
     public void onPageError(int page, Throwable t) {

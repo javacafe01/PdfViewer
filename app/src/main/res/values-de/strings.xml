@@ -2,6 +2,7 @@
 <resources>
     <string name="pick_file">Datei auswählen</string>
     <string name="toast_pick_file_error">Datei konnte nicht ausgewählt werden. Bitte überprüfen Sie Ihren Dateimanager.</string>
+    <string name="toast_ssl_error">Sichere Verbindung fehlgeschlagen.</string>
     <string name="action_about">Über</string>
     <string name="version">Version</string>
     <string name="intro">Einführung wiederholen</string>

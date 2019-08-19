@@ -24,6 +24,7 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import android.os.Build;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -113,5 +115,12 @@ public class Utils {
 
         outputStream.flush();
         outputStream.close();
+    }
+
+    static File createFileFromInputStream (File cacheDir, String fileName, InputStream inputStream) throws IOException {
+        File file = File.createTempFile(fileName, null, cacheDir);
+        OutputStream outputStream = new FileOutputStream(file);
+        Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
+        return file;
     }
 }
