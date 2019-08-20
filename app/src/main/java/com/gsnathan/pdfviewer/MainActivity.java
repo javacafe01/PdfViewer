@@ -292,9 +292,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         String scheme = uri.getScheme();
 
         if (scheme != null && scheme.contains("http")) {
-            // we will get the pdf asynchronously with the RetrievePDFStream object
-            RetrievePDFStream retrievePDFStream = new RetrievePDFStream(this);
-            retrievePDFStream.execute(uri.toString(), pdfFileName);
+            // we will get the pdf asynchronously with the DownloadPDFFile object
+            DownloadPDFFile DownloadPDFFile = new DownloadPDFFile(this);
+            DownloadPDFFile.execute(uri.toString(), pdfFileName);
         } else {
             pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
 
