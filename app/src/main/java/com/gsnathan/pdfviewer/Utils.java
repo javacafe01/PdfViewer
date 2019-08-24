@@ -24,6 +24,7 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,8 +34,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -97,5 +103,24 @@ public class Utils {
 
     static String getAppVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    static void readFromInputStreamToOutputStream (InputStream inputStream, OutputStream outputStream) throws IOException {
+        byte[] buffer = new byte[8 * 1024];
+        int bytesRead = inputStream.read(buffer);
+        while (bytesRead > -1) {
+            outputStream.write(buffer, 0, bytesRead);
+            bytesRead = inputStream.read(buffer);
+        }
+
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    static File createFileFromInputStream (File cacheDir, String fileName, InputStream inputStream) throws IOException {
+        File file = File.createTempFile(fileName, null, cacheDir);
+        OutputStream outputStream = new FileOutputStream(file);
+        Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
+        return file;
     }
 }
