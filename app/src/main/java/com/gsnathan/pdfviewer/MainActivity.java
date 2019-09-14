@@ -32,6 +32,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -44,11 +46,9 @@ import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import io.github.yavski.fabspeeddial.FabSpeedDial;
-import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 import android.os.Bundle;
 
@@ -65,6 +65,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
@@ -104,6 +105,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         pdfFileName = "";
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
@@ -167,9 +169,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @ViewById
     PDFView pdfView;
 
-    @ViewById
-    FabSpeedDial fabMain;
-
     @NonConfigurationInstance
     static Uri uri;
 
@@ -223,40 +222,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
         setTitle(pdfFileName);
         hideProgressDialog();
-
-
-        fabMain.setMenuListener(new SimpleMenuListenerAdapter() {
-            @Override
-            public boolean onMenuItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.pickFile:
-                        pickFile();
-                        break;
-                    case R.id.metaFile:
-                        if (uri != null)
-                            getMeta();
-                        break;
-                    case R.id.unlockFile:
-                        if (uri != null)
-                            unlockPDF();
-                        break;
-                    case R.id.shareFile:
-                        if (uri != null)
-                            shareFile();
-                        break;
-                    case R.id.printFile:
-                        if (uri != null)
-                            print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext()),
-                                    new PrintAttributes.Builder().build());
-                        break;
-                    default:
-                        break;
-
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -514,6 +479,54 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        BottomAppBar bar = (BottomAppBar) findViewById(R.id.bar);
+        bar.setBackground(getResources().getDrawable(R.drawable.appbar_back));
+        Menu bottomMenu = bar.getMenu();
+        getMenuInflater().inflate(R.menu.fab_menu, bottomMenu);
+
+        for(int i = 0; i < bottomMenu.size() - 1; i++){
+            Drawable drawable = bottomMenu.getItem(i).getIcon();
+            if(drawable != null) {
+                drawable.mutate();
+                drawable.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
+
+        bar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.pickFile:
+                        pickFile();
+                        break;
+                    case R.id.metaFile:
+                        if (uri != null)
+                            getMeta();
+                        break;
+                    case R.id.unlockFile:
+                        if (uri != null)
+                            unlockPDF();
+                        break;
+                    case R.id.shareFile:
+                        if (uri != null)
+                            shareFile();
+                        break;
+                    case R.id.printFile:
+                        if (uri != null)
+                            print(pdfFileName,
+                                    new PdfDocumentAdapter(getApplicationContext()),
+                                    new PrintAttributes.Builder().build());
+                        break;
+                    default:
+                        break;
+
+                }
+                return true;
+            }
+        });
+
         return true;
     }
 

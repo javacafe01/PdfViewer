@@ -23,7 +23,7 @@
   ~ SOFTWARE.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -35,24 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/actionBarSize"
+        android:backgroundTint="?android:attr/colorPrimary"
+        android:layout_gravity="bottom" />
 
-        <io.github.yavski.fabspeeddial.FabSpeedDial
-            android:id="@+id/fabMain"
-            app:fabBackgroundTint="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            app:fabGravity="bottom_end"
-            app:fabMenu="@menu/fab_menu"
-            app:miniFabBackgroundTint="@color/colorPrimaryDark"
-            app:miniFabDrawableTint="@color/colorWhite"
-            app:miniFabTitleBackgroundTint="@color/colorPrimary"
-            app:miniFabTitleTextColor="@color/colorWhite" />
-
-    </FrameLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
