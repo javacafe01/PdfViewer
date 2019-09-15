@@ -19,20 +19,22 @@
 | <img src ="./images/mainpage.png" width="190" height="340"/> |
 | [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java) |
 
-
 ## Contribute
 
 You can contribute to this project in many ways:
 * Fork and make pull requests
 * Help to translate the application (if so contact me --> gokulswamilive@gmail.com)
 
-### Translations (Special Thanks!)
+### Special Thanks!
 
-| Language  | Translator |
-| ------------- | ------------- |
-| German  | [Etamuk](https://github.com/Etamuk)  |
-| French  | [Raspbeguy](https://github.com/raspbeguy)  |
-| Russian  | [Greynar](https://github.com/Greynar)  |
+| Github Users |
+| ------------- |
+| [Etamuk](https://github.com/Etamuk)  |
+| [Raspbeguy](https://github.com/raspbeguy)  |
+| [Greynar](https://github.com/Greynar)  |
+| [ORelio](https://github.com/ORelio)  |
+| [PFayoux](https://github.com/PFayoux)  |
+
 
 ## License
 
