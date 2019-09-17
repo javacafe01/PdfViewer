@@ -108,7 +108,4 @@ dependencies {
 
     //Theme Engine
     implementation 'com.jaredrummler:cyanea:1.0.1'
-
-    //Physics Layout
-    implementation 'com.github.Jawnnypoo:PhysicsLayout:2.1.0'
 }

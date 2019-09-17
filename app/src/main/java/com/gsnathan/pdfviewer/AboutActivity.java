@@ -85,10 +85,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
         Utils.showLog(this);
     }
 
-    public void showContributors(View v){
-        startActivity(Utils.navIntent(getApplicationContext(), ContributeActivity.class));
-    }
-
     public void showPrivacy(View v) {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/privacy_policy.md"));
     }

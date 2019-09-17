@@ -86,17 +86,6 @@
         <activity
             android:name=".MainIntroActivity"
             android:label="@string/intro" /> <!-- Contr -->
-        <activity
-            android:name=".ContributeActivity"
-            android:label="Contributors"
-            android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.NoActionBar">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity_" />
-        </activity>
 
         <activity
             android:name=".SettingsActivity"

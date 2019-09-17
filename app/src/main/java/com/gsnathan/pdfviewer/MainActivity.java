@@ -46,7 +46,6 @@ import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -65,7 +64,9 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
@@ -82,6 +83,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -304,7 +306,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     }
 
-    public void saveFileAndDisplay (File file) {
+    public void saveFileAndDisplay(File file) {
         String filePath = saveTempFileToFile(file);
 
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
@@ -332,7 +334,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 // request for the permission to write to external storage
                 ActivityCompat.requestPermissions(
                         this,
-                        new String[] {
+                        new String[]{
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                 Manifest.permission.READ_EXTERNAL_STORAGE
                         },
@@ -373,7 +375,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    if(indexDisplayName != -1) {
+                    if (indexDisplayName != -1) {
                         result = cursor.getString(indexDisplayName);
                     }
                 }
@@ -480,22 +482,19 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        BottomAppBar bar = (BottomAppBar) findViewById(R.id.bar);
-        bar.setBackground(getResources().getDrawable(R.drawable.appbar_back));
-        Menu bottomMenu = bar.getMenu();
-        getMenuInflater().inflate(R.menu.fab_menu, bottomMenu);
+        BottomNavigationView bot_view = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        Menu bottomMenu = bot_view.getMenu();
 
-        for(int i = 0; i < bottomMenu.size() - 1; i++){
+        for (int i = 0; i < bottomMenu.size() - 1; i++) {
             Drawable drawable = bottomMenu.getItem(i).getIcon();
-            if(drawable != null) {
+            if (drawable != null) {
                 drawable.mutate();
                 drawable.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
             }
         }
-
-        bar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        bot_view.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()) {
                     case R.id.pickFile:
@@ -523,10 +522,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                         break;
 
                 }
-                return true;
+
+                return false;
             }
         });
-
         return true;
     }
 
@@ -547,3 +546,4 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 }
+

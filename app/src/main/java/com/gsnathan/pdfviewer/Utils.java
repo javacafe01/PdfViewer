@@ -44,8 +44,6 @@ import java.io.OutputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.appcompat.app.AlertDialog;
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 
@@ -55,7 +53,10 @@ public class Utils {
 
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("Bug Fixes", "Fixed back button crash on about page", R.drawable.thumbs_icon));
+                new WhatsNewItem("Bottom Bar", "Removed FAB and replaced it with bottom bar", R.drawable.star_icon),
+                new WhatsNewItem("Bug Fixes", "Just some minor stuff", R.drawable.thumbs_icon)
+
+                );
         log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
         log.setButtonText(context.getResources().getString(R.string.buttonLog));

@@ -207,15 +207,6 @@
                 android:padding="16sp"
                 android:text="@string/git"
                 android:textSize="16sp" />
-
-            <TextView
-                android:onClick="showContributors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16sp"
-                android:text="@string/contribution"
-                android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp" />
         </LinearLayout>
 
     </ScrollView>
