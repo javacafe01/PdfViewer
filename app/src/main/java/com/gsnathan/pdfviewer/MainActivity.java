@@ -100,7 +100,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     public static final int PERMISSION_WRITE = 42041;
     public static final int PERMISSION_READ = 42042;
 
-    public static final String SAMPLE_FILE = "pdf_sample.pdf";
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
@@ -115,8 +114,11 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstUpdate();
         handleIntent(getIntent());
 
-        if (Utils.tempBool && getIntent().getStringExtra("uri") != null)
+        if (Utils.tempBool && getIntent().getStringExtra("uri") != null) {
             uri = Uri.parse(getIntent().getStringExtra("uri"));
+        } else if (getIntent().getDataString() == null){
+            pickFile();
+        }
 
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
 
@@ -219,35 +221,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         pdfView.setBackgroundColor(Color.LTGRAY);
         if (uri != null) {
             displayFromUri(uri);
-        } else {
-            displayFromAsset(SAMPLE_FILE);
         }
         setTitle(pdfFileName);
         hideProgressDialog();
-    }
-
-
-    void displayFromAsset(String assetFileName) {
-        pdfFileName = assetFileName;
-
-        pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
-
-        pdfView.fromAsset(assetFileName)
-                .defaultPage(pageNumber)
-                .onPageChange(this)
-                .enableAnnotationRendering(true)
-                .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
-                .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .spacing(10) // in dp
-                .onPageError(this)
-                .pageFitPolicy(FitPolicy.BOTH)
-                .password(PDF_PASSWORD)
-                .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
-                .autoSpacing(prefManager.getBoolean("scroll_pref", false))
-                .pageSnap(prefManager.getBoolean("snap_pref", false))
-                .pageFling(prefManager.getBoolean("fling_pref", false))
-                .load();
     }
 
     void displayFromUri(Uri uri) {
