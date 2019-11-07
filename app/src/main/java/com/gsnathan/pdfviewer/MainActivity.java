@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
@@ -63,9 +65,8 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -83,7 +84,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -104,6 +104,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
+    @ViewById
+    PDFView pdfView;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,10 +171,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-
-    @ViewById
-    PDFView pdfView;
-
     @NonConfigurationInstance
     static Uri uri;
 
@@ -213,10 +213,27 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
+    private Handler handler = new Handler();
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(pdfView != null) {
+                if (pdfView.isZooming())
+                    hideBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
+                else {
+                    showBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
+                }
+            }
+            handler.postDelayed(runnable, 500);
+        }
+    };
+
     @AfterViews
     void afterViews() {
         showProgressDialog();
         pdfView.setBackgroundColor(Color.LTGRAY);
+        Constants.THUMBNAIL_RATIO = 1f;
         if (uri != null) {
             displayFromUri(uri);
         } else {
@@ -224,6 +241,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
         setTitle(pdfFileName);
         hideProgressDialog();
+        handler.post(runnable);
     }
 
 
@@ -544,6 +562,20 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void hideBottomNavigationView(BottomNavigationView view) {
+        //getSupportActionBar().hide();
+        view.clearAnimation();
+        view.animate().translationY(view.getHeight()).setDuration(100);
+
+    }
+
+    public void showBottomNavigationView(BottomNavigationView view) {
+        //getSupportActionBar().show();
+        view.clearAnimation();
+        view.animate().translationY(0).setDuration(100);
+
     }
 }
 

@@ -91,7 +91,7 @@ dependencies {
     implementation 'io.github.kobakei:ratethisapp:1.2.0'
 
     //Pdf Viewer Library (Proguard config done)
-    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
     //Android Annotations Library (Proguard config not needed)
     compileOnly 'org.androidannotations:androidannotations:4.5.2'
