@@ -247,6 +247,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     void setPdfViewConfiguration() {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+        pdfView.setMidZoom(2.0f);
+        pdfView.setMaxZoom(5.0f);
     }
 
     void setPageConfigurationAndLoad(PDFView.Configurator configurator) {
