@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
@@ -63,9 +65,8 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -83,7 +84,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -103,6 +103,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
+    @ViewById
+    PDFView pdfView;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,10 +173,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-
-    @ViewById
-    PDFView pdfView;
-
     @NonConfigurationInstance
     static Uri uri;
 
@@ -215,55 +215,43 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
+    private Handler handler = new Handler();
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if(pdfView != null) {
+                if (pdfView.isZooming())
+                    hideBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
+                else {
+                    showBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
+                }
+            }
+            handler.postDelayed(runnable, 500);
+        }
+    };
+
     @AfterViews
     void afterViews() {
         showProgressDialog();
         pdfView.setBackgroundColor(Color.LTGRAY);
+        Constants.THUMBNAIL_RATIO = 1f;
         if (uri != null) {
             displayFromUri(uri);
         }
         setTitle(pdfFileName);
         hideProgressDialog();
+        handler.post(runnable);
     }
 
-    void displayFromUri(Uri uri) {
-        pdfFileName = getFileName(uri);
-        Utils.tempBool = true;
-        SharedPreferences.Editor editor = prefManager.edit();
-        editor.putString("uri", uri.toString());
-        editor.apply();
-        String scheme = uri.getScheme();
-
-        if (scheme != null && scheme.contains("http")) {
-            // we will get the pdf asynchronously with the DownloadPDFFile object
-            DownloadPDFFile DownloadPDFFile = new DownloadPDFFile(this);
-            DownloadPDFFile.execute(uri.toString(), pdfFileName);
-        } else {
-            pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
-
-            pdfView.fromUri(uri)
-                    .defaultPage(pageNumber)
-                    .onPageChange(this)
-                    .enableAnnotationRendering(true)
-                    .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
-                    .onLoad(this)
-                    .scrollHandle(new DefaultScrollHandle(this))
-                    .spacing(10) // in dp
-                    .onPageError(this)
-                    .pageFitPolicy(FitPolicy.BOTH)
-                    .password(PDF_PASSWORD)
-                    .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
-                    .autoSpacing(prefManager.getBoolean("scroll_pref", false))
-                    .pageSnap(prefManager.getBoolean("snap_pref", false))
-                    .pageFling(prefManager.getBoolean("fling_pref", false))
-                    .load();
-        }
-    }
-
-    void displayFromFile(File file) {
+    void setPdfViewConfiguration() {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+        pdfView.setMidZoom(2.0f);
+        pdfView.setMaxZoom(5.0f);
+    }
 
-        pdfView.fromFile(file)
+    void setPageConfigurationAndLoad(PDFView.Configurator configurator) {
+        configurator
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
@@ -279,16 +267,34 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
                 .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
+    }
 
+    void displayFromUri(Uri uri) {
+        pdfFileName = getFileName(uri);
+        Utils.tempBool = true;
+        SharedPreferences.Editor editor = prefManager.edit();
+        editor.putString("uri", uri.toString());
+        editor.apply();
+        String scheme = uri.getScheme();
+
+        if (scheme != null && scheme.contains("http")) {
+            // we will get the pdf asynchronously with the DownloadPDFFile object
+            DownloadPDFFile DownloadPDFFile = new DownloadPDFFile(this);
+            DownloadPDFFile.execute(uri.toString(), pdfFileName);
+        } else {
+            setPdfViewConfiguration();
+            setPageConfigurationAndLoad(pdfView.fromUri(uri));
+        }
+    }
+
+    void displayFromFile(File file) {
+        setPdfViewConfiguration();
+        setPageConfigurationAndLoad(pdfView.fromFile(file));
     }
 
     public void saveFileAndDisplay(File file) {
         String filePath = saveTempFileToFile(file);
-
-        pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
-
         File newFile = new File(filePath);
-
         displayFromFile(newFile);
     }
 
@@ -520,6 +526,20 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void hideBottomNavigationView(BottomNavigationView view) {
+        //getSupportActionBar().hide();
+        view.clearAnimation();
+        view.animate().translationY(view.getHeight()).setDuration(100);
+
+    }
+
+    public void showBottomNavigationView(BottomNavigationView view) {
+        //getSupportActionBar().show();
+        view.clearAnimation();
+        view.animate().translationY(0).setDuration(100);
+
     }
 }
 

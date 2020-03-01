@@ -54,8 +54,7 @@ public class Utils {
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
                 new WhatsNewItem("Bottom Bar", "Removed FAB and replaced it with bottom bar", R.drawable.star_icon),
-                new WhatsNewItem("Bug Fixes", "Just some minor stuff", R.drawable.thumbs_icon)
-
+                new WhatsNewItem("Bug Fixes", "Fixed crashes on Android Q", R.drawable.thumbs_icon)
                 );
         log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
