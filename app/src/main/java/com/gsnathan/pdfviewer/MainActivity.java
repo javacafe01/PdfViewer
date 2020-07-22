@@ -390,7 +390,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
         final EditText input = new EditText(this);
         input.setPadding(19, 19, 19, 19);
-        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.password)
