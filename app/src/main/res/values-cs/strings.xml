@@ -70,10 +70,10 @@
     <string name="share">Sdílet soubor</string>
     <string name="print">Tisk souboru</string>
     <string name="devnotice">Poznámky vývojáře</string>
-    <string name="theme_picker">Změbit vzhled</string>
+    <string name="theme_picker">Změnit vzhled</string>
     <string name="app_info">Informace o aplikaci</string>
     <string name="author_info">Informace o autorovi</string>
-    <string name="contribution">Přispívatelé</string>
+    <string name="contribution">Přispěvatelé</string>
 
     <string name="label_theme_picker">Zvolit vzhled</string>
 
@@ -93,7 +93,7 @@
     <string name="pref_colored_navigation_bar_title">Barva navigační lišty</string>
     <string name="pref_colored_navigation_bar_summary">Primární barva navigační lišty</string>
     <string name="password">Heslo</string>
-    <string name="unlock">Odemknout Zabezpečený souborr</string>
+    <string name="unlock">Odemknout Zabezpečený soubor</string>
     <string name="meta">Informace o souboru</string>
     <string name="quality">Vysoká kvalita vykreslování</string>
     <string name="settings">Nastavení</string>
