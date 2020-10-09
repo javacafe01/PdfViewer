@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pdf Viewer Plus</string>
     <string name="pick_file">Elige un fichero</string>
     <string name="toast_pick_file_error">Imposible acceder al fichero. Comprueba el estado del gestor de ficheros.</string>
     <string name="toast_http_code_error">"Problema cargando página, http error code : "</string>
