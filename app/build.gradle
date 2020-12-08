@@ -84,9 +84,6 @@ dependencies {
     //Library for Card View Layout
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //Ripple Effect Library
-    implementation 'com.balysv:material-ripple:1.0.2'
-
     //Rating Library
     implementation 'io.github.kobakei:ratethisapp:1.2.0'
 
