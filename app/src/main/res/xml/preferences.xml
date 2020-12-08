@@ -24,11 +24,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:title="@string/snap" android:key="snap_pref"/>
+            android:title="@string/snap"
+            android:summary="@string/snap_summary" android:key="snap_pref"/>
 
         <SwitchPreference
             android:defaultValue="false"
-            android:title="@string/fling" android:key="fling_pref"/>
+            android:title="@string/fling"
+            android:summary="@string/fling_summary" android:key="fling_pref"/>
 
     </PreferenceCategory>
 
