@@ -33,8 +33,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -77,6 +75,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -241,7 +240,44 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
         setTitle(pdfFileName);
         hideProgressDialog();
+        setBottomBarListeners();
         handler.post(runnable);
+    }
+
+    private void setBottomBarListeners() {
+        BottomNavigationView bottomView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.pickFile:
+                        pickFile();
+                        break;
+                    case R.id.metaFile:
+                        if (uri != null)
+                            getMeta();
+                        break;
+                    case R.id.unlockFile:
+                        if (uri != null)
+                            unlockPDF();
+                        break;
+                    case R.id.shareFile:
+                        if (uri != null)
+                            shareFile();
+                        break;
+                    case R.id.printFile:
+                        if (uri != null)
+                            print(pdfFileName,
+                                    new PdfDocumentAdapter(getApplicationContext()),
+                                    new PrintAttributes.Builder().build());
+                        break;
+                    default:
+                        break;
+
+                }
+                return false;
+            }
+        });
     }
 
     void setPdfViewConfiguration() {
@@ -461,53 +497,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-
-        BottomNavigationView bot_view = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        Menu bottomMenu = bot_view.getMenu();
-
-        for (int i = 0; i < bottomMenu.size() - 1; i++) {
-            Drawable drawable = bottomMenu.getItem(i).getIcon();
-            if (drawable != null) {
-                drawable.mutate();
-                drawable.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
-            }
-        }
-        bot_view.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.pickFile:
-                        pickFile();
-                        break;
-                    case R.id.metaFile:
-                        if (uri != null)
-                            getMeta();
-                        break;
-                    case R.id.unlockFile:
-                        if (uri != null)
-                            unlockPDF();
-                        break;
-                    case R.id.shareFile:
-                        if (uri != null)
-                            shareFile();
-                        break;
-                    case R.id.printFile:
-                        if (uri != null)
-                            print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext()),
-                                    new PrintAttributes.Builder().build());
-                        break;
-                    default:
-                        break;
-
-                }
-
-                return false;
-            }
-        });
         return true;
     }
 

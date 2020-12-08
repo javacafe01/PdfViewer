@@ -41,8 +41,8 @@ tools:context="com.gsnathan.pdfviewer.MainActivity">
         android:layout_gravity="bottom"
         android:background="?android:attr/colorPrimary"
         android:minHeight="?android:attr/actionBarSize"
-        app:itemIconTint="@color/colorWhite"
-        app:itemTextColor="@color/colorWhite"
+        app:itemIconTint="?menuIconColor"
+        app:itemTextColor="?menuIconColor"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/fab_menu" />
 
