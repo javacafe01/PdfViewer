@@ -89,10 +89,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/privacy_policy.md"));
     }
 
-    public void showMaterial(View v) {
-        startActivity(Utils.linkIntent("https://materialdesignicons.com/"));
-    }
-
     public void showLicense(View v) {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/LICENSE"));
     }
