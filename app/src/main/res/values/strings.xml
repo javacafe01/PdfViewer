@@ -102,7 +102,7 @@
     <string name="settings">Settings</string>
     <string name="alias">Anti-Aliasing</string>
     <string name="scroll">Horizontal Scrolling</string>
-    <string name="snap" translatable="false">Page Snap</string>
+    <string name="snap">Page Snap</string>
     <string name="fling">Page Fling</string>
     <string name="qualitysettings">Quality</string>
     <string name="scrollsettings">Scrolling</string>
