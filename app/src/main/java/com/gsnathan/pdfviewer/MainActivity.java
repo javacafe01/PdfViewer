@@ -66,6 +66,7 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
@@ -245,7 +246,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     private void setBottomBarListeners() {
-        BottomNavigationView bottomView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomView = findViewById(R.id.bottom_navigation);
         bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -278,6 +279,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 return false;
             }
         });
+        // Workaround for https://issuetracker.google.com/issues/124153644
+        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomView.getBackground();
+        viewBackground.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS);
     }
 
     void setPdfViewConfiguration() {
