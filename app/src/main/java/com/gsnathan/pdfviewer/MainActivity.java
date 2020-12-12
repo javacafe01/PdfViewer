@@ -221,7 +221,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         @Override
         public void run() {
             if(pdfView != null) {
-                if (pdfView.isZooming())
+                if (pdfView.getZoom() > 1f)
                     hideBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
                 else {
                     showBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
@@ -246,6 +246,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     void setPdfViewConfiguration() {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+        pdfView.setMinZoom(0.5f);
         pdfView.setMidZoom(2.0f);
         pdfView.setMaxZoom(5.0f);
     }
