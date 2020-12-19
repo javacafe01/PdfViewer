@@ -165,21 +165,20 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         StrictMode.setVmPolicy(builder.build());
 
         Uri appLinkData = intent.getData();
-        String appLinkAction = intent.getAction();
-        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
+        if (appLinkData != null) {
             uri = appLinkData;
         }
     }
 
     @NonConfigurationInstance
-    static Uri uri;
+    Uri uri;
 
     @NonConfigurationInstance
     Integer pageNumber = 0;
 
-    String pdfFileName;
+    private String pdfFileName;
 
-    String pdfTempFilePath;
+    private String pdfTempFilePath;
 
     private void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -493,7 +492,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                     case R.id.printFile:
                         if (uri != null)
                             print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext()),
+                                    new PdfDocumentAdapter(getApplicationContext(), uri),
                                     new PrintAttributes.Builder().build());
                         break;
                     default:
