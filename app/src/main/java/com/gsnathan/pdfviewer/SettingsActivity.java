@@ -56,14 +56,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 try {
                     Uri documentUri = getIntent().getData();
                     Intent intent = new Intent(SettingsActivity.this, MainActivity_.class);
-                    if (documentUri != null) {
-                        intent.setData(documentUri);
-                        startActivity(intent);
-                    } else {
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
+                    intent.setData(documentUri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -203,7 +203,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     void launchPicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("application/pdf");
         try {
             startActivityForResult(intent, REQUEST_CODE);
