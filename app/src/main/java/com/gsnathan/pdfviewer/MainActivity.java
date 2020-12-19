@@ -118,7 +118,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstUpdate();
         handleIntent(getIntent());
 
-        if (getIntent().getDataString() == null) {
+        if (uri == null) {
             pickFile();
         }
 
