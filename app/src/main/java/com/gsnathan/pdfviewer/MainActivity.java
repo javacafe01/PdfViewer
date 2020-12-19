@@ -118,9 +118,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstUpdate();
         handleIntent(getIntent());
 
-        if (Utils.tempBool && getIntent().getStringExtra("uri") != null) {
-            uri = Uri.parse(getIntent().getStringExtra("uri"));
-        } else if (getIntent().getDataString() == null){
+        if (getIntent().getDataString() == null) {
             pickFile();
         }
 
@@ -271,10 +269,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
-        Utils.tempBool = true;
-        SharedPreferences.Editor editor = prefManager.edit();
-        editor.putString("uri", uri.toString());
-        editor.apply();
         String scheme = uri.getScheme();
 
         if (scheme != null && scheme.contains("http")) {
@@ -333,7 +327,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     void navToSettings() {
-        startActivity(Utils.navIntent(this, SettingsActivity.class));
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     @OnActivityResult(REQUEST_CODE)
