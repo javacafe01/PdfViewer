@@ -110,5 +110,6 @@
     <string name="reload">Reload PDF</string>
     <string name="reload_sum">In order to make changes, the PDF must be reloaded.</string>
     <string name="buttonLog">Continue</string>
-
+    <string name="show_in_launcher">Show app in launcher</string>
+    <string name="show_in_launcher_summary">You may need to restart your launcher for this option to take effect</string>
 </resources>
