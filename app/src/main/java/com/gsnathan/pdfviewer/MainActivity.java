@@ -261,7 +261,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
-                .pageFitPolicy(FitPolicy.BOTH)
+                .pageFitPolicy(FitPolicy.WIDTH)
                 .password(PDF_PASSWORD)
                 .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
                 .autoSpacing(prefManager.getBoolean("scroll_pref", false))
