@@ -67,12 +67,6 @@ public class Utils {
         log.show(context.getSupportFragmentManager(), "Log");
     }
 
-    public static String getAndroidVersion() {
-        String release = Build.VERSION.RELEASE;
-        int sdkVersion = Build.VERSION.SDK_INT;
-        return "Android SDK: " + sdkVersion + " (" + release + ")";
-    }
-
     static Intent emailIntent(String emailAddress, String subject, String text, String title) {
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("text/email");
