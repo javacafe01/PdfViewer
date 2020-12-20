@@ -266,7 +266,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                     case R.id.printFile:
                         if (uri != null)
                             print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext()),
+                                    new PdfDocumentAdapter(getApplicationContext(), uri),
                                     new PrintAttributes.Builder().build());
                         break;
                     default:
