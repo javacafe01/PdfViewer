@@ -77,7 +77,7 @@
             android:name=".AboutActivity"
             android:label="About"
             android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.NoActionBar">
+            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

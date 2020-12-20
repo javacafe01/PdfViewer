@@ -29,6 +29,7 @@
     <color name="colorAccent">#00cc99</color>
     <color name="colorWhite">#ffffff</color>
 
+    <!-- Used for designer preview -->
     <color name="cyanea_primary_reference">#2481a1</color>
     <color name="cyanea_accent_reference">#00cc99</color>
 </resources>

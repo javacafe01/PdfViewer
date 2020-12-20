@@ -44,7 +44,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     TextView versionView;   //shows the version
     private final String APP_VERSION_RELEASE = "Version " + Utils.getAppVersion();   //contains Version + the version number
     private final String APP_VERSION_DEBUG = "Version " + Utils.getAppVersion() + "-debug";   //contains Version + the version number + debug
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +54,13 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     private void setUpToolBar() {
-        setSupportActionBar(toolbar);
-        final long token = Binder.clearCallingIdentity();
+        Binder.clearCallingIdentity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void initUI() {
         //initialize the textview
         versionView = (TextView) findViewById(R.id.versionTextView);
-        //initialize the toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_about);
 
         // check if app is debug
         if (BuildConfig.DEBUG) {
