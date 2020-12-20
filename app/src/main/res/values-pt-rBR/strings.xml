@@ -1,0 +1,114 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2018 Gokul Swaminathan
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<resources>
+    <string name="app_name" translatable="false">Pdf Viewer Plus</string>
+    <string name="pick_file">Selecionar arquivo</string>
+    <string name="toast_pick_file_error">Não foi possível selecionar um arquivo. Verifique o status do gerenciador de arquivos.</string>
+    <string name="toast_http_code_error">Erro ao carregar a página, código do erro http: </string>
+    <string name="toast_io_exception">Nós não podemos carregar esta página por alguma razão.</string>
+    <string name="toast_ssl_error">Falha na conexão segura.</string>
+    <string name="action_about">Sobre</string>
+    <string name="version">Versão</string>
+    <string name="intro">Repetir introdução</string>
+    <string name="author" translatable="false">Gokul Swaminathan</string>
+    <string name="email">E-mail</string>
+    <string name="description_open">É claro que este app tem o código aberto. Você sempre tem o privilégio de fazer suas próprias modificações nele. O link do código fonte está na seção Sobre.</string>
+    <string name="title_open">Liberdade</string>
+    <string name="title_intro" translatable="false">Pdf Viewer Plus</string>
+    <string name="description__intro">Um simples visualizador de documentos PDF</string>
+    <string name="myLicense">Licença</string>
+    <string name="privacy">Política de privacidade</string>
+
+    <string name="license" translatable="false">
+        MIT License\n\nCopyright (&#169;) 2018 Gokul Swaminathan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+    </string>
+
+    <string name="notice">
+        Olá usuários,\n\nO Pdf Viewer Plus agora também está no F-Droid!
+    </string>
+
+    <string name="appChangelog">Registro de mudanças</string>
+    <string name="ok">Ok</string>
+    <string name="title_permission">Permissão de armazenamento</string>
+    <string name="description__permission">É claro que este app precisa de permissão para acessar o armazenamento do smartphone. Por favor, clique no botão e permita que o app leia o armazenamento interno. Sem isso, o aplicativo não vai funcionar corretamente.</string>
+
+    <string name="libs">Bibliotecas de código aberto</string>
+    <string name="git" translatable="false">Github</string>
+    <string name="code">Código fonte</string>
+
+    <string name="share">Compartilhar arquivo</string>
+    <string name="print">Imprimir arquivo</string>
+    <string name="devnotice">Notícia do desenvolvedor</string>
+    <string name="theme_picker">Mudar tema</string>
+    <string name="app_info">Informações do app</string>
+    <string name="author_info">Informações do autor</string>
+    <string name="contribution">Contribuidores</string>
+
+    <string name="label_theme_picker">Seletor de temas</string>
+
+    <string name="pref_theme_title">Temas</string>
+    <string name="pref_theme_summary">Selecione um tema pré-instalado</string>
+
+    <string name="pref_primary_color_title">Cor primária</string>
+    <string name="pref_primary_color_summary">Exibida com mais frequência no seu aplicativo.</string>
+
+    <string name="pref_accent_color_title">Cor de destaque</string>
+    <string name="pref_accent_color_summary">Destaca certas partes da interface.</string>
+
+    <string name="pref_background_color_title">Cor de fundo</string>
+    <string name="pref_background_color_summary">A cor de fundo do conteúdo do aplicativo.</string>
+    <string name="pref_category_appearance">Aparência</string>
+
+    <string name="pref_colored_navigation_bar_title">Cor da barra de navegação</string>
+    <string name="pref_colored_navigation_bar_summary">Aplicar a cor primária à barra de navegação</string>
+    <string name="password">Senha</string>
+    <string name="unlock">Desbloquear PDF seguro</string>
+    <string name="meta">Informações do arquivo</string>
+    <string name="quality">Renderização em alta qualidade</string>
+    <string name="settings">Configurações</string>
+    <string name="alias">Anti-Aliasing</string>
+    <string name="scroll">Rolagem horizontal</string>
+    <string name="snap" translatable="false">Page Snap</string>
+    <string name="fling">Page Fling</string>
+    <string name="qualitysettings">Qualidade</string>
+    <string name="scrollsettings">Rolagem</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="reload">Recarregar PDF</string>
+    <string name="reload_sum">Para aplicar as mudanças, o PDF deve ser recarregado.</string>
+    <string name="buttonLog">Continuar</string>
+
+</resources>
