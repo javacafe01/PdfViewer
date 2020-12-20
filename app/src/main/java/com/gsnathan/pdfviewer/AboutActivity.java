@@ -44,7 +44,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     TextView versionView;   //shows the version
     private final String APP_VERSION_RELEASE = "Version " + Utils.getAppVersion();   //contains Version + the version number
     private final String APP_VERSION_DEBUG = "Version " + Utils.getAppVersion() + "-debug";   //contains Version + the version number + debug
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +54,13 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     private void setUpToolBar() {
-        setSupportActionBar(toolbar);
-        final long token = Binder.clearCallingIdentity();
+        Binder.clearCallingIdentity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void initUI() {
         //initialize the textview
         versionView = (TextView) findViewById(R.id.versionTextView);
-        //initialize the toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_about);
 
         // check if app is debug
         if (BuildConfig.DEBUG) {
@@ -87,10 +82,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
 
     public void showPrivacy(View v) {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/privacy_policy.md"));
-    }
-
-    public void showMaterial(View v) {
-        startActivity(Utils.linkIntent("https://materialdesignicons.com/"));
     }
 
     public void showLicense(View v) {
@@ -143,27 +134,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .build()
                 )
                 .addAttributions(
-                        new Attribution.Builder("HtmlTextView for Android")
-                                .addCopyrightNotice("Copyright 2013 Dominik Schürmann")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/PrivacyApps/html-textview")
-                                .build()
-                )
-                .addAttributions(
-                        new Attribution.Builder("LicenseTextView")
-                                .addCopyrightNotice("Copyright 2016 JGabrielFreitas")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/jgabrielfreitas/LicenseTextView")
-                                .build()
-                )
-                .addAttributions(
-                        new Attribution.Builder("EasyFeedback")
-                                .addCopyrightNotice("Copyright 2017 Ramankit Singh")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/webianks/EasyFeedback")
-                                .build()
-                )
-                .addAttributions(
                         new Attribution.Builder("Material Design Icons")
                                 .addCopyrightNotice("Copyright 2014, Austin Andrews")
                                 .addLicense("SIL Open Font", "https://github.com/Templarian/MaterialDesign/blob/master/LICENSE")
@@ -178,24 +148,17 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .build()
                 )
                 .addAttributions(
+                        new Attribution.Builder("RateThisApp")
+                                .addCopyrightNotice("Copyright 2017 Keisuke Kobayashi")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/kobakei/Android-RateThisApp")
+                                .build()
+                )
+                .addAttributions(
                         new Attribution.Builder("Cyanea")
                                 .addCopyrightNotice("Copyright 2018 Jared Rummler")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/jaredrummler/Cyanea")
-                                .build()
-                )
-                .addAttributions(
-                        new Attribution.Builder("PhysicsLayout")
-                                .addCopyrightNotice("Copyright 2016 John Carlson")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/Jawnnypoo/PhysicsLayout")
-                                .build()
-                )
-                .addAttributions(
-                        new Attribution.Builder("fab-speed-dial")
-                                .addCopyrightNotice("Copyright 2016 Yavor Ivanov")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/yavski/fab-speed-dial")
                                 .build()
                 )
                 .build();
