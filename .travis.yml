@@ -12,10 +12,11 @@ android:
   components:
     - platform-tools
     - tools
-    - build-tools-28.0.3
+    - build-tools-29.0.2
     - android-21
     - android-29
-    - sys-img-armeabi-v7a-android-21
+    - android-30
+    - sys-img-armeabi-v7a-android-30
     - extra-android-m2repository
 
 before_script:
