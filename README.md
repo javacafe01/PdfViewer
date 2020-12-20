@@ -29,6 +29,7 @@ You can contribute to this project in many ways:
 
 | Github Users |
 | ------------- |
+| [Fs00](https://github.com/Fs00)  |
 | [Etamuk](https://github.com/Etamuk)  |
 | [Raspbeguy](https://github.com/raspbeguy)  |
 | [Greynar](https://github.com/Greynar)  |
