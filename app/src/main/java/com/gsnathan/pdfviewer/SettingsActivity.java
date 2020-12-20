@@ -1,5 +1,6 @@
 package com.gsnathan.pdfviewer;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,10 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.core.app.NavUtils;
+
+import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+import static android.content.pm.PackageManager.DONT_KILL_APP;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -76,6 +81,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         });
 
+        findPreference("show_in_launcher").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                try {
+                    setLauncherAliasState((boolean) newValue);
+                    return true;
+                } catch (Exception ignored) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    private void setLauncherAliasState(boolean enableAlias) {
+        getPackageManager().setComponentEnabledSetting(
+                new ComponentName(this, "com.gsnathan.pdfviewer.LauncherAlias"),
+                enableAlias ? COMPONENT_ENABLED_STATE_ENABLED : COMPONENT_ENABLED_STATE_DISABLED,
+                DONT_KILL_APP
+        );
     }
 
     private void setupActionBar() {
