@@ -1,9 +1,11 @@
 package com.gsnathan.pdfviewer;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -14,6 +16,10 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.core.app.NavUtils;
+
+import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+import static android.content.pm.PackageManager.DONT_KILL_APP;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -52,22 +58,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                String uriString = "";
                 try {
-                    SharedPreferences prefManager = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    uriString = prefManager.getString("uri", "");
-                    Log.d("Hello", "Uri = " + uriString);
-                    if (uriString != null) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity_.class);
-                        intent.putExtra("uri", uriString);
-                        startActivity(intent);
-                    } else {
-                        Intent i = getBaseContext().getPackageManager().
-                                getLaunchIntentForPackage(getBaseContext().getPackageName());
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
-                        finish();
-                    }
+                    Uri documentUri = getIntent().getData();
+                    Intent intent = new Intent(SettingsActivity.this, MainActivity_.class);
+                    intent.setData(documentUri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -76,6 +72,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
         });
 
+        findPreference("show_in_launcher").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                try {
+                    setLauncherAliasState((boolean) newValue);
+                    return true;
+                } catch (Exception ignored) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    private void setLauncherAliasState(boolean enableAlias) {
+        getPackageManager().setComponentEnabledSetting(
+                new ComponentName(this, "com.gsnathan.pdfviewer.LauncherAlias"),
+                enableAlias ? COMPONENT_ENABLED_STATE_ENABLED : COMPONENT_ENABLED_STATE_DISABLED,
+                DONT_KILL_APP
+        );
     }
 
     private void setupActionBar() {

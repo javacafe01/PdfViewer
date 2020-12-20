@@ -44,24 +44,22 @@ import java.io.OutputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 
 public class Utils {
 
-    public static boolean tempBool = false;
-
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("File Manager", "Enable on start of the app", R.drawable.star_icon),
-                new WhatsNewItem("Zoom", "Changed from 3x to 5x", R.drawable.thumbs_icon)
+                new WhatsNewItem("Bugs", "A bunch of bug fixes.", R.drawable.star_icon)
                 );
-        log.setTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
+        log.setTitleColor(Color.BLACK);
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
         log.setButtonText(context.getResources().getString(R.string.buttonLog));
         log.setButtonBackground(ContextCompat.getColor(context, R.color.colorPrimary));
-        log.setButtonTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-        log.setItemTitleColor(ContextCompat.getColor(context, R.color.colorAccent));
+        log.setButtonTextColor(Color.WHITE);
+        log.setItemTitleColor(Color.parseColor("#339999")); // same as icons
         log.setItemContentColor(Color.parseColor("#808080"));
 
         log.show(context.getSupportFragmentManager(), "Log");
