@@ -50,8 +50,6 @@ import io.github.tonnyl.whatsnew.item.WhatsNewItem;
 
 public class Utils {
 
-    public static boolean tempBool = false;
-
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
                 new WhatsNewItem("File Manager", "Enable on start of the app", R.drawable.star_icon),

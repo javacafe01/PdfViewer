@@ -16,8 +16,11 @@ import java.io.OutputStream;
 
 class PdfDocumentAdapter extends ThreadedPrintDocumentAdapter {
 
-    PdfDocumentAdapter(Context ctxt) {
+    private final Uri documentUri;
+
+    PdfDocumentAdapter(Context ctxt, Uri documentUri) {
         super(ctxt);
+        this.documentUri = documentUri;
     }
 
     @Override
@@ -66,7 +69,7 @@ class PdfDocumentAdapter extends ThreadedPrintDocumentAdapter {
         }
     }
 
-    private static class PdfWriteJob extends WriteJob {
+    private class PdfWriteJob extends WriteJob {
 
         PdfWriteJob(PageRange[] pages, ParcelFileDescriptor destination,
                     CancellationSignal cancellationSignal,
@@ -80,7 +83,7 @@ class PdfDocumentAdapter extends ThreadedPrintDocumentAdapter {
             OutputStream out=null;
 
             try {
-                in= ctxt.getContentResolver().openInputStream(MainActivity.uri);
+                in= ctxt.getContentResolver().openInputStream(documentUri);
                 out=new FileOutputStream(destination.getFileDescriptor());
 
                 byte[] buf=new byte[16384];

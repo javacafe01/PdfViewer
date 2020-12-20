@@ -118,9 +118,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstUpdate();
         handleIntent(getIntent());
 
-        if (Utils.tempBool && getIntent().getStringExtra("uri") != null) {
-            uri = Uri.parse(getIntent().getStringExtra("uri"));
-        } else if (getIntent().getDataString() == null){
+        if (uri == null) {
             pickFile();
         }
 
@@ -167,21 +165,20 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         StrictMode.setVmPolicy(builder.build());
 
         Uri appLinkData = intent.getData();
-        String appLinkAction = intent.getAction();
-        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
+        if (appLinkData != null) {
             uri = appLinkData;
         }
     }
 
     @NonConfigurationInstance
-    static Uri uri;
+    Uri uri;
 
     @NonConfigurationInstance
     Integer pageNumber = 0;
 
-    String pdfFileName;
+    private String pdfFileName;
 
-    String pdfTempFilePath;
+    private String pdfTempFilePath;
 
     private void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -205,7 +202,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     void launchPicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("application/pdf");
         try {
             startActivityForResult(intent, REQUEST_CODE);
@@ -312,10 +309,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
-        Utils.tempBool = true;
-        SharedPreferences.Editor editor = prefManager.edit();
-        editor.putString("uri", uri.toString());
-        editor.apply();
         String scheme = uri.getScheme();
 
         if (scheme != null && scheme.contains("http")) {
@@ -374,7 +367,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     void navToSettings() {
-        startActivity(Utils.navIntent(this, SettingsActivity.class));
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     @OnActivityResult(REQUEST_CODE)
