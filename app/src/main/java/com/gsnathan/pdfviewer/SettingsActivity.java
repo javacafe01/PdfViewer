@@ -53,33 +53,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         getListView().setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
 
-        Preference button = findPreference("reload_pref");
-        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                try {
-                    Uri documentUri = getIntent().getData();
-                    Intent intent = new Intent(SettingsActivity.this, MainActivity_.class);
-                    intent.setData(documentUri);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return true;
+        findPreference("reload_pref").setOnPreferenceClickListener(preference -> {
+            try {
+                Uri documentUri = getIntent().getData();
+                Intent intent = new Intent(this, MainActivity_.class);
+                intent.setData(documentUri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            return true;
         });
 
-        findPreference("show_in_launcher").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                try {
-                    setLauncherAliasState((boolean) newValue);
-                    return true;
-                } catch (Exception ignored) {
-                    return false;
-                }
+        findPreference("show_in_launcher").setOnPreferenceChangeListener((preference, newValue) -> {
+            try {
+                setLauncherAliasState((boolean) newValue);
+                return true;
+            } catch (Exception ignored) {
+                return false;
             }
         });
     }
