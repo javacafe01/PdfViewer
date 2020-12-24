@@ -26,6 +26,7 @@ package com.gsnathan.pdfviewer;
 
 import android.Manifest;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro;
@@ -58,15 +59,17 @@ public class MainIntroActivity extends AppIntro {
         second.setBgColor(bg);
         addSlide(AppIntroFragment.newInstance(second));
 
-        SliderPage third = new SliderPage();
-        third.setTitle(getString(R.string.title_permission));
-        third.setDescription(getString(R.string.description__permission));
-        third.setImageDrawable(R.drawable.patterns_permissions);
-        third.setBgColor(bg);
-        addSlide(AppIntroFragment.newInstance(third));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            SliderPage third = new SliderPage();
+            third.setTitle(getString(R.string.title_permission));
+            third.setDescription(getString(R.string.description__permission));
+            third.setImageDrawable(R.drawable.patterns_permissions);
+            third.setBgColor(bg);
+            addSlide(AppIntroFragment.newInstance(third));
+            askForPermissions(new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 3);
+        }
 
         showSkipButton(false);
-        askForPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
         showStatusBar(false);
         setNavBarColor("#2481a1");
     }
