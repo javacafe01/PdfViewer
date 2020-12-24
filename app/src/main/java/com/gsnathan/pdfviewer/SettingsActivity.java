@@ -5,13 +5,16 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.core.app.NavUtils;
 
 import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
 import static android.content.pm.PackageManager.DONT_KILL_APP;
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
@@ -21,6 +24,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         setupActionBar();
         addPreferencesFromResource(R.xml.preferences);
+        setOptionsListTopMargin();
 
         findPreference("reload_pref").setOnPreferenceClickListener(preference -> {
             try {
@@ -43,6 +47,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return false;
             }
         });
+    }
+
+    private void setOptionsListTopMargin() {
+        int marginSize = (int) TypedValue.applyDimension(COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        View marginView = new View(this);
+        marginView.setMinimumHeight(marginSize);
+        getListView().addHeaderView(marginView, null, false);
     }
 
     private void setLauncherAliasState(boolean enableAlias) {
