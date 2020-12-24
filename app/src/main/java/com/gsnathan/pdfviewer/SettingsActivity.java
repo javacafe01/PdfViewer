@@ -41,18 +41,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         setupActionBar();
         addPreferencesFromResource(R.xml.preferences);
 
-        int horizontalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                2, getResources().getDisplayMetrics());
-
-        int verticalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                2, getResources().getDisplayMetrics());
-
-        int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                10,
-                getResources().getDisplayMetrics());
-
-        getListView().setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
-
         findPreference("reload_pref").setOnPreferenceClickListener(preference -> {
             try {
                 Uri documentUri = getIntent().getData();
