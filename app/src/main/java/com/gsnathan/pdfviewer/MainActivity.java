@@ -106,7 +106,6 @@ public class MainActivity extends ProgressActivity {
     @ViewById
     BottomNavigationView bottomNavigation;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
