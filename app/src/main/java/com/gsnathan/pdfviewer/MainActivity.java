@@ -35,7 +35,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
@@ -55,6 +54,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -85,7 +85,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.List;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
@@ -103,8 +102,13 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
+    private boolean isBottomNavigationHidden = false;
+
     @ViewById
     PDFView pdfView;
+
+    @ViewById
+    BottomNavigationView bottomNavigation;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -212,22 +216,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    private Handler handler = new Handler();
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if(pdfView != null) {
-                if (pdfView.getZoom() > 1f)
-                    hideBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
-                else {
-                    showBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
-                }
-            }
-            handler.postDelayed(runnable, 500);
-        }
-    };
-
     @AfterViews
     void afterViews() {
         showProgressDialog();
@@ -239,12 +227,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         setTitle(pdfFileName);
         hideProgressDialog();
         setBottomBarListeners();
-        handler.post(runnable);
     }
 
     private void setBottomBarListeners() {
-        BottomNavigationView bottomView = findViewById(R.id.bottom_navigation);
-        bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -277,7 +263,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             }
         });
         // Workaround for https://issuetracker.google.com/issues/124153644
-        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomView.getBackground();
+        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomNavigation.getBackground();
         viewBackground.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS);
     }
 
@@ -295,6 +281,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .enableAnnotationRendering(true)
                 .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
                 .onLoad(this)
+                .onTap(this::toggleBottomNavigationVisibility)
+                .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
@@ -305,6 +293,33 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
                 .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
+    }
+
+    private void toggleBottomNavigationAccordingToPosition(int page, float positionOffset) {
+        if (positionOffset == 0) {
+            showBottomNavigationView();
+        } else if (!isBottomNavigationHidden) {
+            hideBottomNavigationView();
+        }
+    }
+
+    private boolean toggleBottomNavigationVisibility(MotionEvent e) {
+        if (isBottomNavigationHidden) {
+            showBottomNavigationView();
+        } else {
+            hideBottomNavigationView();
+        }
+        return true;
+    }
+
+    private void hideBottomNavigationView() {
+        isBottomNavigationHidden = true;
+        bottomNavigation.animate().translationY(bottomNavigation.getHeight()).setDuration(100);
+    }
+
+    private void showBottomNavigationView() {
+        isBottomNavigationHidden = false;
+        bottomNavigation.animate().translationY(0).setDuration(100);
     }
 
     void displayFromUri(Uri uri) {
@@ -506,20 +521,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void hideBottomNavigationView(BottomNavigationView view) {
-        //getSupportActionBar().hide();
-        view.clearAnimation();
-        view.animate().translationY(view.getHeight()).setDuration(100);
-
-    }
-
-    public void showBottomNavigationView(BottomNavigationView view) {
-        //getSupportActionBar().show();
-        view.clearAnimation();
-        view.animate().translationY(0).setDuration(100);
-
     }
 }
 
