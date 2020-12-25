@@ -226,37 +226,33 @@ public class MainActivity extends ProgressActivity {
     }
 
     private void setBottomBarListeners() {
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.pickFile:
-                        pickFile();
-                        break;
-                    case R.id.metaFile:
-                        if (uri != null)
-                            getMeta();
-                        break;
-                    case R.id.unlockFile:
-                        if (uri != null)
-                            unlockPDF();
-                        break;
-                    case R.id.shareFile:
-                        if (uri != null)
-                            shareFile();
-                        break;
-                    case R.id.printFile:
-                        if (uri != null)
-                            print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext(), uri),
-                                    new PrintAttributes.Builder().build());
-                        break;
-                    default:
-                        break;
-
-                }
-                return false;
+        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.pickFile:
+                    pickFile();
+                    break;
+                case R.id.metaFile:
+                    if (uri != null)
+                        getMeta();
+                    break;
+                case R.id.unlockFile:
+                    if (uri != null)
+                        unlockPDF();
+                    break;
+                case R.id.shareFile:
+                    if (uri != null)
+                        shareFile();
+                    break;
+                case R.id.printFile:
+                    if (uri != null)
+                        print(pdfFileName,
+                                new PdfDocumentAdapter(getApplicationContext(), uri),
+                                new PrintAttributes.Builder().build());
+                    break;
+                default:
+                    break;
             }
+            return false;
         });
         // Workaround for https://issuetracker.google.com/issues/124153644
         MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomNavigation.getBackground();
@@ -434,13 +430,10 @@ public class MainActivity extends ProgressActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.password)
                 .setView(input)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PDF_PASSWORD = input.getText().toString();
-                        if (uri != null)
-                            displayFromUri(uri);
-                    }
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    PDF_PASSWORD = input.getText().toString();
+                    if (uri != null)
+                        displayFromUri(uri);
                 })
                 .setIcon(R.drawable.lock_icon)
                 .show();
@@ -452,10 +445,7 @@ public class MainActivity extends ProgressActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.meta)
                     .setMessage("Title: " + meta.getTitle() + "\n" + "Author: " + meta.getAuthor() + "\n" + "Creation Date: " + meta.getCreationDate())
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {})
                     .setIcon(R.drawable.alert_icon)
                     .show();
         }
