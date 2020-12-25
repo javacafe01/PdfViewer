@@ -59,9 +59,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
-import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
@@ -87,8 +84,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
-        OnPageErrorListener {
+public class MainActivity extends ProgressActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -277,15 +273,14 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     void setPageConfigurationAndLoad(PDFView.Configurator configurator) {
         configurator
                 .defaultPage(pageNumber)
-                .onPageChange(this)
+                .onPageChange(this::setCurrentPage)
                 .enableAnnotationRendering(true)
                 .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
-                .onLoad(this)
                 .onTap(this::toggleBottomNavigationVisibility)
                 .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
-                .onPageError(this)
+                .onPageError((page, err) -> Log.e(TAG, "Cannot load page " + page, err))
                 .pageFitPolicy(FitPolicy.WIDTH)
                 .password(PDF_PASSWORD)
                 .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
@@ -395,8 +390,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    @Override
-    public void onPageChanged(int page, int pageCount) {
+    private void setCurrentPage(int page, int pageCount) {
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
     }
@@ -422,12 +416,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             result = uri.getLastPathSegment();
         }
         return result;
-    }
-
-    @Override
-    public void loadComplete(int nbPages) {
-        Log.d(TAG, "PDF loaded");
-
     }
 
     private PrintJob print(String name, PrintDocumentAdapter adapter,
@@ -493,11 +481,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onPageError(int page, Throwable t) {
-        Log.e(TAG, "Cannot load page " + page);
     }
 
     @Override
