@@ -394,17 +394,12 @@ public class MainActivity extends ProgressActivity {
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme() != null && uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                     if (indexDisplayName != -1) {
                         result = cursor.getString(indexDisplayName);
                     }
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
                 }
             }
         }
