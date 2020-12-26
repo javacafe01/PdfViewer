@@ -96,9 +96,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private PrintManager mgr = null;
 
     private final static int REQUEST_CODE = 42;
-
-    public static final int PERMISSION_WRITE = 42041;
-    public static final int PERMISSION_READ = 42042;
+    private final static int PERMISSION_WRITE = 42041;
 
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
@@ -180,28 +178,11 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     private String pdfTempFilePath;
 
-    private void pickFile() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSION_READ
-            );
-
-            return;
-        }
-
-        launchPicker();
-    }
-
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
     }
 
-    void launchPicker() {
+    private void pickFile() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("application/pdf");
         try {
@@ -464,12 +445,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                                            @NonNull int[] grantResults) {
         int indexPermission;
         switch (requestCode) {
-            case PERMISSION_READ:
-                indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.READ_EXTERNAL_STORAGE);
-                if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
-                    launchPicker();
-                }
-                break;
             case PERMISSION_WRITE:
                 indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
