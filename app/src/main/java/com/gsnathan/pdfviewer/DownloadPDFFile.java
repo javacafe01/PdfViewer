@@ -14,6 +14,8 @@ import java.net.URL;
 
 import javax.net.ssl.SSLException;
 
+import static java.net.HttpURLConnection.HTTP_OK;
+
 /**
  * This class is used to get a PDF File from an URL
  */
@@ -28,30 +30,30 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
 
     @Override
     protected Object doInBackground(String... strings) {
-        File file;
         String url = strings [0];
         String filename = strings[1];
         MainActivity activity = mainActivityWR.get();
+        HttpURLConnection httpConnection = null;
 
         try {
-            URL uri = new URL(url);
-            HttpURLConnection urlConnection = (HttpURLConnection) uri.openConnection();
-            urlConnection.connect();
-            int responseCode = urlConnection.getResponseCode();
-            if (responseCode == 200) {
-                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                file = Utils.createFileFromInputStream(activity.getCacheDir(), filename, inputStream);
+            httpConnection = (HttpURLConnection) new URL(url).openConnection();
+            httpConnection.connect();
+            int responseCode = httpConnection.getResponseCode();
+            if (responseCode == HTTP_OK) {
+                InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
+                return Utils.createFileFromInputStream(activity.getCacheDir(), filename, inputStream);
             } else {
                 Log.e("DownloadPDFFile", "Error during http request, response code : " + responseCode);
                 return responseCode;
             }
-            urlConnection.disconnect();
         } catch (IOException e) {
             Log.e("DownloadPDFFile", "Error cannot get file at URL : " + url, e);
             return e;
+        } finally {
+            if (httpConnection != null) {
+                httpConnection.disconnect();
+            }
         }
-
-        return file;
     }
 
     @Override
