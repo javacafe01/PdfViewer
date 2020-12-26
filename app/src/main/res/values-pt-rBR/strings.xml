@@ -26,8 +26,6 @@
     <string name="app_name" translatable="false">Pdf Viewer Plus</string>
     <string name="pick_file">Selecionar arquivo</string>
     <string name="toast_pick_file_error">Não foi possível selecionar um arquivo. Verifique o status do gerenciador de arquivos.</string>
-    <string name="toast_http_code_error">Erro ao carregar a página, código do erro http: </string>
-    <string name="toast_io_exception">Nós não podemos carregar esta página por alguma razão.</string>
     <string name="toast_ssl_error">Falha na conexão segura.</string>
     <string name="action_about">Sobre</string>
     <string name="version">Versão</string>
