@@ -321,33 +321,25 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    void displayFromFile(File file) {
+    private void displayFromFile(File file) {
         setPdfViewConfiguration();
         setPageConfigurationAndLoad(pdfView.fromFile(file));
     }
 
-    public void saveFileAndDisplay(File file) {
-        String filePath = saveTempFileToFile(file);
-        File newFile = new File(filePath);
-        displayFromFile(newFile);
+    void saveFileAndDisplay(File file) {
+        pdfTempFilePath = file.getPath();
+        copyFileToDownloadFolder(file);
+        displayFromFile(file);
     }
 
-    String saveTempFileToFile(File tempFile) {
+    private void copyFileToDownloadFolder(File tempFile) {
         try {
-            // check if the permission to write to external storage is granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 InputStream inputStream = new FileInputStream(tempFile);
                 File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), pdfFileName);
                 OutputStream outputStream = new FileOutputStream(newFile);
                 Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
-
-                return tempFile.getPath();
             } else {
-                // case if the permission hasn't been granted, we will store the pdf in a temp file
-                //store the temporary file path, to be able to save it when permission will be granted
-
-
-                // request for the permission to write to external storage
                 ActivityCompat.requestPermissions(
                         this,
                         new String[]{
@@ -356,14 +348,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                         },
                         PERMISSION_WRITE
                 );
-                return pdfTempFilePath;
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error on file : " + e.getMessage());
-            e.printStackTrace();
+            Log.e(TAG, "Error while copying file to download folder", e);
         }
-
-        return null;
     }
 
     void navToSettings() {
@@ -474,7 +462,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
                     File file = new File(pdfTempFilePath);
-                    saveTempFileToFile(file);
+                    copyFileToDownloadFolder(file);
                 }
                 break;
         }
