@@ -63,13 +63,13 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
         if (activity != null) {
             // Manage error
             if (result == null) {
-                Toast.makeText(activity.getApplicationContext(), R.string.toast_io_exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.toast_io_exception, Toast.LENGTH_SHORT).show();
             } else if (result instanceof Integer) {
-                Toast.makeText(activity.getApplicationContext(), R.string.toast_http_code_error + String.valueOf(result), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.toast_http_code_error, Toast.LENGTH_SHORT).show();
             } else if (result instanceof SSLException) {
-                Toast.makeText(activity.getApplicationContext(), R.string.toast_ssl_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.toast_ssl_error, Toast.LENGTH_SHORT).show();
             } else if (result instanceof IOException) {
-                Toast.makeText(activity.getApplicationContext(), R.string.toast_io_exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.toast_io_exception, Toast.LENGTH_SHORT).show();
             } else if (result instanceof File) {
                 activity.saveFileAndDisplay((File) result);
             }
