@@ -109,10 +109,11 @@ public class Utils {
         outputStream.close();
     }
 
-    static File createFileFromInputStream (File cacheDir, String fileName, InputStream inputStream) throws IOException {
-        File file = File.createTempFile(fileName, null, cacheDir);
+    static File createFileFromInputStream(File directory, String fileName, InputStream inputStream) throws IOException {
+        File file = new File(directory, fileName);
+        file.createNewFile();
         OutputStream outputStream = new FileOutputStream(file);
-        Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
+        readFromInputStreamToOutputStream(inputStream, outputStream);
         return file;
     }
 }
