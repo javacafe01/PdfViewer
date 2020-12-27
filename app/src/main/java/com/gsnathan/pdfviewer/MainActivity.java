@@ -336,9 +336,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 InputStream inputStream = new FileInputStream(tempFile);
-                File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), pdfFileName);
-                OutputStream outputStream = new FileOutputStream(newFile);
-                Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
+                File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                Utils.createFileFromInputStream(downloadDirectory, pdfFileName, inputStream);
             } else {
                 ActivityCompat.requestPermissions(
                         this,

@@ -97,7 +97,7 @@ public class Utils {
         return BuildConfig.VERSION_NAME;
     }
 
-    static void readFromInputStreamToOutputStream (InputStream inputStream, OutputStream outputStream) throws IOException {
+    private static void readFromInputStreamToOutputStream (InputStream inputStream, OutputStream outputStream) throws IOException {
         byte[] buffer = new byte[8 * 1024];
         int bytesRead = inputStream.read(buffer);
         while (bytesRead > -1) {
