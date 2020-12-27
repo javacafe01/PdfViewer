@@ -460,6 +460,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
                     File file = new File(pdfTempFilePath);
                     copyFileToDownloadFolder(file);
+                    Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

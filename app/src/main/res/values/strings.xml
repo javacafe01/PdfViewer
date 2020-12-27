@@ -29,6 +29,8 @@
     <string name="toast_http_code_error">Remote server responded with an error.</string>
     <string name="toast_generic_download_error">We couldn\'t download this file for some reason.</string>
     <string name="toast_ssl_error">Secure connection failed.</string>
+    <string name="saved_to_download">File saved to Download folder.</string>
+    <string name="save_to_download_failed">Couldn\'t save file to Download folder.</string>
     <string name="action_about">About</string>
     <string name="version">Version</string>
     <string name="intro">Replay Intro</string>
