@@ -342,10 +342,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             } else {
                 ActivityCompat.requestPermissions(
                         this,
-                        new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        },
+                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
                         PERMISSION_WRITE
                 );
             }
