@@ -1,6 +1,5 @@
 package com.gsnathan.pdfviewer;
 
-import android.app.ActionBar;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,14 +8,20 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
+
+import com.jaredrummler.cyanea.app.CyaneaPreferenceActivity;
+
+import org.jetbrains.annotations.Nullable;
 
 import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
 import static android.content.pm.PackageManager.DONT_KILL_APP;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 
-public class SettingsActivity extends AppCompatPreferenceActivity {
+public class SettingsActivity extends CyaneaPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     private void setupActionBar() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -82,4 +87,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return super.onMenuItemSelected(featureId, item);
     }
 
+    @Override
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        getDelegate().setSupportActionBar(toolbar);
+    }
 }
