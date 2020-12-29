@@ -347,6 +347,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             }
         } catch (IOException e) {
             Log.e(TAG, "Error while copying file to download folder", e);
+            Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
         }
     }
 
