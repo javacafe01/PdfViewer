@@ -35,7 +35,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintAttributes;
@@ -55,13 +54,11 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
-import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
@@ -85,11 +82,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.List;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends ProgressActivity implements OnPageChangeListener, OnLoadCompleteListener,
-        OnPageErrorListener {
+public class MainActivity extends ProgressActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -103,10 +98,14 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
+    private boolean isBottomNavigationHidden = false;
+
     @ViewById
     PDFView pdfView;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @ViewById
+    BottomNavigationView bottomNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,22 +211,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    private Handler handler = new Handler();
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if(pdfView != null) {
-                if (pdfView.getZoom() > 1f)
-                    hideBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
-                else {
-                    showBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
-                }
-            }
-            handler.postDelayed(runnable, 500);
-        }
-    };
-
     @AfterViews
     void afterViews() {
         showProgressDialog();
@@ -239,45 +222,39 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         setTitle(pdfFileName);
         hideProgressDialog();
         setBottomBarListeners();
-        handler.post(runnable);
     }
 
     private void setBottomBarListeners() {
-        BottomNavigationView bottomView = findViewById(R.id.bottom_navigation);
-        bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.pickFile:
-                        pickFile();
-                        break;
-                    case R.id.metaFile:
-                        if (uri != null)
-                            getMeta();
-                        break;
-                    case R.id.unlockFile:
-                        if (uri != null)
-                            unlockPDF();
-                        break;
-                    case R.id.shareFile:
-                        if (uri != null)
-                            shareFile();
-                        break;
-                    case R.id.printFile:
-                        if (uri != null)
-                            print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext(), uri),
-                                    new PrintAttributes.Builder().build());
-                        break;
-                    default:
-                        break;
-
-                }
-                return false;
+        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.pickFile:
+                    pickFile();
+                    break;
+                case R.id.metaFile:
+                    if (uri != null)
+                        getMeta();
+                    break;
+                case R.id.unlockFile:
+                    if (uri != null)
+                        unlockPDF();
+                    break;
+                case R.id.shareFile:
+                    if (uri != null)
+                        shareFile();
+                    break;
+                case R.id.printFile:
+                    if (uri != null)
+                        print(pdfFileName,
+                                new PdfDocumentAdapter(getApplicationContext(), uri),
+                                new PrintAttributes.Builder().build());
+                    break;
+                default:
+                    break;
             }
+            return false;
         });
         // Workaround for https://issuetracker.google.com/issues/124153644
-        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomView.getBackground();
+        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomNavigation.getBackground();
         viewBackground.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS);
     }
 
@@ -291,13 +268,14 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     void setPageConfigurationAndLoad(PDFView.Configurator configurator) {
         configurator
                 .defaultPage(pageNumber)
-                .onPageChange(this)
+                .onPageChange(this::setCurrentPage)
                 .enableAnnotationRendering(true)
                 .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
-                .onLoad(this)
+                .onTap(this::toggleBottomNavigationVisibility)
+                .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
-                .onPageError(this)
+                .onPageError((page, err) -> Log.e(TAG, "Cannot load page " + page, err))
                 .pageFitPolicy(FitPolicy.WIDTH)
                 .password(PDF_PASSWORD)
                 .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
@@ -305,6 +283,33 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
                 .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
+    }
+
+    private void toggleBottomNavigationAccordingToPosition(int page, float positionOffset) {
+        if (positionOffset == 0) {
+            showBottomNavigationView();
+        } else if (!isBottomNavigationHidden) {
+            hideBottomNavigationView();
+        }
+    }
+
+    private boolean toggleBottomNavigationVisibility(MotionEvent e) {
+        if (isBottomNavigationHidden) {
+            showBottomNavigationView();
+        } else {
+            hideBottomNavigationView();
+        }
+        return true;
+    }
+
+    private void hideBottomNavigationView() {
+        isBottomNavigationHidden = true;
+        bottomNavigation.animate().translationY(bottomNavigation.getHeight()).setDuration(100);
+    }
+
+    private void showBottomNavigationView() {
+        isBottomNavigationHidden = false;
+        bottomNavigation.animate().translationY(0).setDuration(100);
     }
 
     void displayFromUri(Uri uri) {
@@ -380,8 +385,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
     }
 
-    @Override
-    public void onPageChanged(int page, int pageCount) {
+    private void setCurrentPage(int page, int pageCount) {
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
     }
@@ -389,17 +393,12 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme() != null && uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     int indexDisplayName = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                     if (indexDisplayName != -1) {
                         result = cursor.getString(indexDisplayName);
                     }
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
                 }
             }
         }
@@ -407,12 +406,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             result = uri.getLastPathSegment();
         }
         return result;
-    }
-
-    @Override
-    public void loadComplete(int nbPages) {
-        Log.d(TAG, "PDF loaded");
-
     }
 
     private PrintJob print(String name, PrintDocumentAdapter adapter,
@@ -431,13 +424,10 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         new AlertDialog.Builder(this)
                 .setTitle(R.string.password)
                 .setView(input)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PDF_PASSWORD = input.getText().toString();
-                        if (uri != null)
-                            displayFromUri(uri);
-                    }
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    PDF_PASSWORD = input.getText().toString();
+                    if (uri != null)
+                        displayFromUri(uri);
                 })
                 .setIcon(R.drawable.lock_icon)
                 .show();
@@ -449,10 +439,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.meta)
                     .setMessage("Title: " + meta.getTitle() + "\n" + "Author: " + meta.getAuthor() + "\n" + "Creation Date: " + meta.getCreationDate())
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {})
                     .setIcon(R.drawable.alert_icon)
                     .show();
         }
@@ -481,11 +468,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     @Override
-    public void onPageError(int page, Throwable t) {
-        Log.e(TAG, "Cannot load page " + page);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
@@ -506,20 +488,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void hideBottomNavigationView(BottomNavigationView view) {
-        //getSupportActionBar().hide();
-        view.clearAnimation();
-        view.animate().translationY(view.getHeight()).setDuration(100);
-
-    }
-
-    public void showBottomNavigationView(BottomNavigationView view) {
-        //getSupportActionBar().show();
-        view.clearAnimation();
-        view.animate().translationY(0).setDuration(100);
-
     }
 }
 
