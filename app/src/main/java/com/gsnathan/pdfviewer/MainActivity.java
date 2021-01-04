@@ -307,49 +307,34 @@ public class MainActivity extends ProgressActivity {
         }
     }
 
-    void displayFromFile(File file) {
+    private void displayFromFile(File file) {
         setPdfViewConfiguration();
         setPageConfigurationAndLoad(pdfView.fromFile(file));
     }
 
-    public void saveFileAndDisplay(File file) {
-        String filePath = saveTempFileToFile(file);
-        File newFile = new File(filePath);
-        displayFromFile(newFile);
+    void saveFileAndDisplay(File file) {
+        pdfTempFilePath = file.getPath();
+        copyFileToDownloadFolder(file);
+        displayFromFile(file);
     }
 
-    String saveTempFileToFile(File tempFile) {
+    private void copyFileToDownloadFolder(File tempFile) {
         try {
-            // check if the permission to write to external storage is granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 InputStream inputStream = new FileInputStream(tempFile);
-                File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), pdfFileName);
-                OutputStream outputStream = new FileOutputStream(newFile);
-                Utils.readFromInputStreamToOutputStream(inputStream, outputStream);
-
-                return tempFile.getPath();
+                File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                Utils.createFileFromInputStream(downloadDirectory, pdfFileName, inputStream);
             } else {
-                // case if the permission hasn't been granted, we will store the pdf in a temp file
-                //store the temporary file path, to be able to save it when permission will be granted
-
-
-                // request for the permission to write to external storage
                 ActivityCompat.requestPermissions(
                         this,
-                        new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        },
+                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
                         PERMISSION_WRITE
                 );
-                return pdfTempFilePath;
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error on file : " + e.getMessage());
-            e.printStackTrace();
+            Log.e(TAG, "Error while copying file to download folder", e);
+            Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
         }
-
-        return null;
     }
 
     void navToSettings() {
@@ -436,7 +421,10 @@ public class MainActivity extends ProgressActivity {
                 indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
                     File file = new File(pdfTempFilePath);
-                    saveTempFileToFile(file);
+                    copyFileToDownloadFolder(file);
+                    Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

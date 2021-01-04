@@ -11,8 +11,6 @@
     <!-- Main menu -->
     <string name="pick_file">Выбрать файл</string>
     <string name="toast_pick_file_error">Невозможно выбрать файл. Проверьте ваш файловый менеджер.</string>
-    <string name="toast_http_code_error">Проблема при загрузке страницы, http error code : </string>
-    <string name="toast_io_exception">Мы почему-то не можем загрузить эту страницу.</string>
     <string name="toast_ssl_error">Не удалось установить защищённое соединение.</string>
     <string name="share">Поделиться</string>
     <string name="unlock">Разблокировать защищенный PDF</string>

@@ -2,8 +2,6 @@
 <resources>
     <string name="pick_file">Choisir un fichier</string>
     <string name="toast_pick_file_error">Impossible de choisir un fichier. Vérifiez dans le navigateur de fichier.</string>
-    <string name="toast_http_code_error">Erreur de chargement de la page, http error code : </string>
-    <string name="toast_io_exception">Pour une raison inconnue, nous ne pouvons pas charger cette page.</string>
     <string name="toast_ssl_error">Échec de la connexion sécurisée.</string>
     <string name="action_about">À propos</string>
     <string name="version">Version</string>
