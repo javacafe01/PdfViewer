@@ -404,7 +404,9 @@ public class MainActivity extends ProgressActivity {
         if (meta != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.meta)
-                    .setMessage("Title: " + meta.getTitle() + "\n" + "Author: " + meta.getAuthor() + "\n" + "Creation Date: " + meta.getCreationDate())
+                    .setMessage(getString(R.string.pdf_title) + ": " + meta.getTitle() + "\n" +
+                            getString(R.string.pdf_author) + ": " + meta.getAuthor() + "\n" +
+                            getString(R.string.pdf_creation_date) + ": " + meta.getCreationDate())
                     .setPositiveButton(R.string.ok, (dialog, which) -> {})
                     .setIcon(R.drawable.alert_icon)
                     .show();

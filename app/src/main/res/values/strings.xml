@@ -116,4 +116,7 @@
     <string name="buttonLog">Continue</string>
     <string name="show_in_launcher">Show app in launcher</string>
     <string name="show_in_launcher_summary">You may need to restart your launcher for this option to take effect</string>
+    <string name="pdf_title">Title</string>
+    <string name="pdf_author">Author</string>
+    <string name="pdf_creation_date">Creation Date</string>
 </resources>
