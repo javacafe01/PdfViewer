@@ -25,9 +25,8 @@
 package com.gsnathan.pdfviewer;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -44,9 +43,11 @@ import android.print.PrintManager;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.os.Bundle;
 
@@ -213,7 +214,7 @@ public class MainActivity extends ProgressActivity {
                     break;
                 case R.id.metaFile:
                     if (uri != null)
-                        getMeta();
+                        showPdfMetaDialog();
                     break;
                 case R.id.unlockFile:
                     if (uri != null)
@@ -399,19 +400,17 @@ public class MainActivity extends ProgressActivity {
                 .show();
     }
 
-    void getMeta() {
+    void showPdfMetaDialog() {
         PdfDocument.Meta meta = pdfView.getDocumentMeta();
         if (meta != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.meta)
-                    .setMessage(getString(R.string.pdf_title) + ": " + meta.getTitle() + "\n" +
-                            getString(R.string.pdf_author) + ": " + meta.getAuthor() + "\n" +
-                            getString(R.string.pdf_creation_date) + ": " + meta.getCreationDate())
-                    .setPositiveButton(R.string.ok, (dialog, which) -> {})
-                    .setIcon(R.drawable.alert_icon)
-                    .show();
+            Bundle dialogArgs = new Bundle();
+            dialogArgs.putString(PdfMetaDialog.TITLE_ARGUMENT, meta.getTitle());
+            dialogArgs.putString(PdfMetaDialog.AUTHOR_ARGUMENT, meta.getAuthor());
+            dialogArgs.putString(PdfMetaDialog.CREATION_DATE_ARGUMENT, meta.getCreationDate());
+            DialogFragment dialog = new PdfMetaDialog();
+            dialog.setArguments(dialogArgs);
+            dialog.show(getSupportFragmentManager(), "meta_dialog");
         }
-
     }
 
     @Override
@@ -452,6 +451,26 @@ public class MainActivity extends ProgressActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static class PdfMetaDialog extends DialogFragment {
+
+        public static final String TITLE_ARGUMENT = "title";
+        public static final String AUTHOR_ARGUMENT = "author";
+        public static final String CREATION_DATE_ARGUMENT = "creation_date";
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            return builder.setTitle(R.string.meta)
+                    .setMessage(getString(R.string.pdf_title) + ": " + getArguments().getString(TITLE_ARGUMENT) + "\n" +
+                            getString(R.string.pdf_author) + ": " + getArguments().getString(AUTHOR_ARGUMENT) + "\n" +
+                            getString(R.string.pdf_creation_date) + ": " + getArguments().getString(CREATION_DATE_ARGUMENT))
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {})
+                    .setIcon(R.drawable.alert_icon)
+                    .create();
         }
     }
 }
