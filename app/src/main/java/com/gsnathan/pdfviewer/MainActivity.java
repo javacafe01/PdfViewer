@@ -64,6 +64,7 @@ import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.shape.MaterialShapeDrawable;
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
@@ -84,7 +85,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends ProgressActivity {
+public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -194,14 +195,12 @@ public class MainActivity extends ProgressActivity {
 
     @AfterViews
     void afterViews() {
-        showProgressDialog();
         pdfView.setBackgroundColor(Color.LTGRAY);
         Constants.THUMBNAIL_RATIO = 1f;
         if (uri != null) {
             displayFromUri(uri);
         }
         setTitle(pdfFileName);
-        hideProgressDialog();
         setBottomBarListeners();
     }
 
