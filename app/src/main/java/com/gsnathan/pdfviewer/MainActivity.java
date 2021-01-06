@@ -376,8 +376,6 @@ public class MainActivity extends ProgressActivity {
 
     private PrintJob print(String name, PrintDocumentAdapter adapter,
                            PrintAttributes attrs) {
-        startService(new Intent(this, PrintJobMonitorService.class));
-
         return (mgr.print(name, adapter, attrs));
     }
 
