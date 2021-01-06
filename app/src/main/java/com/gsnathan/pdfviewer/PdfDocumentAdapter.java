@@ -57,7 +57,7 @@ class PdfDocumentAdapter extends ThreadedPrintDocumentAdapter {
             }
             else {
                 PrintDocumentInfo.Builder builder=
-                        new PrintDocumentInfo.Builder("CHANGE ME PLEASE");
+                        new PrintDocumentInfo.Builder("document.pdf");
 
                 builder.setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
                         .setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN)
