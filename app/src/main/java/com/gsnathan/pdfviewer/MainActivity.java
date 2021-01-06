@@ -55,7 +55,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -99,11 +101,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private boolean isBottomNavigationHidden = false;
 
-    @ViewById
-    PDFView pdfView;
-
-    @ViewById
-    BottomNavigationView bottomNavigation;
+    @ViewById PDFView pdfView;
+    @ViewById BottomNavigationView bottomNavigation;
+    @ViewById ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,12 +298,17 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         if (scheme != null && scheme.contains("http")) {
             // we will get the pdf asynchronously with the DownloadPDFFile object
-            DownloadPDFFile DownloadPDFFile = new DownloadPDFFile(this);
-            DownloadPDFFile.execute(uri.toString(), pdfFileName);
+            progressBar.setVisibility(View.VISIBLE);
+            DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
+            downloadPDFFile.execute(uri.toString(), pdfFileName);
         } else {
             setPdfViewConfiguration();
             setPageConfigurationAndLoad(pdfView.fromUri(uri));
         }
+    }
+
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     private void displayFromFile(File file) {

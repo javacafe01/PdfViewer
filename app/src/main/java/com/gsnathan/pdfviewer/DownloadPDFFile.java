@@ -21,8 +21,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
  */
 public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
 
-    // a reference to our MainActivity, this is used to be able to call saveFileAndDisplay()
-    private WeakReference<MainActivity> mainActivityWR;
+    private final WeakReference<MainActivity> mainActivityWR;
 
     public DownloadPDFFile(MainActivity activity) {
         mainActivityWR = new WeakReference<>(activity);
@@ -61,7 +60,8 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
         MainActivity activity = mainActivityWR.get();
 
         if (activity != null) {
-            // Manage error
+            activity.hideProgressBar();
+
             if (result == null) {
                 Toast.makeText(activity, R.string.toast_generic_download_error, Toast.LENGTH_LONG).show();
             } else if (result instanceof Integer) {
