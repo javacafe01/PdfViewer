@@ -7,11 +7,19 @@ import android.os.ParcelFileDescriptor;
 import android.print.PageRange;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-abstract class ThreadedPrintDocumentAdapter extends
-        PrintDocumentAdapter {
+abstract class ThreadedPrintDocumentAdapter extends PrintDocumentAdapter {
+
+    private final Context ctxt;
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(1);
+
+    ThreadedPrintDocumentAdapter(Context ctxt) {
+        this.ctxt = ctxt;
+    }
+
     abstract LayoutJob buildLayoutJob(PrintAttributes oldAttributes,
                                       PrintAttributes newAttributes,
                                       CancellationSignal cancellationSignal,
@@ -24,21 +32,13 @@ abstract class ThreadedPrintDocumentAdapter extends
                                     WriteResultCallback callback,
                                     Context ctxt);
 
-    private Context ctxt=null;
-    private ExecutorService threadPool=Executors.newFixedThreadPool(1);
-
-    ThreadedPrintDocumentAdapter(Context ctxt) {
-        this.ctxt=ctxt;
-    }
-
     @Override
     public void onLayout(PrintAttributes oldAttributes,
                          PrintAttributes newAttributes,
                          CancellationSignal cancellationSignal,
                          LayoutResultCallback callback, Bundle extras) {
         threadPool.submit(buildLayoutJob(oldAttributes, newAttributes,
-                cancellationSignal, callback,
-                extras));
+                cancellationSignal, callback, extras));
     }
 
     @Override
@@ -46,14 +46,12 @@ abstract class ThreadedPrintDocumentAdapter extends
                         ParcelFileDescriptor destination,
                         CancellationSignal cancellationSignal,
                         WriteResultCallback callback) {
-        threadPool.submit(buildWriteJob(pages, destination,
-                cancellationSignal, callback, ctxt));
+        threadPool.submit(buildWriteJob(pages, destination, cancellationSignal, callback, ctxt));
     }
 
     @Override
     public void onFinish() {
         threadPool.shutdown();
-
         super.onFinish();
     }
 
@@ -68,11 +66,11 @@ abstract class ThreadedPrintDocumentAdapter extends
                   PrintAttributes newAttributes,
                   CancellationSignal cancellationSignal,
                   LayoutResultCallback callback, Bundle extras) {
-            this.oldAttributes=oldAttributes;
-            this.newAttributes=newAttributes;
-            this.cancellationSignal=cancellationSignal;
-            this.callback=callback;
-            this.extras=extras;
+            this.oldAttributes = oldAttributes;
+            this.newAttributes = newAttributes;
+            this.cancellationSignal = cancellationSignal;
+            this.callback = callback;
+            this.extras = extras;
         }
     }
 
@@ -86,11 +84,11 @@ abstract class ThreadedPrintDocumentAdapter extends
         WriteJob(PageRange[] pages, ParcelFileDescriptor destination,
                  CancellationSignal cancellationSignal,
                  WriteResultCallback callback, Context ctxt) {
-            this.pages=pages;
-            this.destination=destination;
-            this.cancellationSignal=cancellationSignal;
-            this.callback=callback;
-            this.ctxt=ctxt;
+            this.pages = pages;
+            this.destination = destination;
+            this.cancellationSignal = cancellationSignal;
+            this.callback = callback;
+            this.ctxt = ctxt;
         }
     }
 }
