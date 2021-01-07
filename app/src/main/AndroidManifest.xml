@@ -17,8 +17,7 @@
         android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
 
         <activity
-            android:name=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+            android:name=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -83,8 +82,7 @@
         <activity
             android:name=".AboutActivity"
             android:label="About"
-            android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+            android:parentActivityName=".MainActivity_">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -98,8 +96,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+            android:parentActivityName=".MainActivity_">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
