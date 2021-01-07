@@ -234,9 +234,6 @@ public class MainActivity extends ProgressActivity {
             }
             return false;
         });
-        // Workaround for https://issuetracker.google.com/issues/124153644
-        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomNavigation.getBackground();
-        viewBackground.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS);
     }
 
     void setPdfViewConfiguration() {
