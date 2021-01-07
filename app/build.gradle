@@ -71,7 +71,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
@@ -80,9 +79,6 @@ dependencies {
 
     //Intro Library
     implementation 'com.github.paolorotolo:appintro:v5.1.0'
-
-    //Library for Card View Layout
-    implementation 'androidx.cardview:cardview:1.0.0'
 
     //Rating Library
     implementation 'io.github.kobakei:ratethisapp:1.2.0'
