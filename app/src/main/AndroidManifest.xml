@@ -67,6 +67,7 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
+
         <!-- Alias to allow the user to hide the app from launcher -->
         <activity-alias
             android:name=".LauncherAlias"
@@ -82,13 +83,7 @@
         <activity
             android:name=".AboutActivity"
             android:label="About"
-            android:parentActivityName=".MainActivity_">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity_" />
-        </activity>
+            android:parentActivityName=".MainActivity_" />
 
         <activity
             android:name=".MainIntroActivity"
@@ -98,13 +93,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".MainActivity_">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity_" />
-        </activity>
+            android:parentActivityName=".MainActivity_" />
     </application>
 
 </manifest>
