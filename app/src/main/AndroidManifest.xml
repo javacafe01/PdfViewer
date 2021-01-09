@@ -89,9 +89,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity_" />
         </activity>
+
         <activity
             android:name=".MainIntroActivity"
-            android:label="@string/intro" /> <!-- Contr -->
+            android:label="@string/intro"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
         <activity
             android:name=".SettingsActivity"
