@@ -234,15 +234,12 @@ public class MainActivity extends CyaneaAppCompatActivity {
         viewBackground.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS);
     }
 
-    void setPdfViewConfiguration() {
+    void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         pdfView.setMinZoom(0.5f);
         pdfView.setMidZoom(2.0f);
         pdfView.setMaxZoom(5.0f);
-    }
-
-    void setPageConfigurationAndLoad(PDFView.Configurator configurator) {
-        configurator
+        viewConfigurator
                 .defaultPage(pageNumber)
                 .onPageChange(this::setCurrentPage)
                 .enableAnnotationRendering(true)
@@ -298,8 +295,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
             downloadPDFFile.execute(uri.toString(), pdfFileName);
         } else {
-            setPdfViewConfiguration();
-            setPageConfigurationAndLoad(pdfView.fromUri(uri));
+            configurePdfViewAndLoad(pdfView.fromUri(uri));
         }
     }
 
@@ -307,15 +303,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    private void displayFromFile(File file) {
-        setPdfViewConfiguration();
-        setPageConfigurationAndLoad(pdfView.fromFile(file));
-    }
-
     void saveFileAndDisplay(File file) {
         pdfTempFilePath = file.getPath();
         copyFileToDownloadFolder(file);
-        displayFromFile(file);
+        configurePdfViewAndLoad(pdfView.fromFile(file));
     }
 
     private void copyFileToDownloadFolder(File tempFile) {
