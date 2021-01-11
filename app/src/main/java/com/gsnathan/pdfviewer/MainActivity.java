@@ -463,11 +463,11 @@ public class MainActivity extends ProgressActivity {
         @NonNull
         @Override
         public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             return builder.setTitle(R.string.meta)
-                    .setMessage(getString(R.string.pdf_title) + ": " + getArguments().getString(TITLE_ARGUMENT) + "\n" +
-                            getString(R.string.pdf_author) + ": " + getArguments().getString(AUTHOR_ARGUMENT) + "\n" +
-                            getString(R.string.pdf_creation_date) + ": " + getArguments().getString(CREATION_DATE_ARGUMENT))
+                    .setMessage(getString(R.string.pdf_title, getArguments().getString(TITLE_ARGUMENT)) + "\n" +
+                            getString(R.string.pdf_author, getArguments().getString(AUTHOR_ARGUMENT)) + "\n" +
+                            getString(R.string.pdf_creation_date, getArguments().getString(CREATION_DATE_ARGUMENT)))
                     .setPositiveButton(R.string.ok, (dialog, which) -> {})
                     .setIcon(R.drawable.alert_icon)
                     .create();
