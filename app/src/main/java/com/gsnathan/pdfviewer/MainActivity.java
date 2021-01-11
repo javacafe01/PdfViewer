@@ -36,9 +36,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.print.PrintAttributes;
-import android.print.PrintDocumentAdapter;
-import android.print.PrintJob;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
 
@@ -226,9 +223,7 @@ public class MainActivity extends ProgressActivity {
                     break;
                 case R.id.printFile:
                     if (uri != null)
-                        print(pdfFileName,
-                                new PdfDocumentAdapter(getApplicationContext(), uri),
-                                new PrintAttributes.Builder().build());
+                        printDocument();
                     break;
                 default:
                     break;
@@ -375,11 +370,8 @@ public class MainActivity extends ProgressActivity {
         return result;
     }
 
-    private PrintJob print(String name, PrintDocumentAdapter adapter,
-                           PrintAttributes attrs) {
-        startService(new Intent(this, PrintJobMonitorService.class));
-
-        return (mgr.print(name, adapter, attrs));
+    private void printDocument() {
+        mgr.print(pdfFileName, new PdfDocumentAdapter(this, uri), null);
     }
 
     void unlockPDF() {
