@@ -77,11 +77,7 @@ import org.androidannotations.annotations.ViewById;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 
 @EActivity(R.layout.activity_main)
@@ -174,7 +170,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private String pdfFileName;
 
-    private String pdfTempFilePath;
+    private byte[] downloadedPdfFileContent;
 
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
@@ -303,18 +299,17 @@ public class MainActivity extends CyaneaAppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    void saveFileAndDisplay(File file) {
-        pdfTempFilePath = file.getPath();
-        copyFileToDownloadFolder(file);
-        configurePdfViewAndLoad(pdfView.fromFile(file));
+    void saveToFileAndDisplay(byte[] pdfFileContent) {
+        downloadedPdfFileContent = pdfFileContent;
+        copyFileToDownloadFolder(pdfFileContent);
+        configurePdfViewAndLoad(pdfView.fromBytes(pdfFileContent));
     }
 
-    private void copyFileToDownloadFolder(File tempFile) {
+    private void copyFileToDownloadFolder(byte[] fileContent) {
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                InputStream inputStream = new FileInputStream(tempFile);
                 File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                Utils.createFileFromInputStream(downloadDirectory, pdfFileName, inputStream);
+                Utils.writeBytesToFile(downloadDirectory, pdfFileName, fileContent);
             } else {
                 ActivityCompat.requestPermissions(
                         this,
@@ -408,8 +403,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
             case PERMISSION_WRITE:
                 indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
-                    File file = new File(pdfTempFilePath);
-                    copyFileToDownloadFolder(file);
+                    copyFileToDownloadFolder(downloadedPdfFileContent);
                     Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
