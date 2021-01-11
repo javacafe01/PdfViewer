@@ -26,7 +26,7 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
 
     @Override
     protected Object doInBackground(String... strings) {
-        String url = strings [0];
+        String url = strings[0];
         HttpURLConnection httpConnection = null;
 
         try {

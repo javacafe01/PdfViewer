@@ -289,7 +289,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             progressBar.setVisibility(View.VISIBLE);
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
-            downloadPDFFile.execute(uri.toString(), pdfFileName);
+            downloadPDFFile.execute(uri.toString());
         } else {
             configurePdfViewAndLoad(pdfView.fromUri(uri));
         }
