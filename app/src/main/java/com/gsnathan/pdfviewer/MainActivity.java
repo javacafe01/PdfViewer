@@ -53,7 +53,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -62,6 +64,7 @@ import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.shape.MaterialShapeDrawable;
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
@@ -82,7 +85,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends ProgressActivity {
+public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -96,11 +99,9 @@ public class MainActivity extends ProgressActivity {
 
     private boolean isBottomNavigationHidden = false;
 
-    @ViewById
-    PDFView pdfView;
-
-    @ViewById
-    BottomNavigationView bottomNavigation;
+    @ViewById PDFView pdfView;
+    @ViewById BottomNavigationView bottomNavigation;
+    @ViewById ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,14 +193,12 @@ public class MainActivity extends ProgressActivity {
 
     @AfterViews
     void afterViews() {
-        showProgressDialog();
         pdfView.setBackgroundColor(Color.LTGRAY);
         Constants.THUMBNAIL_RATIO = 1f;
         if (uri != null) {
             displayFromUri(uri);
         }
         setTitle(pdfFileName);
-        hideProgressDialog();
         setBottomBarListeners();
     }
 
@@ -295,12 +294,17 @@ public class MainActivity extends ProgressActivity {
 
         if (scheme != null && scheme.contains("http")) {
             // we will get the pdf asynchronously with the DownloadPDFFile object
-            DownloadPDFFile DownloadPDFFile = new DownloadPDFFile(this);
-            DownloadPDFFile.execute(uri.toString(), pdfFileName);
+            progressBar.setVisibility(View.VISIBLE);
+            DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
+            downloadPDFFile.execute(uri.toString(), pdfFileName);
         } else {
             setPdfViewConfiguration();
             setPageConfigurationAndLoad(pdfView.fromUri(uri));
         }
+    }
+
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     private void displayFromFile(File file) {
