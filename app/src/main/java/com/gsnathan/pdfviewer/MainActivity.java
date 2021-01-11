@@ -251,7 +251,7 @@ public class MainActivity extends ProgressActivity {
                 .defaultPage(pageNumber)
                 .onPageChange(this::setCurrentPage)
                 .enableAnnotationRendering(true)
-                .enableAntialiasing(prefManager.getBoolean("alias_pref", false))
+                .enableAntialiasing(prefManager.getBoolean("alias_pref", true))
                 .onTap(this::toggleBottomNavigationVisibility)
                 .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
