@@ -90,7 +90,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private final static int REQUEST_CODE = 42;
     private final static int PERMISSION_WRITE = 42041;
 
-    private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
     private boolean isBottomNavigationHidden = false;
@@ -168,6 +167,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @NonConfigurationInstance
     Integer pageNumber = 0;
 
+    @NonConfigurationInstance
+    String pdfPassword;
+
     private String pdfFileName;
 
     private byte[] downloadedPdfFileContent;
@@ -243,7 +245,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .spacing(10) // in dp
                 .onPageError((page, err) -> Log.e(TAG, "Cannot load page " + page, err))
                 .pageFitPolicy(FitPolicy.WIDTH)
-                .password(PDF_PASSWORD)
+                .password(pdfPassword)
                 .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
                 .autoSpacing(prefManager.getBoolean("scroll_pref", false))
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
@@ -378,7 +380,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .setTitle(R.string.password)
                 .setView(input)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    PDF_PASSWORD = input.getText().toString();
+                    pdfPassword = input.getText().toString();
                     if (uri != null)
                         displayFromUri(uri);
                 })
