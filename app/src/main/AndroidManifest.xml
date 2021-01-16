@@ -17,7 +17,8 @@
         android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
 
         <activity
-            android:name=".MainActivity_">
+            android:name=".MainActivity_"
+            android:documentLaunchMode="intoExisting">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

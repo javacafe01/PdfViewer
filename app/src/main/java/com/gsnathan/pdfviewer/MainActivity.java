@@ -338,8 +338,13 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @OnActivityResult(REQUEST_CODE)
     void onResult(int resultCode, Intent intent) {
         if (resultCode == RESULT_OK) {
-            uri = intent.getData();
-            displayFromUri(uri);
+            if (uri == null) {
+                uri = intent.getData();
+                displayFromUri(uri);
+            } else {
+                intent.setClass(this, MainActivity_.class);
+                startActivity(intent);
+            }
         }
     }
 
