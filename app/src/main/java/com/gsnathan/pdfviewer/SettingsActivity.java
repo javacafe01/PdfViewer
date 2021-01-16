@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -32,10 +33,16 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
         setOptionsListTopMargin();
 
-        findPreference("reload_pref").setOnPreferenceClickListener(preference -> {
-            reopenDocumentInNewTask();
-            return true;
-        });
+        Preference reloadPref = findPreference("reload_pref");
+        Uri documentUri = getIntent().getData();
+        if (documentUri == null) {
+            getPreferenceScreen().removePreference(reloadPref);
+        } else {
+            reloadPref.setOnPreferenceClickListener(preference -> {
+                reopenDocumentInNewTask();
+                return true;
+            });
+        }
 
         findPreference("show_in_launcher").setOnPreferenceChangeListener((preference, newValue) -> {
             try {
