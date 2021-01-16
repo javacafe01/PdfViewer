@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -282,8 +283,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
-        String scheme = uri.getScheme();
+        setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
 
+        String scheme = uri.getScheme();
         if (scheme != null && scheme.contains("http")) {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             progressBar.setVisibility(View.VISIBLE);
