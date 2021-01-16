@@ -40,6 +40,8 @@ import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -73,7 +75,6 @@ import com.shockwave.pdfium.PdfDocument;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.jetbrains.annotations.NotNull;
 
@@ -88,7 +89,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private PrintManager mgr = null;
 
-    private final static int REQUEST_CODE = 42;
     private final static int PERMISSION_WRITE = 42041;
 
     private SharedPreferences prefManager;
@@ -98,6 +98,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @ViewById PDFView pdfView;
     @ViewById BottomNavigationView bottomNavigation;
     @ViewById ProgressBar progressBar;
+
+    private final ActivityResultLauncher<String[]> documentPickerLauncher = registerForActivityResult(
+        new OpenDocument(),
+        this::openSelectedDocument
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,11 +184,24 @@ public class MainActivity extends CyaneaAppCompatActivity {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
     }
 
+    private void openSelectedDocument(Uri selectedDocumentUri) {
+        if (selectedDocumentUri == null) {
+            return;
+        }
+
+        if (uri == null) {
+            uri = selectedDocumentUri;
+            displayFromUri(uri);
+        } else {
+            Intent intent = new Intent(this, getClass());
+            intent.setData(selectedDocumentUri);
+            startActivity(intent);
+        }
+    }
+
     private void pickFile() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("application/pdf");
         try {
-            startActivityForResult(intent, REQUEST_CODE);
+            documentPickerLauncher.launch(new String[] { "application/pdf" });
         } catch (ActivityNotFoundException e) {
             //alert user that file manager not working
             Toast.makeText(this, R.string.toast_pick_file_error, Toast.LENGTH_SHORT).show();
@@ -335,19 +353,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         intent.setData(uri);
         startActivity(intent);
-    }
-
-    @OnActivityResult(REQUEST_CODE)
-    void onResult(int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK) {
-            if (uri == null) {
-                uri = intent.getData();
-                displayFromUri(uri);
-            } else {
-                intent.setClass(this, MainActivity_.class);
-                startActivity(intent);
-            }
-        }
     }
 
     private void setCurrentPage(int page, int pageCount) {
