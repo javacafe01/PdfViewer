@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,15 +33,7 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
         setOptionsListTopMargin();
 
         findPreference("reload_pref").setOnPreferenceClickListener(preference -> {
-            try {
-                Uri documentUri = getIntent().getData();
-                Intent intent = new Intent(this, MainActivity_.class);
-                intent.setData(documentUri);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            reopenDocumentInNewTask();
             return true;
         });
 
@@ -52,6 +45,18 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
                 return false;
             }
         });
+    }
+
+    private void reopenDocumentInNewTask() {
+        try {
+            Uri documentUri = getIntent().getData();
+            Intent intent = new Intent(this, MainActivity_.class);
+            intent.setData(documentUri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("SettingsActivity", "Reloading PDF failed", e);
+        }
     }
 
     private void setOptionsListTopMargin() {
