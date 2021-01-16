@@ -301,24 +301,31 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     void saveToFileAndDisplay(byte[] pdfFileContent) {
         downloadedPdfFileContent = pdfFileContent;
-        copyFileToDownloadFolder(pdfFileContent);
+        saveToDownloadFolderIfAllowed(pdfFileContent);
         configurePdfViewAndLoad(pdfView.fromBytes(pdfFileContent));
     }
 
-    private void copyFileToDownloadFolder(byte[] fileContent) {
+    private void saveToDownloadFolderIfAllowed(byte[] fileContent) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            trySaveToDownloadFolder(fileContent, false);
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    PERMISSION_WRITE
+            );
+        }
+    }
+
+    private void trySaveToDownloadFolder(byte[] fileContent, boolean showSuccessMessage) {
         try {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                Utils.writeBytesToFile(downloadDirectory, pdfFileName, fileContent);
-            } else {
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                        PERMISSION_WRITE
-                );
+            File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            Utils.writeBytesToFile(downloadDirectory, pdfFileName, fileContent);
+            if (showSuccessMessage) {
+                Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error while copying file to download folder", e);
+            Log.e(TAG, "Error while saving file to download folder", e);
             Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
         }
     }
@@ -398,13 +405,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        int indexPermission;
+        if (grantResults.length == 0) {
+            return;
+        }
         switch (requestCode) {
             case PERMISSION_WRITE:
-                indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
-                    copyFileToDownloadFolder(downloadedPdfFileContent);
-                    Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
+                int indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
+                    trySaveToDownloadFolder(downloadedPdfFileContent, true);
                 } else {
                     Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
                 }
