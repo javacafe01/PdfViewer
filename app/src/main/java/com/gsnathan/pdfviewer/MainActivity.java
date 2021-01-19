@@ -109,11 +109,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Kinda not recommended by google but watever
+        // Workaround for https://stackoverflow.com/questions/38200282/
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
-        pdfFileName = "";
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
         onFirstInstall();
@@ -134,22 +132,20 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void onFirstInstall() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = prefs.getBoolean("FIRSTINSTALL", true);
+        boolean isFirstRun = prefManager.getBoolean("FIRSTINSTALL", true);
         if (isFirstRun) {
             startActivity(new Intent(this, MainIntroActivity.class));
-            SharedPreferences.Editor editor = prefs.edit();
+            SharedPreferences.Editor editor = prefManager.edit();
             editor.putBoolean("FIRSTINSTALL", false);
             editor.apply();
         }
     }
 
     private void onFirstUpdate() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = prefs.getBoolean(Utils.getAppVersion(), true);
+        boolean isFirstRun = prefManager.getBoolean(Utils.getAppVersion(), true);
         if (isFirstRun) {
             Utils.showLog(this);
-            SharedPreferences.Editor editor = prefs.edit();
+            SharedPreferences.Editor editor = prefManager.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();
         }
@@ -180,7 +176,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @NonConfigurationInstance
     String pdfPassword;
 
-    private String pdfFileName;
+    private String pdfFileName = "";
 
     private byte[] downloadedPdfFileContent;
 
