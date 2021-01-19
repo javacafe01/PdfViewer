@@ -66,7 +66,6 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.shape.MaterialShapeDrawable;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -81,6 +80,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends CyaneaAppCompatActivity {
@@ -108,12 +109,16 @@ public class MainActivity extends CyaneaAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Kinda not recommended by google but watever
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         pdfFileName = "";
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
         onFirstInstall();
         onFirstUpdate();
-        handleIntent(getIntent());
+        uri = readUriFromIntent(getIntent());
 
         if (uri == null) {
             pickFile();
@@ -150,15 +155,20 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    private void handleIntent(Intent intent) {
-        //Kinda not recommended by google but watever
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-
-        Uri appLinkData = intent.getData();
-        if (appLinkData != null) {
-            uri = appLinkData;
+    private Uri readUriFromIntent(Intent intent) {
+        Uri uri = intent.getData();
+        if (uri == null) {
+            return null;
         }
+
+        // Happens when the content provider URI used to open the document expires
+        if ("content".equals(uri.getScheme()) &&
+            checkCallingOrSelfUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
+            Log.w(TAG, "No read permission for URI " + uri);
+            return null;
+        }
+
+        return uri;
     }
 
     @NonConfigurationInstance
