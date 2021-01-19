@@ -24,26 +24,19 @@
 
 package com.gsnathan.pdfviewer;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import io.github.tonnyl.whatsnew.WhatsNew;
 import io.github.tonnyl.whatsnew.item.WhatsNewItem;
@@ -97,23 +90,20 @@ public class Utils {
         return BuildConfig.VERSION_NAME;
     }
 
-    private static void readFromInputStreamToOutputStream (InputStream inputStream, OutputStream outputStream) throws IOException {
+    static byte[] readBytesToEnd(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
         byte[] buffer = new byte[8 * 1024];
-        int bytesRead = inputStream.read(buffer);
-        while (bytesRead > -1) {
-            outputStream.write(buffer, 0, bytesRead);
-            bytesRead = inputStream.read(buffer);
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            output.write(buffer, 0, bytesRead);
         }
-
-        outputStream.flush();
-        outputStream.close();
+        return output.toByteArray();
     }
 
-    static File createFileFromInputStream(File directory, String fileName, InputStream inputStream) throws IOException {
+    static void writeBytesToFile(File directory, String fileName, byte[] fileContent) throws IOException {
         File file = new File(directory, fileName);
-        file.createNewFile();
-        OutputStream outputStream = new FileOutputStream(file);
-        readFromInputStreamToOutputStream(inputStream, outputStream);
-        return file;
+        try (FileOutputStream stream = new FileOutputStream(file)) {
+            stream.write(fileContent);
+        }
     }
 }

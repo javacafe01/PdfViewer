@@ -77,11 +77,7 @@ import org.androidannotations.annotations.ViewById;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 
 @EActivity(R.layout.activity_main)
@@ -174,7 +170,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private String pdfFileName;
 
-    private String pdfTempFilePath;
+    private byte[] downloadedPdfFileContent;
 
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
@@ -231,15 +227,12 @@ public class MainActivity extends CyaneaAppCompatActivity {
         });
     }
 
-    void setPdfViewConfiguration() {
+    void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         pdfView.setMinZoom(0.5f);
         pdfView.setMidZoom(2.0f);
         pdfView.setMaxZoom(5.0f);
-    }
-
-    void setPageConfigurationAndLoad(PDFView.Configurator configurator) {
-        configurator
+        viewConfigurator
                 .defaultPage(pageNumber)
                 .onPageChange(this::setCurrentPage)
                 .enableAnnotationRendering(true)
@@ -293,10 +286,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             progressBar.setVisibility(View.VISIBLE);
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
-            downloadPDFFile.execute(uri.toString(), pdfFileName);
+            downloadPDFFile.execute(uri.toString());
         } else {
-            setPdfViewConfiguration();
-            setPageConfigurationAndLoad(pdfView.fromUri(uri));
+            configurePdfViewAndLoad(pdfView.fromUri(uri));
         }
     }
 
@@ -304,32 +296,33 @@ public class MainActivity extends CyaneaAppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    private void displayFromFile(File file) {
-        setPdfViewConfiguration();
-        setPageConfigurationAndLoad(pdfView.fromFile(file));
+    void saveToFileAndDisplay(byte[] pdfFileContent) {
+        downloadedPdfFileContent = pdfFileContent;
+        saveToDownloadFolderIfAllowed(pdfFileContent);
+        configurePdfViewAndLoad(pdfView.fromBytes(pdfFileContent));
     }
 
-    void saveFileAndDisplay(File file) {
-        pdfTempFilePath = file.getPath();
-        copyFileToDownloadFolder(file);
-        displayFromFile(file);
+    private void saveToDownloadFolderIfAllowed(byte[] fileContent) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            trySaveToDownloadFolder(fileContent, false);
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    PERMISSION_WRITE
+            );
+        }
     }
 
-    private void copyFileToDownloadFolder(File tempFile) {
+    private void trySaveToDownloadFolder(byte[] fileContent, boolean showSuccessMessage) {
         try {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                InputStream inputStream = new FileInputStream(tempFile);
-                File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                Utils.createFileFromInputStream(downloadDirectory, pdfFileName, inputStream);
-            } else {
-                ActivityCompat.requestPermissions(
-                        this,
-                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                        PERMISSION_WRITE
-                );
+            File downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            Utils.writeBytesToFile(downloadDirectory, pdfFileName, fileContent);
+            if (showSuccessMessage) {
+                Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error while copying file to download folder", e);
+            Log.e(TAG, "Error while saving file to download folder", e);
             Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
         }
     }
@@ -409,14 +402,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        int indexPermission;
+        if (grantResults.length == 0) {
+            return;
+        }
         switch (requestCode) {
             case PERMISSION_WRITE:
-                indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (indexPermission != -1 && grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
-                    File file = new File(pdfTempFilePath);
-                    copyFileToDownloadFolder(file);
-                    Toast.makeText(this, R.string.saved_to_download, Toast.LENGTH_SHORT).show();
+                int indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
+                    trySaveToDownloadFolder(downloadedPdfFileContent, true);
                 } else {
                     Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
                 }

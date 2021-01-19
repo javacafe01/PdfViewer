@@ -4,10 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,9 +26,7 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
 
     @Override
     protected Object doInBackground(String... strings) {
-        String url = strings [0];
-        String filename = strings[1];
-        MainActivity activity = mainActivityWR.get();
+        String url = strings[0];
         HttpURLConnection httpConnection = null;
 
         try {
@@ -39,8 +34,7 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
             httpConnection.connect();
             int responseCode = httpConnection.getResponseCode();
             if (responseCode == HTTP_OK) {
-                InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
-                return Utils.createFileFromInputStream(activity.getCacheDir(), filename, inputStream);
+                return Utils.readBytesToEnd(httpConnection.getInputStream());
             } else {
                 Log.e("DownloadPDFFile", "Error during http request, response code : " + responseCode);
                 return responseCode;
@@ -70,8 +64,8 @@ public class DownloadPDFFile extends AsyncTask<String, Void, Object> {
                 Toast.makeText(activity, R.string.toast_ssl_error, Toast.LENGTH_LONG).show();
             } else if (result instanceof IOException) {
                 Toast.makeText(activity, R.string.toast_generic_download_error, Toast.LENGTH_LONG).show();
-            } else if (result instanceof File) {
-                activity.saveFileAndDisplay((File) result);
+            } else if (result instanceof byte[]) {
+                activity.saveToFileAndDisplay((byte[]) result);
             }
         }
     }
