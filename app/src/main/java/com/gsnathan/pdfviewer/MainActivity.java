@@ -150,12 +150,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(intent);
-    }
-
     private void handleIntent(Intent intent) {
         //Kinda not recommended by google but watever
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
