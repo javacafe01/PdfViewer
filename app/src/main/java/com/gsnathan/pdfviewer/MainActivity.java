@@ -33,8 +33,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -68,6 +66,7 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
@@ -77,6 +76,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -118,9 +118,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         onFirstUpdate();
         handleIntent(getIntent());
 
-        if (Utils.tempBool && getIntent().getStringExtra("uri") != null) {
-            uri = Uri.parse(getIntent().getStringExtra("uri"));
-        } else if (getIntent().getDataString() == null){
+        if (uri == null) {
             pickFile();
         }
 
@@ -167,21 +165,20 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         StrictMode.setVmPolicy(builder.build());
 
         Uri appLinkData = intent.getData();
-        String appLinkAction = intent.getAction();
-        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
+        if (appLinkData != null) {
             uri = appLinkData;
         }
     }
 
     @NonConfigurationInstance
-    static Uri uri;
+    Uri uri;
 
     @NonConfigurationInstance
     Integer pageNumber = 0;
 
-    String pdfFileName;
+    private String pdfFileName;
 
-    String pdfTempFilePath;
+    private String pdfTempFilePath;
 
     private void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -205,7 +202,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     void launchPicker() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("application/pdf");
         try {
             startActivityForResult(intent, REQUEST_CODE);
@@ -221,7 +218,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         @Override
         public void run() {
             if(pdfView != null) {
-                if (pdfView.isZooming())
+                if (pdfView.getZoom() > 1f)
                     hideBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
                 else {
                     showBottomNavigationView((BottomNavigationView) findViewById(R.id.bottom_navigation));
@@ -241,11 +238,52 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
         }
         setTitle(pdfFileName);
         hideProgressDialog();
+        setBottomBarListeners();
         handler.post(runnable);
+    }
+
+    private void setBottomBarListeners() {
+        BottomNavigationView bottomView = findViewById(R.id.bottom_navigation);
+        bottomView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.pickFile:
+                        pickFile();
+                        break;
+                    case R.id.metaFile:
+                        if (uri != null)
+                            getMeta();
+                        break;
+                    case R.id.unlockFile:
+                        if (uri != null)
+                            unlockPDF();
+                        break;
+                    case R.id.shareFile:
+                        if (uri != null)
+                            shareFile();
+                        break;
+                    case R.id.printFile:
+                        if (uri != null)
+                            print(pdfFileName,
+                                    new PdfDocumentAdapter(getApplicationContext(), uri),
+                                    new PrintAttributes.Builder().build());
+                        break;
+                    default:
+                        break;
+
+                }
+                return false;
+            }
+        });
+        // Workaround for https://issuetracker.google.com/issues/124153644
+        MaterialShapeDrawable viewBackground = (MaterialShapeDrawable) bottomView.getBackground();
+        viewBackground.setShadowCompatibilityMode(MaterialShapeDrawable.SHADOW_COMPAT_MODE_ALWAYS);
     }
 
     void setPdfViewConfiguration() {
         pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+        pdfView.setMinZoom(0.5f);
         pdfView.setMidZoom(2.0f);
         pdfView.setMaxZoom(5.0f);
     }
@@ -260,7 +298,7 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
-                .pageFitPolicy(FitPolicy.BOTH)
+                .pageFitPolicy(FitPolicy.WIDTH)
                 .password(PDF_PASSWORD)
                 .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
                 .autoSpacing(prefManager.getBoolean("scroll_pref", false))
@@ -271,10 +309,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
-        Utils.tempBool = true;
-        SharedPreferences.Editor editor = prefManager.edit();
-        editor.putString("uri", uri.toString());
-        editor.apply();
         String scheme = uri.getScheme();
 
         if (scheme != null && scheme.contains("http")) {
@@ -333,7 +367,9 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     void navToSettings() {
-        startActivity(Utils.navIntent(this, SettingsActivity.class));
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     @OnActivityResult(REQUEST_CODE)
@@ -423,17 +459,6 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
 
     }
 
-    public void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {
-        for (PdfDocument.Bookmark b : tree) {
-
-            Log.e(TAG, String.format("%s %s, p %d", sep, b.getTitle(), b.getPageIdx()));
-
-            if (b.hasChildren()) {
-                printBookmarksTree(b.getChildren(), sep + "-");
-            }
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -461,53 +486,8 @@ public class MainActivity extends ProgressActivity implements OnPageChangeListen
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NotNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-
-        BottomNavigationView bot_view = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        Menu bottomMenu = bot_view.getMenu();
-
-        for (int i = 0; i < bottomMenu.size() - 1; i++) {
-            Drawable drawable = bottomMenu.getItem(i).getIcon();
-            if (drawable != null) {
-                drawable.mutate();
-                drawable.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
-            }
-        }
-        bot_view.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.pickFile:
-                        pickFile();
-                        break;
-                    case R.id.metaFile:
-                        if (uri != null)
-                            getMeta();
-                        break;
-                    case R.id.unlockFile:
-                        if (uri != null)
-                            unlockPDF();
-                        break;
-                    case R.id.shareFile:
-                        if (uri != null)
-                            shareFile();
-                        break;
-                    case R.id.printFile:
-                        if (uri != null)
-                            print(pdfFileName,
-                                    new PdfDocumentAdapter(getApplicationContext()),
-                                    new PrintAttributes.Builder().build());
-                        break;
-                    default:
-                        break;
-
-                }
-
-                return false;
-            }
-        });
         return true;
     }
 

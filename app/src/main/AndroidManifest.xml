@@ -20,11 +20,6 @@
             android:name=".MainActivity_"
             android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -72,12 +67,24 @@
                 <data android:scheme="content" />
                 <data android:mimeType="application/pdf" />
             </intent-filter>
-        </activity> <!-- About -->
+        </activity>
+        <!-- Alias to allow the user to hide the app from launcher -->
+        <activity-alias
+            android:name=".LauncherAlias"
+            android:enabled="true"
+            android:targetActivity=".MainActivity_">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <activity
             android:name=".AboutActivity"
             android:label="About"
             android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.NoActionBar">
+            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

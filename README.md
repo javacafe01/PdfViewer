@@ -22,13 +22,14 @@
 ## Contribute
 
 You can contribute to this project in many ways:
-* Fork and make pull requests
-* Help to translate the application (if so contact me --> gokulswamilive@gmail.com)
+* Fork and make pull requests (please target dev branch)
+* Help to translate the application (By making PR)
 
 ### Special Thanks!
 
 | Github Users |
 | ------------- |
+| [Fs00](https://github.com/Fs00)  |
 | [Etamuk](https://github.com/Etamuk)  |
 | [Raspbeguy](https://github.com/raspbeguy)  |
 | [Greynar](https://github.com/Greynar)  |
