@@ -1,35 +1,35 @@
 <resources>
-    <string name="pick_file">Apri File</string>
+    <string name="pick_file">Apri file</string>
     <string name="toast_pick_file_error">Impossibile aprire il file. Controlla lo stato del gestore di file.</string>
-    <string name="toast_http_code_error">Si è verificato un problema nel caricamento della pagina, codice di errore http : </string>
+    <string name="toast_http_code_error">Si è verificato un problema nel caricamento della pagina, codice di errore HTTP: </string>
     <string name="toast_io_exception">Impossibile caricare la pagina.</string>
     <string name="toast_ssl_error">Connessione sicura fallita.</string>
-    <string name="action_about">Info</string>
+    <string name="action_about">Informazioni</string>
     <string name="version">Versione</string>
-    <string name="intro">Ripeti l\'intro</string>
+    <string name="intro">Ripeti l\'introduzione</string>
     <string name="email">Email</string>
-    <string name="description_open">Ovviamente quest\'app è open source. Puoi dare il tuo contributo quando vuoi. Il link al codice sorgente è nella sezione Info.</string>
+    <string name="description_open">Ovviamente quest\'app è open source. Puoi dare il tuo contributo quando vuoi. Il link al codice sorgente è nella sezione informazioni.</string>
     <string name="title_open">Libertà</string>
     <string name="description__intro">Un semplice visualizzatore di documenti PDF.</string>
     <string name="myLicense">Licenza</string>
-    <string name="privacy">Norme sulla privacy</string>
+    <string name="privacy">Informativa sulla privacy</string>
 
     <string name="notice">
         Cari utenti,\n\nPdf Viewer Plus adesso è anche su F-Droid!
     </string>
 
-    <string name="appChangelog">Change Log</string>
+    <string name="appChangelog">Novità</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permessi di archiviazione</string>
-    <string name="description__permission">Quest\'app necessita dei permessi di lettura nell\'archivio del telefono. Per favore premi il pulsante per consentire l\'accesso all\'archivio del telefono, altrimenti l\'app non funzionerà correttamente.</string>
+    <string name="description__permission">Quest\'app necessita dei permessi di lettura nell\'archivio del telefono. Premi il pulsante per consentire l\'accesso all\'archivio del telefono, altrimenti l\'app non funzionerà correttamente.</string>
 
-    <string name="libs">Librerie Open Source</string>
-    <string name="code">Codice Sorgente</string>
+    <string name="libs">Librerie open source</string>
+    <string name="code">Codice sorgente</string>
 
-    <string name="share">Condividi File</string>
-    <string name="print">Stampa File</string>
-    <string name="devnotice">Note dello sviluppatore</string>
-    <string name="theme_picker">Cambia Tema</string>
+    <string name="share">Condividi file</string>
+    <string name="print">Stampa file</string>
+    <string name="devnotice">Avviso dello sviluppatore</string>
+    <string name="theme_picker">Cambia tema</string>
     <string name="app_info">Informazioni sull\'app</string>
     <string name="author_info">Informazioni sull\'autore</string>
     <string name="contribution">Collaboratori</string>
@@ -37,13 +37,13 @@
     <string name="label_theme_picker">Selettore del tema</string>
 
     <string name="pref_theme_title">Temi</string>
-    <string name="pref_theme_summary">Scegli un tema pre-installato</string>
+    <string name="pref_theme_summary">Scegli un tema preinstallato</string>
 
     <string name="pref_primary_color_title">Colore primario</string>
     <string name="pref_primary_color_summary">Il colore principale dell\'app.</string>
 
-    <string name="pref_accent_color_title">Colore di accentuazione</string>
-    <string name="pref_accent_color_summary">Accentua le parti selezionate dell\'interfaccia.</string>
+    <string name="pref_accent_color_title">Colore secondario</string>
+    <string name="pref_accent_color_summary">Mette in risalto alcune componenti (o parti) dell\'interfaccia.</string>
 
     <string name="pref_background_color_title">Colore di sfondo</string>
     <string name="pref_background_color_summary">Il colore sottostante al contenuto dell\'app.</string>
@@ -52,15 +52,15 @@
     <string name="pref_colored_navigation_bar_title">Colore della barra di navigazione</string>
     <string name="pref_colored_navigation_bar_summary">Applica il colore primario alla barra di navigazione</string>
     <string name="password">Password</string>
-    <string name="unlock">Sblocca PDF Sicuro</string>
-    <string name="meta">Informazioni sul File</string>
-    <string name="quality">Render di Alta Qualità</string>
+    <string name="unlock">Sblocca PDF protetto</string>
+    <string name="meta">Informazioni sul file</string>
+    <string name="quality">Rendering di alta qualità</string>
     <string name="settings">Impostazioni</string>
-    <string name="alias">Anti-Aliasing</string>
-    <string name="scroll">Scrolling Orizzontale</string>
-    <string name="fling">Interruzione di Pagina</string>
+    <string name="alias">Anti-aliasing</string>
+    <string name="scroll">Scorrimento orizzontale</string>
+    <string name="fling">Scorrimento rapido</string>
     <string name="qualitysettings">Qualità</string>
-    <string name="scrollsettings">Scrolling</string>
+    <string name="scrollsettings">Scorrimento</string>
     <string name="title_activity_settings">Impostazioni</string>
     <string name="reload">Ricarica PDF</string>
     <string name="reload_sum">Per applicare le modifiche, il PDF deve essere ricaricato.</string>
