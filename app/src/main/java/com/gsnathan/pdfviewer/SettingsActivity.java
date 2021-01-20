@@ -4,13 +4,14 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
 
 import com.jaredrummler.cyanea.app.CyaneaPreferenceActivity;
 
@@ -31,18 +32,16 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
         setOptionsListTopMargin();
 
-        findPreference("reload_pref").setOnPreferenceClickListener(preference -> {
-            try {
-                Uri documentUri = getIntent().getData();
-                Intent intent = new Intent(this, MainActivity_.class);
-                intent.setData(documentUri);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        });
+        Preference reloadPref = findPreference("reload_pref");
+        Uri documentUri = getIntent().getData();
+        if (documentUri == null) {
+            getPreferenceScreen().removePreference(reloadPref);
+        } else {
+            reloadPref.setOnPreferenceClickListener(preference -> {
+                reopenDocumentInNewTask();
+                return true;
+            });
+        }
 
         findPreference("show_in_launcher").setOnPreferenceChangeListener((preference, newValue) -> {
             try {
@@ -52,6 +51,18 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
                 return false;
             }
         });
+    }
+
+    private void reopenDocumentInNewTask() {
+        try {
+            Uri documentUri = getIntent().getData();
+            Intent intent = new Intent(this, MainActivity_.class);
+            intent.setData(documentUri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("SettingsActivity", "Reloading PDF failed", e);
+        }
     }
 
     private void setOptionsListTopMargin() {
@@ -80,7 +91,7 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
             }
             return true;
         }

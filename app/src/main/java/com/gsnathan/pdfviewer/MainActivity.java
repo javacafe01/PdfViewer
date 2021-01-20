@@ -25,6 +25,7 @@
 package com.gsnathan.pdfviewer;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -39,6 +40,8 @@ import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -63,7 +66,6 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.shape.MaterialShapeDrawable;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -72,13 +74,14 @@ import com.shockwave.pdfium.PdfDocument;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends CyaneaAppCompatActivity {
@@ -87,10 +90,8 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private PrintManager mgr = null;
 
-    private final static int REQUEST_CODE = 42;
     private final static int PERMISSION_WRITE = 42041;
 
-    private static String PDF_PASSWORD = "";
     private SharedPreferences prefManager;
 
     private boolean isBottomNavigationHidden = false;
@@ -99,16 +100,23 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @ViewById BottomNavigationView bottomNavigation;
     @ViewById ProgressBar progressBar;
 
+    private final ActivityResultLauncher<String[]> documentPickerLauncher = registerForActivityResult(
+        new OpenDocument(),
+        this::openSelectedDocument
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pdfFileName = "";
+        // Workaround for https://stackoverflow.com/questions/38200282/
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
         onFirstInstall();
         onFirstUpdate();
-        handleIntent(getIntent());
+        uri = readUriFromIntent(getIntent());
 
         if (uri == null) {
             pickFile();
@@ -124,42 +132,39 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void onFirstInstall() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = prefs.getBoolean("FIRSTINSTALL", true);
+        boolean isFirstRun = prefManager.getBoolean("FIRSTINSTALL", true);
         if (isFirstRun) {
             startActivity(new Intent(this, MainIntroActivity.class));
-            SharedPreferences.Editor editor = prefs.edit();
+            SharedPreferences.Editor editor = prefManager.edit();
             editor.putBoolean("FIRSTINSTALL", false);
             editor.apply();
         }
     }
 
     private void onFirstUpdate() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstRun = prefs.getBoolean(Utils.getAppVersion(), true);
+        boolean isFirstRun = prefManager.getBoolean(Utils.getAppVersion(), true);
         if (isFirstRun) {
             Utils.showLog(this);
-            SharedPreferences.Editor editor = prefs.edit();
+            SharedPreferences.Editor editor = prefManager.edit();
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();
         }
     }
 
-
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        //Kinda not recommended by google but watever
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-
-        Uri appLinkData = intent.getData();
-        if (appLinkData != null) {
-            uri = appLinkData;
+    private Uri readUriFromIntent(Intent intent) {
+        Uri uri = intent.getData();
+        if (uri == null) {
+            return null;
         }
+
+        // Happens when the content provider URI used to open the document expires
+        if ("content".equals(uri.getScheme()) &&
+            checkCallingOrSelfUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
+            Log.w(TAG, "No read permission for URI " + uri);
+            return null;
+        }
+
+        return uri;
     }
 
     @NonConfigurationInstance
@@ -168,7 +173,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @NonConfigurationInstance
     Integer pageNumber = 0;
 
-    private String pdfFileName;
+    @NonConfigurationInstance
+    String pdfPassword;
+
+    private String pdfFileName = "";
 
     private byte[] downloadedPdfFileContent;
 
@@ -176,11 +184,24 @@ public class MainActivity extends CyaneaAppCompatActivity {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
     }
 
+    private void openSelectedDocument(Uri selectedDocumentUri) {
+        if (selectedDocumentUri == null) {
+            return;
+        }
+
+        if (uri == null) {
+            uri = selectedDocumentUri;
+            displayFromUri(uri);
+        } else {
+            Intent intent = new Intent(this, getClass());
+            intent.setData(selectedDocumentUri);
+            startActivity(intent);
+        }
+    }
+
     private void pickFile() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("application/pdf");
         try {
-            startActivityForResult(intent, REQUEST_CODE);
+            documentPickerLauncher.launch(new String[] { "application/pdf" });
         } catch (ActivityNotFoundException e) {
             //alert user that file manager not working
             Toast.makeText(this, R.string.toast_pick_file_error, Toast.LENGTH_SHORT).show();
@@ -243,7 +264,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .spacing(10) // in dp
                 .onPageError((page, err) -> Log.e(TAG, "Cannot load page " + page, err))
                 .pageFitPolicy(FitPolicy.WIDTH)
-                .password(PDF_PASSWORD)
+                .password(pdfPassword)
                 .swipeHorizontal(prefManager.getBoolean("scroll_pref", false))
                 .autoSpacing(prefManager.getBoolean("scroll_pref", false))
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
@@ -280,8 +301,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
-        String scheme = uri.getScheme();
+        setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
 
+        String scheme = uri.getScheme();
         if (scheme != null && scheme.contains("http")) {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             progressBar.setVisibility(View.VISIBLE);
@@ -333,14 +355,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         startActivity(intent);
     }
 
-    @OnActivityResult(REQUEST_CODE)
-    void onResult(int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK) {
-            uri = intent.getData();
-            displayFromUri(uri);
-        }
-    }
-
     private void setCurrentPage(int page, int pageCount) {
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
@@ -378,7 +392,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .setTitle(R.string.password)
                 .setView(input)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    PDF_PASSWORD = input.getText().toString();
+                    pdfPassword = input.getText().toString();
                     if (uri != null)
                         displayFromUri(uri);
                 })
