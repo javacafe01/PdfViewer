@@ -12,7 +12,6 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
 
 import com.jaredrummler.cyanea.app.CyaneaPreferenceActivity;
 
@@ -92,7 +91,7 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
-                NavUtils.navigateUpFromSameTask(this);
+                onBackPressed();
             }
             return true;
         }
