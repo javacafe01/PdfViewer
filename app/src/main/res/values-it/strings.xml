@@ -2,8 +2,10 @@
     <string name="pick_file">Apri file</string>
     <string name="toast_pick_file_error">Impossibile aprire il file. Controlla lo stato del gestore di file.</string>
     <string name="toast_http_code_error">Si è verificato un problema nel caricamento della pagina, codice di errore HTTP: </string>
-    <string name="toast_io_exception">Impossibile caricare la pagina.</string>
+    <string name="toast_generic_download_error">Per qualche motivo non è stato possibile scaricare il file.</string>
     <string name="toast_ssl_error">Connessione sicura fallita.</string>
+	<string name="saved_to_download">Il file è stato salvato nella cartella dei download.</string>
+	<string name="save_to_download_failed">Non è stato possibile salvare il file nella cartella dei download.</string>
     <string name="action_about">Informazioni</string>
     <string name="version">Versione</string>
     <string name="intro">Ripeti l\'introduzione</string>
@@ -58,12 +60,20 @@
     <string name="settings">Impostazioni</string>
     <string name="alias">Anti-aliasing</string>
     <string name="scroll">Scorrimento orizzontale</string>
+	<string name="snap">Snap della pagina</string>
+    <string name="snap_summary">Centra la vista sulla pagina corrente dopo ogni scorrimento</string>
     <string name="fling">Scorrimento rapido</string>
+	<string name="fling_summary">Effettua uno scorrimento veloce per saltare direttamente alla pagina successiva</string>
     <string name="qualitysettings">Qualità</string>
     <string name="scrollsettings">Scorrimento</string>
     <string name="title_activity_settings">Impostazioni</string>
     <string name="reload">Ricarica PDF</string>
     <string name="reload_sum">Per applicare le modifiche, il PDF deve essere ricaricato.</string>
     <string name="buttonLog">Continua</string>
-
+	<string name="show_in_launcher">Mostra l'applicazione nel launcher</string>
+    <string name="show_in_launcher_summary">Potrebbe essere necessario riavviare il launcher perché le modifiche abbiano effetto</string>
+    <string name="pdf_title">Titolo: %1$s</string>
+    <string name="pdf_author">Autore: %1$s</string>
+    <string name="pdf_creation_date">Data di creazione: %1$s</string>
+	
 </resources>
