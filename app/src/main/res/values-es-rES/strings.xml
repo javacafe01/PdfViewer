@@ -109,7 +109,7 @@
     <string name="fling">Salto de página</string>
     <string name="fling_summary">Realiza un deslizamiento rápido para saltar a la siguiente página</string>
     <string name="qualitysettings">Calidad</string>
-    <string name="scrollsettings">Scrolling</string>
+    <string name="scrollsettings">Deslizamiento</string>
     <string name="title_activity_settings">Configuración</string>
     <string name="reload">Recargar el visor PDF</string>
     <string name="reload_sum">Para aplicar los cambios, el visor PDF debe ser recargado.</string>
