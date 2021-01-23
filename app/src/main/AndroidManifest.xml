@@ -52,6 +52,7 @@
                 <data android:host="*" />
                 <data android:scheme="file" />
                 <data android:scheme="content" />
+                <!-- Workaround to match files in paths with dots in them, like /sdcard/my.folder/test.pdf -->
                 <data android:pathPattern=".*\\.pdf" />
                 <data android:pathPattern=".*\\..*\\.pdf" />
                 <data android:pathPattern=".*\\..*\\..*\\.pdf" />
