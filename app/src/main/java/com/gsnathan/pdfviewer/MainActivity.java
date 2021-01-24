@@ -103,28 +103,26 @@ public class MainActivity extends CyaneaAppCompatActivity {
         viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
 
+        viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
+        Constants.THUMBNAIL_RATIO = 1f;
+        setBottomBarListeners();
+
         // Workaround for https://stackoverflow.com/questions/38200282/
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
+        mgr = (PrintManager) getSystemService(PRINT_SERVICE);
         onFirstInstall();
         onFirstUpdate();
-        uri = readUriFromIntent(getIntent());
 
+        uri = readUriFromIntent(getIntent());
         if (uri == null) {
             pickFile();
-        }
-
-        mgr = (PrintManager) getSystemService(PRINT_SERVICE);
-
-        viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
-        Constants.THUMBNAIL_RATIO = 1f;
-        if (uri != null) {
+            setTitle("");
+        } else {
             displayFromUri(uri);
         }
-        setTitle(pdfFileName);
-        setBottomBarListeners();
     }
 
     private void onFirstInstall() {
@@ -290,6 +288,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
+        setTitle(pdfFileName);
         setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
 
         String scheme = uri.getScheme();
