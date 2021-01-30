@@ -24,7 +24,6 @@
 
 package com.gsnathan.pdfviewer;
 
-import android.os.Binder;
 import android.os.Bundle;
 
 import android.view.MenuItem;
@@ -48,11 +47,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
         viewBinding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
         setVersionText();
-        setUpToolBar();
-    }
-
-    private void setUpToolBar() {
-        Binder.clearCallingIdentity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
