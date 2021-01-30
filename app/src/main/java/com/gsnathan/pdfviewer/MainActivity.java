@@ -116,7 +116,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         onFirstInstall();
         onFirstUpdate();
 
-        uri = readUriFromIntent(getIntent());
+        readUriFromIntent(getIntent());
         if (uri == null) {
             pickFile();
             setTitle("");
@@ -145,20 +145,21 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    private Uri readUriFromIntent(Intent intent) {
-        Uri uri = intent.getData();
-        if (uri == null) {
-            return null;
+    private void readUriFromIntent(Intent intent) {
+        Uri intentUri = intent.getData();
+        if (intentUri == null) {
+            return;
         }
 
         // Happens when the content provider URI used to open the document expires
-        if ("content".equals(uri.getScheme()) &&
-            checkCallingOrSelfUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
-            Log.w(TAG, "No read permission for URI " + uri);
-            return null;
+        if ("content".equals(intentUri.getScheme()) &&
+            checkCallingOrSelfUriPermission(intentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
+            Log.w(TAG, "No read permission for URI " + intentUri);
+            uri = null;
+            return;
         }
 
-        return uri;
+        uri = intentUri;
     }
 
     @NonConfigurationInstance
