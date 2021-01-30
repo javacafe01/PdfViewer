@@ -68,7 +68,6 @@ import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
-import com.kobakei.ratethisapp.RateThisApp;
 import com.shockwave.pdfium.PdfDocument;
 
 import org.androidannotations.annotations.AfterViews;
@@ -123,12 +122,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
 
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
-
-        // Custom condition: 5 days and 5 launches
-        RateThisApp.Config config = new RateThisApp.Config(5, 5);
-        RateThisApp.init(config);
-        RateThisApp.onCreate(this);
-        RateThisApp.showRateDialogIfNeeded(this);
     }
 
     private void onFirstInstall() {

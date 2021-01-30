@@ -148,13 +148,6 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .build()
                 )
                 .addAttributions(
-                        new Attribution.Builder("RateThisApp")
-                                .addCopyrightNotice("Copyright 2017 Keisuke Kobayashi")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/kobakei/Android-RateThisApp")
-                                .build()
-                )
-                .addAttributions(
                         new Attribution.Builder("Cyanea")
                                 .addCopyrightNotice("Copyright 2018 Jared Rummler")
                                 .addLicense(License.APACHE)

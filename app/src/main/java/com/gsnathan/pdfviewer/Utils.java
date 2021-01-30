@@ -45,7 +45,8 @@ public class Utils {
 
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("Bugs", "A bunch of bug fixes.", R.drawable.star_icon)
+                new WhatsNewItem("Bugs", "A bunch of bug fixes.", R.drawable.star_icon),
+                new WhatsNewItem("Scroll", "Lots of scrolling improvements", R.drawable.star_icon)
                 );
         log.setTitleColor(Color.BLACK);
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
