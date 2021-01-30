@@ -51,10 +51,10 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
@@ -73,7 +73,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
@@ -83,9 +82,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private PrintManager mgr = null;
-
-    private final static int PERMISSION_WRITE = 42041;
-
     private SharedPreferences prefManager;
 
     private boolean isBottomNavigationHidden = false;
@@ -95,6 +91,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private final ActivityResultLauncher<String[]> documentPickerLauncher = registerForActivityResult(
         new OpenDocument(),
         this::openSelectedDocument
+    );
+
+    private final ActivityResultLauncher<String> saveToDownloadPermissionLauncher = registerForActivityResult(
+        new RequestPermission(),
+        this::saveDownloadedFileAfterPermissionRequest
     );
 
     @Override
@@ -317,11 +318,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             trySaveToDownloadFolder(fileContent, false);
         } else {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                    PERMISSION_WRITE
-            );
+            saveToDownloadPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
 
@@ -334,6 +331,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
             }
         } catch (IOException e) {
             Log.e(TAG, "Error while saving file to download folder", e);
+            Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveDownloadedFileAfterPermissionRequest(boolean isPermissionGranted) {
+        if (isPermissionGranted) {
+            trySaveToDownloadFolder(downloadedPdfFileContent, true);
+        } else {
             Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
         }
     }
@@ -399,24 +404,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
             DialogFragment dialog = new PdfMetaDialog();
             dialog.setArguments(dialogArgs);
             dialog.show(getSupportFragmentManager(), "meta_dialog");
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (grantResults.length == 0) {
-            return;
-        }
-        switch (requestCode) {
-            case PERMISSION_WRITE:
-                int indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
-                    trySaveToDownloadFolder(downloadedPdfFileContent, true);
-                } else {
-                    Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
-                }
-                break;
         }
     }
 
