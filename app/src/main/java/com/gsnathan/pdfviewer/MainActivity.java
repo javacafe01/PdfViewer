@@ -81,7 +81,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private PrintManager mgr = null;
+    private PrintManager mgr;
     private SharedPreferences prefManager;
 
     private boolean isBottomNavigationHidden = false;
