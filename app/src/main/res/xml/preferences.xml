@@ -15,7 +15,7 @@
             android:title="@string/quality" android:key="quality_pref"/>
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:title="@string/alias" android:key="alias_pref"/>
 
     </PreferenceCategory>

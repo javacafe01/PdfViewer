@@ -2,8 +2,6 @@
 <resources>
     <string name="pick_file">Datei auswählen</string>
     <string name="toast_pick_file_error">Datei konnte nicht ausgewählt werden. Bitte überprüfen Sie Ihren Dateimanager.</string>
-    <string name="toast_http_code_error">Seiten-Ladefehler, http error code : </string>
-    <string name="toast_io_exception">Aus unbekannten Gründen konnte diese Seite nicht geladen werden.</string>
     <string name="toast_ssl_error">Fehler: Gesicherte Verbindung fehlgeschlagen.</string>
     <string name="action_about">Über</string>
     <string name="version">Version</string>

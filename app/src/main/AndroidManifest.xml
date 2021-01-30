@@ -18,7 +18,7 @@
 
         <activity
             android:name=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+            android:documentLaunchMode="intoExisting">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -52,6 +52,7 @@
                 <data android:host="*" />
                 <data android:scheme="file" />
                 <data android:scheme="content" />
+                <!-- Workaround to match files in paths with dots in them, like /sdcard/my.folder/test.pdf -->
                 <data android:pathPattern=".*\\.pdf" />
                 <data android:pathPattern=".*\\..*\\.pdf" />
                 <data android:pathPattern=".*\\..*\\..*\\.pdf" />
@@ -68,6 +69,7 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
+
         <!-- Alias to allow the user to hide the app from launcher -->
         <activity-alias
             android:name=".LauncherAlias"
@@ -83,29 +85,17 @@
         <activity
             android:name=".AboutActivity"
             android:label="About"
-            android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+            android:parentActivityName=".MainActivity_" />
 
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity_" />
-        </activity>
         <activity
             android:name=".MainIntroActivity"
-            android:label="@string/intro" /> <!-- Contr -->
+            android:label="@string/intro"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".MainActivity_"
-            android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
-
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity_" />
-        </activity>
+            android:parentActivityName=".MainActivity_" />
     </application>
 
 </manifest>

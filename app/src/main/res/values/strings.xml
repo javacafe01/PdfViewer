@@ -26,9 +26,11 @@
     <string name="app_name" translatable="false">Pdf Viewer Plus</string>
     <string name="pick_file">Pick File</string>
     <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
-    <string name="toast_http_code_error">Problem loading page, http error code : </string>
-    <string name="toast_io_exception">We can\'t load this page for some reason.</string>
+    <string name="toast_http_code_error">Remote server responded with an error.</string>
+    <string name="toast_generic_download_error">We couldn\'t download this file for some reason.</string>
     <string name="toast_ssl_error">Secure connection failed.</string>
+    <string name="saved_to_download">File saved to Download folder.</string>
+    <string name="save_to_download_failed">Couldn\'t save file to Download folder.</string>
     <string name="action_about">About</string>
     <string name="version">Version</string>
     <string name="intro">Replay Intro</string>
@@ -114,4 +116,7 @@
     <string name="buttonLog">Continue</string>
     <string name="show_in_launcher">Show app in launcher</string>
     <string name="show_in_launcher_summary">You may need to restart your launcher for this option to take effect</string>
+    <string name="pdf_title">Title: %1$s</string>
+    <string name="pdf_author">Author: %1$s</string>
+    <string name="pdf_creation_date">Creation Date: %1$s</string>
 </resources>
