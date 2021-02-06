@@ -66,6 +66,7 @@ import com.gsnathan.pdfviewer.databinding.ActivityMainBinding;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfPasswordException;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
@@ -247,6 +248,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
+                .onError(this::handleFileOpeningError)
                 .onPageError((page, err) -> Log.e(TAG, "Cannot load page " + page, err))
                 .pageFitPolicy(FitPolicy.WIDTH)
                 .password(pdfPassword)
@@ -255,6 +257,15 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
                 .pageFling(prefManager.getBoolean("fling_pref", false))
                 .load();
+    }
+
+    private void handleFileOpeningError(Throwable exception) {
+        if (exception instanceof PdfPasswordException) {
+            unlockPDF();
+        } else {
+            Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Error when opening file", exception);
+        }
     }
 
     private void toggleBottomNavigationAccordingToPosition(int page, float positionOffset) {
