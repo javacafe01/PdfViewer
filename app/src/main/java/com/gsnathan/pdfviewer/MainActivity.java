@@ -34,23 +34,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-
-import android.os.Bundle;
-
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -58,70 +47,83 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.gsnathan.pdfviewer.databinding.ActivityMainBinding;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
-import org.androidannotations.annotations.ViewById;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
-@EActivity(R.layout.activity_main)
+@EActivity
 public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private PrintManager mgr = null;
-
-    private final static int PERMISSION_WRITE = 42041;
-
+    private PrintManager mgr;
     private SharedPreferences prefManager;
 
     private boolean isBottomNavigationHidden = false;
 
-    @ViewById PDFView pdfView;
-    @ViewById BottomNavigationView bottomNavigation;
-    @ViewById ProgressBar progressBar;
+    private ActivityMainBinding viewBinding;
 
     private final ActivityResultLauncher<String[]> documentPickerLauncher = registerForActivityResult(
         new OpenDocument(),
         this::openSelectedDocument
     );
 
+    private final ActivityResultLauncher<String> saveToDownloadPermissionLauncher = registerForActivityResult(
+        new RequestPermission(),
+        this::saveDownloadedFileAfterPermissionRequest
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+
+        viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
+        Constants.THUMBNAIL_RATIO = 1f;
+        setBottomBarListeners();
 
         // Workaround for https://stackoverflow.com/questions/38200282/
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
+        mgr = (PrintManager) getSystemService(PRINT_SERVICE);
         onFirstInstall();
         onFirstUpdate();
-        uri = readUriFromIntent(getIntent());
 
+        readUriFromIntent(getIntent());
         if (uri == null) {
             pickFile();
+            setTitle("");
+        } else {
+            displayFromUri(uri);
         }
-
-        mgr = (PrintManager) getSystemService(PRINT_SERVICE);
     }
 
     private void onFirstInstall() {
@@ -144,20 +146,21 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    private Uri readUriFromIntent(Intent intent) {
-        Uri uri = intent.getData();
-        if (uri == null) {
-            return null;
+    private void readUriFromIntent(Intent intent) {
+        Uri intentUri = intent.getData();
+        if (intentUri == null) {
+            return;
         }
 
         // Happens when the content provider URI used to open the document expires
-        if ("content".equals(uri.getScheme()) &&
-            checkCallingOrSelfUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
-            Log.w(TAG, "No read permission for URI " + uri);
-            return null;
+        if ("content".equals(intentUri.getScheme()) &&
+            checkCallingOrSelfUriPermission(intentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
+            Log.w(TAG, "No read permission for URI " + intentUri);
+            uri = null;
+            return;
         }
 
-        return uri;
+        uri = intentUri;
     }
 
     @NonConfigurationInstance
@@ -201,19 +204,8 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    @AfterViews
-    void afterViews() {
-        pdfView.setBackgroundColor(Color.LTGRAY);
-        Constants.THUMBNAIL_RATIO = 1f;
-        if (uri != null) {
-            displayFromUri(uri);
-        }
-        setTitle(pdfFileName);
-        setBottomBarListeners();
-    }
-
     private void setBottomBarListeners() {
-        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+        viewBinding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.pickFile:
                     pickFile();
@@ -242,10 +234,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
-        pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
-        pdfView.setMinZoom(0.5f);
-        pdfView.setMidZoom(2.0f);
-        pdfView.setMaxZoom(5.0f);
+        viewBinding.pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
+        viewBinding.pdfView.setMinZoom(0.5f);
+        viewBinding.pdfView.setMidZoom(2.0f);
+        viewBinding.pdfView.setMaxZoom(5.0f);
         viewConfigurator
                 .defaultPage(pageNumber)
                 .onPageChange(this::setCurrentPage)
@@ -284,48 +276,49 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private void hideBottomNavigationView() {
         isBottomNavigationHidden = true;
-        bottomNavigation.animate().translationY(bottomNavigation.getHeight()).setDuration(100);
+        viewBinding.bottomNavigation.animate()
+                .translationY(viewBinding.bottomNavigation.getHeight())
+                .setDuration(100);
     }
 
     private void showBottomNavigationView() {
         isBottomNavigationHidden = false;
-        bottomNavigation.animate().translationY(0).setDuration(100);
+        viewBinding.bottomNavigation.animate()
+                .translationY(0)
+                .setDuration(100);
     }
 
     void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
+        setTitle(pdfFileName);
         setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
 
         String scheme = uri.getScheme();
         if (scheme != null && scheme.contains("http")) {
             // we will get the pdf asynchronously with the DownloadPDFFile object
-            progressBar.setVisibility(View.VISIBLE);
+            viewBinding.progressBar.setVisibility(View.VISIBLE);
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
             downloadPDFFile.execute(uri.toString());
         } else {
-            configurePdfViewAndLoad(pdfView.fromUri(uri));
+            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
         }
     }
 
     public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        viewBinding.progressBar.setVisibility(View.GONE);
     }
 
     void saveToFileAndDisplay(byte[] pdfFileContent) {
         downloadedPdfFileContent = pdfFileContent;
         saveToDownloadFolderIfAllowed(pdfFileContent);
-        configurePdfViewAndLoad(pdfView.fromBytes(pdfFileContent));
+        configurePdfViewAndLoad(viewBinding.pdfView.fromBytes(pdfFileContent));
     }
 
     private void saveToDownloadFolderIfAllowed(byte[] fileContent) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             trySaveToDownloadFolder(fileContent, false);
         } else {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                    PERMISSION_WRITE
-            );
+            saveToDownloadPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
 
@@ -338,6 +331,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
             }
         } catch (IOException e) {
             Log.e(TAG, "Error while saving file to download folder", e);
+            Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveDownloadedFileAfterPermissionRequest(boolean isPermissionGranted) {
+        if (isPermissionGranted) {
+            trySaveToDownloadFolder(downloadedPdfFileContent, true);
+        } else {
             Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
         }
     }
@@ -394,7 +395,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void showPdfMetaDialog() {
-        PdfDocument.Meta meta = pdfView.getDocumentMeta();
+        PdfDocument.Meta meta = viewBinding.pdfView.getDocumentMeta();
         if (meta != null) {
             Bundle dialogArgs = new Bundle();
             dialogArgs.putString(PdfMetaDialog.TITLE_ARGUMENT, meta.getTitle());
@@ -403,24 +404,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
             DialogFragment dialog = new PdfMetaDialog();
             dialog.setArguments(dialogArgs);
             dialog.show(getSupportFragmentManager(), "meta_dialog");
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (grantResults.length == 0) {
-            return;
-        }
-        switch (requestCode) {
-            case PERMISSION_WRITE:
-                int indexPermission = Arrays.asList(permissions).indexOf(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (grantResults[indexPermission] == PackageManager.PERMISSION_GRANTED) {
-                    trySaveToDownloadFolder(downloadedPdfFileContent, true);
-                } else {
-                    Toast.makeText(this, R.string.save_to_download_failed, Toast.LENGTH_SHORT).show();
-                }
-                break;
         }
     }
 

@@ -24,50 +24,38 @@
 
 package com.gsnathan.pdfviewer;
 
-import android.os.Binder;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
 import com.franmontiel.attributionpresenter.entities.License;
+import com.gsnathan.pdfviewer.databinding.ActivityAboutBinding;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 
 public class AboutActivity extends CyaneaAppCompatActivity {
 
-    TextView versionView;   //shows the version
+    private ActivityAboutBinding viewBinding;
     private final String APP_VERSION_RELEASE = "Version " + Utils.getAppVersion();   //contains Version + the version number
     private final String APP_VERSION_DEBUG = "Version " + Utils.getAppVersion() + "-debug";   //contains Version + the version number + debug
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        initUI();
-        setUpToolBar();
-    }
-
-    private void setUpToolBar() {
-        Binder.clearCallingIdentity();
+        viewBinding = ActivityAboutBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        setVersionText();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void initUI() {
-        //initialize the textview
-        versionView = (TextView) findViewById(R.id.versionTextView);
-
+    private void setVersionText() {
         // check if app is debug
         if (BuildConfig.DEBUG) {
-            versionView.setText(APP_VERSION_DEBUG);
-        } else    //if app is release
-        {
-            versionView.setText(APP_VERSION_RELEASE);
+            viewBinding.versionTextView.setText(APP_VERSION_DEBUG);
+        } else {   //if app is release
+            viewBinding.versionTextView.setText(APP_VERSION_RELEASE);
         }
     }
 

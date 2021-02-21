@@ -70,7 +70,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Alias to allow the user to hide the app from launcher -->
+        <!-- Alias to allow the user to hide the app from launcher on Android < 10 -->
         <activity-alias
             android:name=".LauncherAlias"
             android:enabled="true"
