@@ -63,6 +63,7 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.gsnathan.pdfviewer.databinding.ActivityMainBinding;
+import com.gsnathan.pdfviewer.databinding.PasswordDialogBinding;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
@@ -388,21 +389,19 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void unlockPDF() {
-
-        final EditText input = new EditText(this);
-        input.setPadding(19, 19, 19, 19);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.password)
-                .setView(input)
+        PasswordDialogBinding dialogBinding = PasswordDialogBinding.inflate(getLayoutInflater());
+        AlertDialog alert = new AlertDialog.Builder(this)
+                .setTitle(R.string.protected_pdf)
+                .setView(dialogBinding.getRoot())
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    pdfPassword = input.getText().toString();
+                    pdfPassword = dialogBinding.passwordInput.getText().toString();
                     if (uri != null)
                         displayFromUri(uri);
                 })
                 .setIcon(R.drawable.lock_icon)
-                .show();
+                .create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 
     void showPdfMetaDialog() {

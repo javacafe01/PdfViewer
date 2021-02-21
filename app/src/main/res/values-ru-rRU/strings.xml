@@ -14,7 +14,6 @@
     <string name="toast_ssl_error">Не удалось установить защищённое соединение.</string>
     <string name="share">Поделиться</string>
     <string name="unlock">Разблокировать защищенный PDF</string>
-    <string name="password">Пароль</string>
     <string name="meta">Информация о файле</string>
     <string name="print">Печать</string>
 
