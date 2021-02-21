@@ -1,0 +1,122 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2018 Gokul Swaminathan
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<resources>
+    <string name="app_name" translatable="false">Pdf Viewer Plus</string>
+    <string name="pick_file">Abrir</string>
+    <string name="toast_pick_file_error">No se pudo abrir el archivo, verifique el estado del administrador de archivos.</string>
+    <string name="toast_http_code_error">El servidor remoto respondió con un error.</string>
+    <string name="toast_generic_download_error">Por alguna razón, no se pudo descargar este archivo.</string>
+    <string name="toast_ssl_error">Conexión segura fallida.</string>
+    <string name="saved_to_download">Archivo guardado a la carpeta de descargas.</string>
+    <string name="save_to_download_failed">No se pudo guardar el archivo a la carpeta de descargas.</string>
+    <string name="action_about">Acerca de</string>
+    <string name="version">Versión</string>
+    <string name="intro">Repetir introducción</string>
+    <string name="author" translatable="false">Gokul Swaminathan</string>
+    <string name="email">Email</string>
+    <string name="description_open">Por supuesto, esta aplicación es de código abierto. Usted siempre tiene el privilegio de realizar sus propias modificaciones a esta aplicación. El enlace del código fuente se encuentra en la sección Acerca de.</string>
+    <string name="title_open">Libre</string>
+    <string name="title_intro" translatable="false">Pdf Viewer Plus</string>
+    <string name="description__intro">Un visor de documentos PDF simple.</string>
+    <string name="myLicense">Licencia</string>
+    <string name="privacy">Política de privacidad</string>
+
+    <string name="license" translatable="false">
+        MIT License\n\nCopyright (&#169;) 2018 Gokul Swaminathan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+    </string>
+
+    <string name="notice">
+        ¡Pdf Viewer Plus ahora también está en F-Droid!
+    </string>
+
+    <string name="appChangelog">Registro de cambios</string>
+    <string name="ok">Ok</string>
+    <string name="title_permission">Permisos de almacenamiento</string>
+    <string name="description__permission">Esta aplicación necesita permiso para acceder al almacenamiento del dispositivo. Sin él, la aplicación no funcionará correctamente.</string>
+
+    <string name="libs">Librerías de código abierto</string>
+    <string name="git" translatable="false">Github</string>
+    <string name="code">Código fuente</string>
+
+    <string name="share">Compartir</string>
+    <string name="print">Imprimir</string>
+    <string name="devnotice">Aviso del desarrollador</string>
+    <string name="theme_picker">Cambiar tema</string>
+    <string name="app_info">Información de la aplicación</string>
+    <string name="author_info">Información del autor</string>
+    <string name="contribution">Colaboradores</string>
+
+    <string name="label_theme_picker">Selector de temas</string>
+
+    <string name="pref_theme_title">Temas</string>
+    <string name="pref_theme_summary">Selecciona un tema preinstalado</string>
+
+    <string name="pref_primary_color_title">Color primario</string>
+    <string name="pref_primary_color_summary">El color más común de la interfaz.</string>
+
+    <string name="pref_accent_color_title">Color de acentuación</string>
+    <string name="pref_accent_color_summary">Acentúa algunas partes de la interfaz.</string>
+
+    <string name="pref_background_color_title">Color de fondo</string>
+    <string name="pref_background_color_summary">El color de fondo de la interfaz.</string>
+    <string name="pref_category_appearance">Apariencia</string>
+
+    <string name="pref_colored_navigation_bar_title">Color de la barra de navegación</string>
+    <string name="pref_colored_navigation_bar_summary">Aplica el color primario a la barra de navegación.</string>
+    <string name="password">Contraseña</string>
+    <string name="unlock">Desbloquear PDF protegido</string>
+    <string name="meta">Información</string>
+    <string name="quality">Renderizado de alta calidad</string>
+    <string name="settings">Configuración</string>
+    <string name="alias">Anti-Aliasing</string>
+    <string name="scroll">Deslizamiento horizontal</string>
+    <string name="snap">Ajuste de página</string>
+    <string name="snap_summary">Centra la vista en la página actual después de cada deslizamiento</string>
+    <string name="fling">Salto de página</string>
+    <string name="fling_summary">Realiza un deslizamiento rápido para saltar a la siguiente página</string>
+    <string name="qualitysettings">Calidad</string>
+    <string name="scrollsettings">Deslizamiento</string>
+    <string name="title_activity_settings">Configuración</string>
+    <string name="reload">Recargar el visor PDF</string>
+    <string name="reload_sum">Para aplicar los cambios, el visor PDF debe ser recargado.</string>
+    <string name="buttonLog">Continuar</string>
+    <string name="show_in_launcher">Mostrar aplicación en su lanzador de aplicaciones</string>
+    <string name="show_in_launcher_summary">Puede que necesite reiniciar su lanzador para que esta opción se aplique</string>
+    <string name="pdf_title">Título: %1$s</string>
+    <string name="pdf_author">Autor: %1$s</string>
+    <string name="pdf_creation_date">Fecha de creación: %1$s</string>
+</resources>
