@@ -395,8 +395,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .setView(dialogBinding.getRoot())
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     pdfPassword = dialogBinding.passwordInput.getText().toString();
-                    if (uri != null)
-                        displayFromUri(uri);
+                    displayFromUri(uri);
                 })
                 .setIcon(R.drawable.lock_icon)
                 .create();
