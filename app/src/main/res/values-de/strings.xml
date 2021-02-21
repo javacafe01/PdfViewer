@@ -38,7 +38,6 @@
     <string name="pref_category_appearance">Erscheinungsbild</string>
     <string name="pref_colored_navigation_bar_title">Farbe der Navigationsleiste</string>
     <string name="pref_colored_navigation_bar_summary">Hauptfarbe auf die Navigationsleiste anwenden</string>
-    <string name="unlock">Gesicherte PDF-Datei entsperren</string>
     <string name="meta">Dateiinfo</string>
     <string name="quality">Wiedergabe in hoher Qualität</string>
     <string name="settings">Einstellungen</string>

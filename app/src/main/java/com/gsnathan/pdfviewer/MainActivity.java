@@ -216,10 +216,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
                     if (uri != null)
                         showPdfMetaDialog();
                     break;
-                case R.id.unlockFile:
-                    if (uri != null)
-                        unlockPDF();
-                    break;
                 case R.id.shareFile:
                     if (uri != null)
                         shareFile();

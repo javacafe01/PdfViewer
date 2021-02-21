@@ -97,7 +97,6 @@
 
     <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
     <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
-    <string name="unlock">Unlock Secure PDF</string>
     <string name="meta">File Info</string>
     <string name="quality">High Quality Rendering</string>
     <string name="settings">Settings</string>

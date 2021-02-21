@@ -92,7 +92,6 @@
 
     <string name="pref_colored_navigation_bar_title">Barva navigační lišty</string>
     <string name="pref_colored_navigation_bar_summary">Primární barva navigační lišty</string>
-    <string name="unlock">Odemknout Zabezpečený soubor</string>
     <string name="meta">Informace o souboru</string>
     <string name="quality">Vysoká kvalita vykreslování</string>
     <string name="settings">Nastavení</string>

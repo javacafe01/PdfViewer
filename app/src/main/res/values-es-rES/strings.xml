@@ -97,7 +97,6 @@
 
     <string name="pref_colored_navigation_bar_title">Color de la barra de navegación</string>
     <string name="pref_colored_navigation_bar_summary">Aplica el color primario a la barra de navegación.</string>
-    <string name="unlock">Desbloquear PDF protegido</string>
     <string name="meta">Información</string>
     <string name="quality">Renderizado de alta calidad</string>
     <string name="settings">Configuración</string>
