@@ -185,7 +185,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
             return;
         }
 
-        if (uri == null) {
+        if (uri == null || selectedDocumentUri.equals(uri)) {
             uri = selectedDocumentUri;
             displayFromUri(uri);
         } else {
