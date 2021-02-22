@@ -40,13 +40,11 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -258,7 +256,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private void handleFileOpeningError(Throwable exception) {
         if (exception instanceof PdfPasswordException) {
-            unlockPDF();
+            askForPdfPassword();
         } else {
             Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
             Log.e(TAG, "Error when opening file", exception);
@@ -384,7 +382,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         mgr.print(pdfFileName, new PdfDocumentAdapter(this, uri), null);
     }
 
-    void unlockPDF() {
+    void askForPdfPassword() {
         PasswordDialogBinding dialogBinding = PasswordDialogBinding.inflate(getLayoutInflater());
         AlertDialog alert = new AlertDialog.Builder(this)
                 .setTitle(R.string.protected_pdf)
