@@ -256,6 +256,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private void handleFileOpeningError(Throwable exception) {
         if (exception instanceof PdfPasswordException) {
+            if (pdfPassword != null) {
+                Toast.makeText(this, R.string.wrong_password, Toast.LENGTH_SHORT).show();
+                pdfPassword = null;  // prevent the toast from being shown again if the user rotates the screen
+            }
             askForPdfPassword();
         } else {
             Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
