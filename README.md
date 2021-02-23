@@ -24,17 +24,13 @@ You can contribute to this project in many ways:
 * Fork and make pull requests (please target dev branch)
 * Help to translate the application (By making PR)
 
-### Special Thanks!
+### Contributors
 
-| Github Users |
-| ------------- |
-| [Fs00](https://github.com/Fs00)  |
-| [Etamuk](https://github.com/Etamuk)  |
-| [Raspbeguy](https://github.com/raspbeguy)  |
-| [Greynar](https://github.com/Greynar)  |
-| [ORelio](https://github.com/ORelio)  |
-| [PFayoux](https://github.com/PFayoux)  |
+<a href="https://github.com/JavaCafe01/PdfViewer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JavaCafe01/PdfViewer" />
+</a>
 
+Made with [contributors-img](https://contrib.rocks)
 
 ## License
 
