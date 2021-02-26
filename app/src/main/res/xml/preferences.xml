@@ -18,6 +18,10 @@
             android:defaultValue="true"
             android:title="@string/alias" android:key="alias_pref"/>
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/dark_pdf" android:key="pdftheme_pref"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
