@@ -40,13 +40,11 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -63,9 +61,11 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.gsnathan.pdfviewer.databinding.ActivityMainBinding;
+import com.gsnathan.pdfviewer.databinding.PasswordDialogBinding;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
+import com.shockwave.pdfium.PdfPasswordException;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
@@ -185,7 +185,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
             return;
         }
 
-        if (uri == null) {
+        if (uri == null || selectedDocumentUri.equals(uri)) {
             uri = selectedDocumentUri;
             displayFromUri(uri);
         } else {
@@ -213,10 +213,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 case R.id.metaFile:
                     if (uri != null)
                         showPdfMetaDialog();
-                    break;
-                case R.id.unlockFile:
-                    if (uri != null)
-                        unlockPDF();
                     break;
                 case R.id.shareFile:
                     if (uri != null)
@@ -247,6 +243,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
+                .onError(this::handleFileOpeningError)
                 .onPageError((page, err) -> Log.e(TAG, "Cannot load page " + page, err))
                 .pageFitPolicy(FitPolicy.WIDTH)
                 .password(pdfPassword)
@@ -256,6 +253,19 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .pageFling(prefManager.getBoolean("fling_pref", false))
                 .nightMode(prefManager.getBoolean("pdftheme_pref", false))
                 .load();
+    }
+
+    private void handleFileOpeningError(Throwable exception) {
+        if (exception instanceof PdfPasswordException) {
+            if (pdfPassword != null) {
+                Toast.makeText(this, R.string.wrong_password, Toast.LENGTH_SHORT).show();
+                pdfPassword = null;  // prevent the toast from being shown again if the user rotates the screen
+            }
+            askForPdfPassword();
+        } else {
+            Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Error when opening file", exception);
+        }
     }
 
     private void toggleBottomNavigationAccordingToPosition(int page, float positionOffset) {
@@ -377,22 +387,19 @@ public class MainActivity extends CyaneaAppCompatActivity {
         mgr.print(pdfFileName, new PdfDocumentAdapter(this, uri), null);
     }
 
-    void unlockPDF() {
-
-        final EditText input = new EditText(this);
-        input.setPadding(19, 19, 19, 19);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.password)
-                .setView(input)
+    void askForPdfPassword() {
+        PasswordDialogBinding dialogBinding = PasswordDialogBinding.inflate(getLayoutInflater());
+        AlertDialog alert = new AlertDialog.Builder(this)
+                .setTitle(R.string.protected_pdf)
+                .setView(dialogBinding.getRoot())
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
-                    pdfPassword = input.getText().toString();
-                    if (uri != null)
-                        displayFromUri(uri);
+                    pdfPassword = dialogBinding.passwordInput.getText().toString();
+                    displayFromUri(uri);
                 })
                 .setIcon(R.drawable.lock_icon)
-                .show();
+                .create();
+        alert.setCanceledOnTouchOutside(false);
+        alert.show();
     }
 
     void showPdfMetaDialog() {

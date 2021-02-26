@@ -53,8 +53,6 @@
 
     <string name="pref_colored_navigation_bar_title">Colore della barra di navigazione</string>
     <string name="pref_colored_navigation_bar_summary">Applica il colore primario alla barra di navigazione</string>
-    <string name="password">Password</string>
-    <string name="unlock">Sblocca PDF protetto</string>
     <string name="meta">Informazioni sul file</string>
     <string name="quality">Rendering di alta qualità</string>
     <string name="settings">Impostazioni</string>
@@ -75,5 +73,8 @@
     <string name="pdf_title">Titolo: %1$s</string>
     <string name="pdf_author">Autore: %1$s</string>
     <string name="pdf_creation_date">Data di creazione: %1$s</string>
-    
+    <string name="file_opening_error">Si è verificato un errore durante l\'apertura del file.</string>
+    <string name="protected_pdf">PDF protetto</string>
+    <string name="enter_password">Inserisci la password corretta per aprire il documento:</string>
+    <string name="wrong_password">Password errata.</string>
 </resources>

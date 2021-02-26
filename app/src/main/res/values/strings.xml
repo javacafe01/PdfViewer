@@ -97,8 +97,6 @@
 
     <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
     <string name="pref_colored_navigation_bar_summary">Apply the primary color to the navigation bar</string>
-    <string name="password">Password</string>
-    <string name="unlock">Unlock Secure PDF</string>
     <string name="meta">File Info</string>
     <string name="quality">High Quality Rendering</string>
     <string name="settings">Settings</string>
@@ -119,6 +117,12 @@
     <string name="pdf_title">Title: %1$s</string>
     <string name="pdf_author">Author: %1$s</string>
     <string name="pdf_creation_date">Creation Date: %1$s</string>
+
+    <string name="file_opening_error">An error occurred while opening the file.</string>
+    <string name="protected_pdf">Protected PDF</string>
+    <string name="enter_password">Enter the correct password to open the document:</string>
+    <string name="wrong_password">Wrong password.</string>
+
 
     <string name="dark_pdf">Dark theme for PDF</string>
 </resources>
