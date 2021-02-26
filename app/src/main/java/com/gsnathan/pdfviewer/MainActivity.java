@@ -254,6 +254,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .autoSpacing(prefManager.getBoolean("scroll_pref", false))
                 .pageSnap(prefManager.getBoolean("snap_pref", false))
                 .pageFling(prefManager.getBoolean("fling_pref", false))
+                .nightMode(prefManager.getBoolean("pdftheme_pref", false))
                 .load();
     }
 
