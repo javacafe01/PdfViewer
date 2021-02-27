@@ -51,6 +51,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -182,6 +183,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private String pdfFileName = "";
 
     private byte[] downloadedPdfFileContent;
+
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+            new StartActivityForResult(),
+            result -> displayFromUri(uri)
+    );
 
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
@@ -362,9 +368,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void navToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        intent.setData(uri);
-        startActivity(intent);
+        settingsLauncher.launch(new Intent(this, SettingsActivity.class));
     }
 
     private void setCurrentPage(int page, int pageCount) {
