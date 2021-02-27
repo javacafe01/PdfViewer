@@ -102,8 +102,6 @@
     <string name="qualitysettings">Kvalita</string>
     <string name="scrollsettings">Pohyb v dokumentu</string>
     <string name="title_activity_settings">Nastavení</string>
-    <string name="reload">Znovu-načtení PDF</string>
-    <string name="reload_sum">Pro uplatnění změn je nutno soubor znovu načíst.</string>
     <string name="buttonLog">Pokračovat</string>
 
 </resources>

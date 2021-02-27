@@ -103,8 +103,6 @@
     <string name="qualitysettings">Qualidade</string>
     <string name="scrollsettings">Rolagem</string>
     <string name="title_activity_settings">Configurações</string>
-    <string name="reload">Recarregar PDF</string>
-    <string name="reload_sum">Para aplicar as mudanças, o PDF deve ser recarregado.</string>
     <string name="buttonLog">Continuar</string>
 
 </resources>

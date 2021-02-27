@@ -54,8 +54,6 @@
     <string name="qualitysettings">Qualité</string>
     <string name="scrollsettings">Défilement</string>
     <string name="title_activity_settings">Préférences</string>
-    <string name="reload">Recharger le PDF</string>
-    <string name="reload_sum">Pour que les changements soient appliqués, le PDF doit être rechargé.</string>
     <string name="buttonLog">Continuer</string>
     <string name="show_in_launcher">Afficher l\'application dans le lanceur</string>
     <string name="show_in_launcher_summary">Vous devrez peut-être redémarrer votre lanceur pour que cette option prenne effet</string>

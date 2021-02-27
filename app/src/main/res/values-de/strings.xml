@@ -47,7 +47,5 @@
     <string name="fling">Seitenumbruch</string>
     <string name="qualitysettings">Qualität</string>
     <string name="scrollsettings">Scrollen</string>
-    <string name="reload">PDF-Datei neu laden</string>
-    <string name="reload_sum">Um die Änderungen anzuwenden, muss die PDF-Datei neu geladen werden.</string>
     <string name="buttonLog">Weiter</string>
 </resources>
