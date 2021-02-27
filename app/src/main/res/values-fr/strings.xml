@@ -16,7 +16,6 @@
     <string name="description__intro">Un lecteur PDF simple.</string>
     <string name="myLicense">Licence</string>
     <string name="privacy">Politique de confidentialité</string>
-    <string name="notice">Chers utilisateurs,\n\nPdf Viewer Plus est désormais disponible sur F-Droid !</string>
     <string name="appChangelog">Journal des modifications</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Autorisation de stockage</string>
@@ -54,8 +53,6 @@
     <string name="qualitysettings">Qualité</string>
     <string name="scrollsettings">Défilement</string>
     <string name="title_activity_settings">Préférences</string>
-    <string name="reload">Recharger le PDF</string>
-    <string name="reload_sum">Pour que les changements soient appliqués, le PDF doit être rechargé.</string>
     <string name="buttonLog">Continuer</string>
     <string name="show_in_launcher">Afficher l\'application dans le lanceur</string>
     <string name="show_in_launcher_summary">Vous devrez peut-être redémarrer votre lanceur pour que cette option prenne effet</string>

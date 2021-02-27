@@ -40,8 +40,6 @@
     <string name="scrollsettings">Прокрутка</string>
     <string name="scroll">Горизонтальная прокрутка</string>
     <string name="fling">Перелистывание страниц</string>
-    <string name="reload">Перезагрузить PDF файл</string>
-    <string name="reload_sum">Чтобы внести изменения, необходимо перезагрузить PDF файл.</string>
 
     <!-- About -->
     <string name="action_about">О приложении</string>
@@ -58,7 +56,6 @@
     <string name="contribution">Авторы</string>
 
     <string name="ok">ОК</string>
-    <string name="notice">Уважаемые пользователи, Pdf Viewer Plus теперь также доступен в F-Droid!</string>
     <string name="version">Версия</string>
     <string name="devnotice">Уведомление разработчика</string>
 

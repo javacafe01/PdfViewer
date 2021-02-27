@@ -34,7 +34,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -51,9 +50,9 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -114,11 +113,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (prefManager.getBoolean("pdftheme_pref", false) == false)
-            viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
-        else
-            viewBinding.pdfView.setBackgroundColor(0xFF212121);
 
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
         onFirstInstall();
@@ -183,6 +177,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private byte[] downloadedPdfFileContent;
 
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+            new StartActivityForResult(),
+            result -> {
+                if (uri != null)
+                    displayFromUri(uri);
+            }
+    );
+
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
     }
@@ -237,6 +239,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
+        if (!prefManager.getBoolean("pdftheme_pref", false)) {
+            viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
+        } else {
+            viewBinding.pdfView.setBackgroundColor(0xFF212121);
+        }
         viewBinding.pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         viewBinding.pdfView.setMinZoom(0.5f);
         viewBinding.pdfView.setMidZoom(2.0f);
@@ -362,9 +369,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void navToSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        intent.setData(uri);
-        startActivity(intent);
+        settingsLauncher.launch(new Intent(this, SettingsActivity.class));
     }
 
     private void setCurrentPage(int page, int pageCount) {
