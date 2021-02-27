@@ -186,7 +186,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
             new StartActivityForResult(),
-            result -> displayFromUri(uri)
+            result -> {
+                if (uri != null)
+                    displayFromUri(uri);
+            }
     );
 
     void shareFile() {
