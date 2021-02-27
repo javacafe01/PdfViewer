@@ -30,7 +30,6 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -54,7 +53,6 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -359,7 +357,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void saveToDownloadFolderIfAllowed(byte[] fileContent) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (Utils.canWriteToDownloadFolder(this)) {
             trySaveToDownloadFolder(fileContent, false);
         } else {
             saveToDownloadPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
