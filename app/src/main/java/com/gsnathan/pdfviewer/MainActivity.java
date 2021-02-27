@@ -34,7 +34,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -54,7 +53,6 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -115,11 +113,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (prefManager.getBoolean("pdftheme_pref", false) == false)
-            viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
-        else
-            viewBinding.pdfView.setBackgroundColor(0xFF212121);
 
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
         onFirstInstall();
@@ -246,6 +239,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
+        if (!prefManager.getBoolean("pdftheme_pref", false)) {
+            viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
+        } else {
+            viewBinding.pdfView.setBackgroundColor(0xFF212121);
+        }
         viewBinding.pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         viewBinding.pdfView.setMinZoom(0.5f);
         viewBinding.pdfView.setMidZoom(2.0f);
