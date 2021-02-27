@@ -43,8 +43,4 @@
 
     </PreferenceCategory>
 
-    <Preference android:title="@string/reload"
-        android:key="reload_pref"
-        android:summary="@string/reload_sum"/>
-
 </PreferenceScreen>

@@ -31,22 +31,7 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
 
         setupActionBar();
         addPreferencesFromResource(R.xml.preferences);
-
-        setupReloadPdfPreference();
         setupShowInLauncherPreference();
-    }
-
-    private void setupReloadPdfPreference() {
-        Preference reloadPref = findPreference("reload_pref");
-        Uri documentUri = getIntent().getData();
-        if (documentUri == null) {
-            getPreferenceScreen().removePreference(reloadPref);
-        } else {
-            reloadPref.setOnPreferenceClickListener(preference -> {
-                reopenDocumentInNewTask();
-                return true;
-            });
-        }
     }
 
     private void setupShowInLauncherPreference() {
@@ -65,18 +50,6 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
                     return false;
                 }
             });
-        }
-    }
-
-    private void reopenDocumentInNewTask() {
-        try {
-            Uri documentUri = getIntent().getData();
-            Intent intent = new Intent(this, MainActivity_.class);
-            intent.setData(documentUri);
-            intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-            startActivity(intent);
-        } catch (Exception e) {
-            Log.e("SettingsActivity", "Reloading PDF failed", e);
         }
     }
 
