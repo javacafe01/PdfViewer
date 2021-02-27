@@ -69,7 +69,6 @@ import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfPasswordException;
 
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.NonConfigurationInstance;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -84,6 +83,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private PrintManager mgr;
     private SharedPreferences prefManager;
+
+    private Uri uri;
+    private int pageNumber = 0;
+    private String pdfPassword;
 
     private boolean isBottomNavigationHidden = false;
 
@@ -118,13 +121,31 @@ public class MainActivity extends CyaneaAppCompatActivity {
         onFirstInstall();
         onFirstUpdate();
 
-        readUriFromIntent(getIntent());
+        if (savedInstanceState != null) {
+            restoreInstanceState(savedInstanceState);
+        } else {
+            readUriFromIntent(getIntent());
+        }
         if (uri == null) {
             pickFile();
             setTitle("");
         } else {
             displayFromUri(uri);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable("uri", uri);
+        outState.putInt("pageNumber", pageNumber);
+        outState.putString("pdfPassword", pdfPassword);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void restoreInstanceState(Bundle savedState) {
+        uri = savedState.getParcelable("uri");
+        pageNumber = savedState.getInt("pageNumber");
+        pdfPassword = savedState.getString("pdfPassword");
     }
 
     private void onFirstInstall() {
@@ -163,15 +184,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         uri = intentUri;
     }
-
-    @NonConfigurationInstance
-    Uri uri;
-
-    @NonConfigurationInstance
-    Integer pageNumber = 0;
-
-    @NonConfigurationInstance
-    String pdfPassword;
 
     private String pdfFileName = "";
 
