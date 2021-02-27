@@ -10,7 +10,7 @@
     <string name="version">Versione</string>
     <string name="intro">Ripeti l\'introduzione</string>
     <string name="email">Email</string>
-    <string name="description_open">Ovviamente quest\'app è open source. Puoi dare il tuo contributo quando vuoi. Il link al codice sorgente è nella sezione informazioni.</string>
+    <string name="description_open">Ovviamente quest\'app è open source. Puoi dare il tuo contributo quando vuoi. Il link al codice sorgente è nella sezione Informazioni.</string>
     <string name="title_open">Libertà</string>
     <string name="description__intro">Un semplice visualizzatore di documenti PDF.</string>
     <string name="myLicense">Licenza</string>
@@ -62,7 +62,7 @@
     <string name="snap_summary">Centra la visuale sulla pagina corrente dopo ogni scorrimento</string>
     <string name="fling">Scorrimento rapido</string>
     <string name="fling_summary">Passa direttamente alla pagina successiva con uno scorrimento rapido</string>
-    <string name="qualitysettings">Qualità</string>
+    <string name="qualitysettings">Visualizzazione</string>
     <string name="scrollsettings">Scorrimento</string>
     <string name="title_activity_settings">Impostazioni</string>
     <string name="buttonLog">Continua</string>
@@ -75,4 +75,5 @@
     <string name="protected_pdf">PDF protetto</string>
     <string name="enter_password">Inserisci la password corretta per aprire il documento:</string>
     <string name="wrong_password">Password errata.</string>
+    <string name="dark_pdf">Modalità scura per il PDF</string>
 </resources>
