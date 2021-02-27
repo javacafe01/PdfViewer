@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
+        android:theme="@style/Theme.Cyanea.Light">
 
         <activity
             android:name=".MainActivity_"

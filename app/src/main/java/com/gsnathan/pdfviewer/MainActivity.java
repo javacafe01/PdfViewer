@@ -34,6 +34,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -52,6 +53,7 @@ import androidx.activity.result.contract.ActivityResultContracts.OpenDocument;
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -103,8 +105,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         super.onCreate(savedInstanceState);
         viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
-
-        viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
+        
         Constants.THUMBNAIL_RATIO = 1f;
         setBottomBarListeners();
 
@@ -113,6 +114,12 @@ public class MainActivity extends CyaneaAppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
 
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (prefManager.getBoolean("pdftheme_pref", false) == false)
+            viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
+        else
+            viewBinding.pdfView.setBackgroundColor(0xFF212121);
+
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
         onFirstInstall();
         onFirstUpdate();
