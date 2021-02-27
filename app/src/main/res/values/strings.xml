@@ -59,10 +59,6 @@
         SOFTWARE.
     </string>
 
-    <string name="notice">
-        Hello Users,\n\nPdf Viewer Plus is now also on F-Droid!
-    </string>
-
     <string name="appChangelog">Change Log</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Storage Permissions</string>

@@ -59,10 +59,6 @@
         SOFTWARE.
     </string>
 
-    <string name="notice">
-        ¡Pdf Viewer Plus ahora también está en F-Droid!
-    </string>
-
     <string name="appChangelog">Registro de cambios</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permisos de almacenamiento</string>

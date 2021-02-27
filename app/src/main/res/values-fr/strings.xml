@@ -16,7 +16,6 @@
     <string name="description__intro">Un lecteur PDF simple.</string>
     <string name="myLicense">Licence</string>
     <string name="privacy">Politique de confidentialité</string>
-    <string name="notice">Chers utilisateurs,\n\nPdf Viewer Plus est désormais disponible sur F-Droid !</string>
     <string name="appChangelog">Journal des modifications</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Autorisation de stockage</string>

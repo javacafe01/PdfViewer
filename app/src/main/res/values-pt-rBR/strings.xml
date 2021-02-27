@@ -55,10 +55,6 @@
         SOFTWARE.
     </string>
 
-    <string name="notice">
-        Olá usuários,\n\nO Pdf Viewer Plus agora também está no F-Droid!
-    </string>
-
     <string name="appChangelog">Registro de mudanças</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permissão de armazenamento</string>

@@ -54,10 +54,6 @@
         SOFTWARE.
     </string>
 
-    <string name="notice">
-        Drazí uživatelé,\n\nPdf Viewer Plus je nyní k dispozici i přes F-Droid!
-    </string>
-
     <string name="appChangelog">Změnové záznamy</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Oprávnění k úložišti</string>

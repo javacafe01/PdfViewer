@@ -16,10 +16,6 @@
     <string name="myLicense">Licenza</string>
     <string name="privacy">Informativa sulla privacy</string>
 
-    <string name="notice">
-        Cari utenti,\n\nPdf Viewer Plus adesso è anche su F-Droid!
-    </string>
-
     <string name="appChangelog">Novità</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permessi di archiviazione</string>
