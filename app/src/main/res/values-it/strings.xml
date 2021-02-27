@@ -19,7 +19,7 @@
     <string name="appChangelog">Novità</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permessi di archiviazione</string>
-    <string name="description__permission">Quest\'app necessita dei permessi di lettura nell\'archivio. Premi il pulsante per consentire l\'accesso all\'archivio del telefono, altrimenti l\'app non funzionerà correttamente.</string>
+    <string name="description__permission">Ora ti verrà richiesto di consentire all\'app di accedere alla memoria del telefono. Senza quest\'autorizzazione, l\'app potrebbe non riuscire ad aprire i file in alcuni casi.</string>
 
     <string name="libs">Librerie open source</string>
     <string name="code">Codice sorgente</string>

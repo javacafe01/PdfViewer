@@ -57,7 +57,6 @@
     <string name="appChangelog">Změnové záznamy</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Oprávnění k úložišti</string>
-    <string name="description__permission">Tato aplikace vyžaduje přístup k úložišti vašeho zařízení. Potvrďte prosím přístup k úložišti, bez něj nemůže aplikace správně pracovat.</string>
 
     <string name="libs">Použité otevřené knihovny</string>
     <string name="git" translatable="false">Github</string>
