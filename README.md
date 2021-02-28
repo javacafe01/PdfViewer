@@ -1,6 +1,6 @@
 <p align="center">
 
-<img src="./images/high_res.png" width="190" />
+<img src="./images/high_res.png" width="120" />
 
 <h1 align="center"> Pdf Viewer Plus </h1>
 
