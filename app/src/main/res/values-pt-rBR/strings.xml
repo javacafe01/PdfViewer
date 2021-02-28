@@ -93,7 +93,7 @@
     <string name="settings">Configurações</string>
     <string name="alias">Anti-Aliasing</string>
     <string name="scroll">Rolagem horizontal</string>
-    <string name="snap" translatable="false">Page Snap</string>
+    <string name="snap">Page Snap</string>
     <string name="fling">Page Fling</string>
     <string name="qualitysettings">Qualidade</string>
     <string name="scrollsettings">Rolagem</string>

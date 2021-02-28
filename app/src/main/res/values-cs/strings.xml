@@ -92,7 +92,7 @@
     <string name="settings">Nastavení</string>
     <string name="alias">Vyhlazování</string>
     <string name="scroll">Vodorovné posouvání</string>
-    <string name="snap" translatable="false">Page Snap</string>
+    <string name="snap">Page Snap</string>
     <string name="fling">Doskok stránky</string>
     <string name="qualitysettings">Kvalita</string>
     <string name="scrollsettings">Pohyb v dokumentu</string>
