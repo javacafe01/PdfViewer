@@ -85,6 +85,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private Uri uri;
     private int pageNumber = 0;
     private String pdfPassword;
+    private String pdfFileName = "";
+
+    private byte[] downloadedPdfFileContent;
 
     private boolean isBottomNavigationHidden = false;
 
@@ -98,6 +101,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private final ActivityResultLauncher<String> saveToDownloadPermissionLauncher = registerForActivityResult(
         new RequestPermission(),
         this::saveDownloadedFileAfterPermissionRequest
+    );
+
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+        new StartActivityForResult(),
+        result -> {
+            if (uri != null)
+                displayFromUri(uri);
+        }
     );
 
     @Override
@@ -182,18 +193,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         uri = intentUri;
     }
-
-    private String pdfFileName = "";
-
-    private byte[] downloadedPdfFileContent;
-
-    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
-            new StartActivityForResult(),
-            result -> {
-                if (uri != null)
-                    displayFromUri(uri);
-            }
-    );
 
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
