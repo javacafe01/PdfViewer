@@ -70,7 +70,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Alias to allow the user to hide the app from launcher -->
+        <!-- Alias to allow the user to hide the app from launcher on Android < 10 -->
         <activity-alias
             android:name=".LauncherAlias"
             android:enabled="true"
@@ -84,7 +84,7 @@
 
         <activity
             android:name=".AboutActivity"
-            android:label="About"
+            android:label="@string/action_about"
             android:parentActivityName=".MainActivity_" />
 
         <activity
@@ -94,7 +94,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="Settings"
+            android:label="@string/settings"
             android:parentActivityName=".MainActivity_" />
     </application>
 

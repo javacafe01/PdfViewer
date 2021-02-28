@@ -3,6 +3,7 @@ package com.gsnathan.pdfviewer;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.util.Log;
@@ -30,38 +31,25 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
 
         setupActionBar();
         addPreferencesFromResource(R.xml.preferences);
-        setOptionsListTopMargin();
-
-        Preference reloadPref = findPreference("reload_pref");
-        Uri documentUri = getIntent().getData();
-        if (documentUri == null) {
-            getPreferenceScreen().removePreference(reloadPref);
-        } else {
-            reloadPref.setOnPreferenceClickListener(preference -> {
-                reopenDocumentInNewTask();
-                return true;
-            });
-        }
-
-        findPreference("show_in_launcher").setOnPreferenceChangeListener((preference, newValue) -> {
-            try {
-                setLauncherAliasState((boolean) newValue);
-                return true;
-            } catch (Exception ignored) {
-                return false;
-            }
-        });
+        setupShowInLauncherPreference();
     }
 
-    private void reopenDocumentInNewTask() {
-        try {
-            Uri documentUri = getIntent().getData();
-            Intent intent = new Intent(this, MainActivity_.class);
-            intent.setData(documentUri);
-            intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-            startActivity(intent);
-        } catch (Exception e) {
-            Log.e("SettingsActivity", "Reloading PDF failed", e);
+    private void setupShowInLauncherPreference() {
+        Preference showInLauncherPref = findPreference("show_in_launcher");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Starting from Android Q it is not possible anymore to hide the app from launcher
+            // See https://developer.android.com/reference/android/content/pm/LauncherApps#getActivityList(java.lang.String,%20android.os.UserHandle)
+            getPreferenceScreen().removePreference(showInLauncherPref);
+        } else {
+            setOptionsListTopMargin();
+            showInLauncherPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                try {
+                    setLauncherAliasState((boolean) newValue);
+                    return true;
+                } catch (Exception ignored) {
+                    return false;
+                }
+            });
         }
     }
 

@@ -12,7 +12,6 @@
     <string name="description__intro">Ein einfacher Dokumentenbetrachter für Pdf-Dateien.</string>
     <string name="myLicense">Lizenz</string>
     <string name="privacy">Datenschutz-Bestimmungen</string>
-    <string name="notice">Liebe Nutzer, Pdf Viewer Plus ist nun auch in F-Droid verfügbar!</string>
     <string name="appChangelog">Änderungshistorie</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Speicherberechtigungen</string>
@@ -38,8 +37,6 @@
     <string name="pref_category_appearance">Erscheinungsbild</string>
     <string name="pref_colored_navigation_bar_title">Farbe der Navigationsleiste</string>
     <string name="pref_colored_navigation_bar_summary">Hauptfarbe auf die Navigationsleiste anwenden</string>
-    <string name="password">Passwort</string>
-    <string name="unlock">Gesicherte PDF-Datei entsperren</string>
     <string name="meta">Dateiinfo</string>
     <string name="quality">Wiedergabe in hoher Qualität</string>
     <string name="settings">Einstellungen</string>
@@ -49,7 +46,5 @@
     <string name="fling">Seitenumbruch</string>
     <string name="qualitysettings">Qualität</string>
     <string name="scrollsettings">Scrollen</string>
-    <string name="reload">PDF-Datei neu laden</string>
-    <string name="reload_sum">Um die Änderungen anzuwenden, muss die PDF-Datei neu geladen werden.</string>
     <string name="buttonLog">Weiter</string>
 </resources>

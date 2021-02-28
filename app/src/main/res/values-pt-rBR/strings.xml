@@ -55,10 +55,6 @@
         SOFTWARE.
     </string>
 
-    <string name="notice">
-        Olá usuários,\n\nO Pdf Viewer Plus agora também está no F-Droid!
-    </string>
-
     <string name="appChangelog">Registro de mudanças</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permissão de armazenamento</string>
@@ -93,8 +89,6 @@
 
     <string name="pref_colored_navigation_bar_title">Cor da barra de navegação</string>
     <string name="pref_colored_navigation_bar_summary">Aplicar a cor primária à barra de navegação</string>
-    <string name="password">Senha</string>
-    <string name="unlock">Desbloquear PDF seguro</string>
     <string name="meta">Informações do arquivo</string>
     <string name="quality">Renderização em alta qualidade</string>
     <string name="settings">Configurações</string>
@@ -105,8 +99,6 @@
     <string name="qualitysettings">Qualidade</string>
     <string name="scrollsettings">Rolagem</string>
     <string name="title_activity_settings">Configurações</string>
-    <string name="reload">Recarregar PDF</string>
-    <string name="reload_sum">Para aplicar as mudanças, o PDF deve ser recarregado.</string>
     <string name="buttonLog">Continuar</string>
 
 </resources>

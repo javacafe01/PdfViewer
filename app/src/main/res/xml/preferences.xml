@@ -18,6 +18,10 @@
             android:defaultValue="true"
             android:title="@string/alias" android:key="alias_pref"/>
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/dark_pdf" android:key="pdftheme_pref"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -38,9 +42,5 @@
             android:summary="@string/fling_summary" android:key="fling_pref"/>
 
     </PreferenceCategory>
-
-    <Preference android:title="@string/reload"
-        android:key="reload_pref"
-        android:summary="@string/reload_sum"/>
 
 </PreferenceScreen>

@@ -31,14 +31,14 @@ android {
         abortOnError false
     }
 
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "30.0.3"
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.gsnathan.pdfviewer"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 26
-        versionName "3.5"
+        versionCode 27
+        versionName "3.6"
         vectorDrawables.useSupportLibrary = true
 
         javaCompileOptions {
@@ -49,6 +49,10 @@ android {
                 ]
             }
         }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {

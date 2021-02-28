@@ -13,8 +13,6 @@
     <string name="toast_pick_file_error">Невозможно выбрать файл. Проверьте ваш файловый менеджер.</string>
     <string name="toast_ssl_error">Не удалось установить защищённое соединение.</string>
     <string name="share">Поделиться</string>
-    <string name="unlock">Разблокировать защищенный PDF</string>
-    <string name="password">Пароль</string>
     <string name="meta">Информация о файле</string>
     <string name="print">Печать</string>
 
@@ -42,8 +40,6 @@
     <string name="scrollsettings">Прокрутка</string>
     <string name="scroll">Горизонтальная прокрутка</string>
     <string name="fling">Перелистывание страниц</string>
-    <string name="reload">Перезагрузить PDF файл</string>
-    <string name="reload_sum">Чтобы внести изменения, необходимо перезагрузить PDF файл.</string>
 
     <!-- About -->
     <string name="action_about">О приложении</string>
@@ -60,7 +56,6 @@
     <string name="contribution">Авторы</string>
 
     <string name="ok">ОК</string>
-    <string name="notice">Уважаемые пользователи, Pdf Viewer Plus теперь также доступен в F-Droid!</string>
     <string name="version">Версия</string>
     <string name="devnotice">Уведомление разработчика</string>
 

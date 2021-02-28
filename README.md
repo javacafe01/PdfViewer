@@ -1,22 +1,26 @@
-# Pdf Viewer Plus 
+<p align="center">
+
+<img src="./images/high_res.png" width="120" />
+
+<h1 align="center"> Pdf Viewer Plus </h1>
+
+</p>
+
 
 [//]: # (Shields)
 
 [![Travis Build Status](https://travis-ci.com/JavaCafe01/PdfViewer.svg?branch=master)](https://travis-ci.com/JavaCafe01/PdfViewer)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JavaCafe01/PdfViewer/blob/master/LICENSE)
 
-## Download
 
-<a href="https://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download on Google Play" height="100"></a><a href="https://f-droid.org/en/packages/com.gsnathan.pdfviewer"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a>
 
-<a href="https://github.com/JavaCafe01/PdfViewer/releases/latest"><img src="http://yt3dl.net/images/apk-download-badge.png" alt="Get it on Github" height="100"></a>
+<a href="https://play.google.com/store/apps/details?id=com.gsnathan.pdfviewer"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download on Google Play" height="100"></a><a href="https://f-droid.org/en/packages/com.gsnathan.pdfviewer"><img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"></a><a href="https://github.com/JavaCafe01/PdfViewer/releases/latest"><img src="http://yt3dl.net/images/apk-download-badge.png" alt="Get it on Github" height="100"></a>
 
 ## Screenshots
 
-| Main Page |
-|:-:|
-| <img src ="./images/mainpage.png" width="190" height="340"/> |
-| [`MainActivity.java`](https://github.com/JavaCafe01/PdfViewer/blob/master/app/src/main/java/com/gsnathan/pdfviewer/MainActivity.java) |
+| Main Page | Main Page | Cyanea |
+|:-:|:-:|:-:|
+| <img src ="https://github.com/JavaCafe01/PdfViewer/blob/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="190" height="340"/> | <img src ="https://github.com/JavaCafe01/PdfViewer/blob/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="190" height="340"/> | <img src ="https://github.com/JavaCafe01/PdfViewer/blob/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="190" height="340"/> |
 
 ## Contribute
 
@@ -24,17 +28,13 @@ You can contribute to this project in many ways:
 * Fork and make pull requests (please target dev branch)
 * Help to translate the application (By making PR)
 
-### Special Thanks!
+### Contributors
 
-| Github Users |
-| ------------- |
-| [Fs00](https://github.com/Fs00)  |
-| [Etamuk](https://github.com/Etamuk)  |
-| [Raspbeguy](https://github.com/raspbeguy)  |
-| [Greynar](https://github.com/Greynar)  |
-| [ORelio](https://github.com/ORelio)  |
-| [PFayoux](https://github.com/PFayoux)  |
+<a href="https://github.com/JavaCafe01/PdfViewer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JavaCafe01/PdfViewer" />
+</a>
 
+Made with [contributors-img](https://contrib.rocks)
 
 ## License
 
