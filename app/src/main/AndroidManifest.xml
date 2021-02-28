@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Cyanea.Light.DarkActionBar">
 
         <activity
-            android:name=".MainActivity_"
+            android:name=".MainActivity"
             android:documentLaunchMode="intoExisting">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -74,7 +74,7 @@
         <activity-alias
             android:name=".LauncherAlias"
             android:enabled="true"
-            android:targetActivity=".MainActivity_">
+            android:targetActivity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -85,7 +85,7 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/action_about"
-            android:parentActivityName=".MainActivity_" />
+            android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".MainIntroActivity"
@@ -95,7 +95,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".MainActivity_" />
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

@@ -68,7 +68,6 @@ import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfPasswordException;
 
-import org.androidannotations.annotations.EActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -76,7 +75,6 @@ import java.io.IOException;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
-@EActivity
 public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -134,20 +132,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable("uri", uri);
-        outState.putInt("pageNumber", pageNumber);
-        outState.putString("pdfPassword", pdfPassword);
-        super.onSaveInstanceState(outState);
-    }
-
-    private void restoreInstanceState(Bundle savedState) {
-        uri = savedState.getParcelable("uri");
-        pageNumber = savedState.getInt("pageNumber");
-        pdfPassword = savedState.getString("pdfPassword");
-    }
-
     private void onFirstInstall() {
         boolean isFirstRun = prefManager.getBoolean("FIRSTINSTALL", true);
         if (isFirstRun) {
@@ -166,6 +150,20 @@ public class MainActivity extends CyaneaAppCompatActivity {
             editor.putBoolean(Utils.getAppVersion(), false);
             editor.apply();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable("uri", uri);
+        outState.putInt("pageNumber", pageNumber);
+        outState.putString("pdfPassword", pdfPassword);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void restoreInstanceState(Bundle savedState) {
+        uri = savedState.getParcelable("uri");
+        pageNumber = savedState.getInt("pageNumber");
+        pdfPassword = savedState.getString("pdfPassword");
     }
 
     private void readUriFromIntent(Intent intent) {
