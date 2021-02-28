@@ -329,13 +329,29 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         String scheme = uri.getScheme();
         if (scheme != null && scheme.contains("http")) {
+            downloadOrShowDownloadedFile(uri);
+        } else {
+            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
+        }
+    }
+
+    private void downloadOrShowDownloadedFile(Uri uri) {
+        if (downloadedPdfFileContent == null) {
+            downloadedPdfFileContent = (byte[]) getLastCustomNonConfigurationInstance();
+        }
+        if (downloadedPdfFileContent != null) {
+            configurePdfViewAndLoad(viewBinding.pdfView.fromBytes(downloadedPdfFileContent));
+        } else {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             viewBinding.progressBar.setVisibility(View.VISIBLE);
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
             downloadPDFFile.execute(uri.toString());
-        } else {
-            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
         }
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return downloadedPdfFileContent;
     }
 
     public void hideProgressBar() {
