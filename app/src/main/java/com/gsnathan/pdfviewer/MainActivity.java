@@ -63,6 +63,7 @@ import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.gsnathan.pdfviewer.databinding.ActivityMainBinding;
 import com.gsnathan.pdfviewer.databinding.PasswordDialogBinding;
+import com.jaredrummler.cyanea.Cyanea;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
@@ -125,6 +126,13 @@ public class MainActivity extends CyaneaAppCompatActivity {
         } else {
             displayFromUri(uri);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Workaround for android:background XML attribute not being applied on all devices
+        viewBinding.bottomNavigation.setBackgroundColor(Cyanea.getInstance().getPrimary());
     }
 
     private void onFirstInstall() {
