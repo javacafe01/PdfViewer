@@ -69,8 +69,6 @@ import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfPasswordException;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.NonConfigurationInstance;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -78,13 +76,19 @@ import java.io.IOException;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 
-@EActivity
 public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private PrintManager mgr;
     private SharedPreferences prefManager;
+
+    private Uri uri;
+    private int pageNumber = 0;
+    private String pdfPassword;
+    private String pdfFileName = "";
+
+    private byte[] downloadedPdfFileContent;
 
     private boolean isBottomNavigationHidden = false;
 
@@ -98,6 +102,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private final ActivityResultLauncher<String> saveToDownloadPermissionLauncher = registerForActivityResult(
         new RequestPermission(),
         this::saveDownloadedFileAfterPermissionRequest
+    );
+
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+        new StartActivityForResult(),
+        result -> {
+            if (uri != null)
+                displayFromUri(uri);
+        }
     );
 
     @Override
@@ -119,7 +131,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
         onFirstInstall();
         onFirstUpdate();
 
-        readUriFromIntent(getIntent());
+        if (savedInstanceState != null) {
+            restoreInstanceState(savedInstanceState);
+        } else {
+            readUriFromIntent(getIntent());
+        }
         if (uri == null) {
             pickFile();
             setTitle("");
@@ -155,6 +171,20 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable("uri", uri);
+        outState.putInt("pageNumber", pageNumber);
+        outState.putString("pdfPassword", pdfPassword);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void restoreInstanceState(Bundle savedState) {
+        uri = savedState.getParcelable("uri");
+        pageNumber = savedState.getInt("pageNumber");
+        pdfPassword = savedState.getString("pdfPassword");
+    }
+
     private void readUriFromIntent(Intent intent) {
         Uri intentUri = intent.getData();
         if (intentUri == null) {
@@ -171,27 +201,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         uri = intentUri;
     }
-
-    @NonConfigurationInstance
-    Uri uri;
-
-    @NonConfigurationInstance
-    Integer pageNumber = 0;
-
-    @NonConfigurationInstance
-    String pdfPassword;
-
-    private String pdfFileName = "";
-
-    private byte[] downloadedPdfFileContent;
-
-    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
-            new StartActivityForResult(),
-            result -> {
-                if (uri != null)
-                    displayFromUri(uri);
-            }
-    );
 
     void shareFile() {
         startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
@@ -328,13 +337,29 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         String scheme = uri.getScheme();
         if (scheme != null && scheme.contains("http")) {
+            downloadOrShowDownloadedFile(uri);
+        } else {
+            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
+        }
+    }
+
+    private void downloadOrShowDownloadedFile(Uri uri) {
+        if (downloadedPdfFileContent == null) {
+            downloadedPdfFileContent = (byte[]) getLastCustomNonConfigurationInstance();
+        }
+        if (downloadedPdfFileContent != null) {
+            configurePdfViewAndLoad(viewBinding.pdfView.fromBytes(downloadedPdfFileContent));
+        } else {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             viewBinding.progressBar.setVisibility(View.VISIBLE);
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
             downloadPDFFile.execute(uri.toString());
-        } else {
-            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
         }
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return downloadedPdfFileContent;
     }
 
     public void hideProgressBar() {
