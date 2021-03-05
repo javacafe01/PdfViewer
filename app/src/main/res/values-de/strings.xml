@@ -2,7 +2,11 @@
 <resources>
     <string name="pick_file">Datei auswählen</string>
     <string name="toast_pick_file_error">Datei konnte nicht ausgewählt werden. Bitte überprüfen Sie Ihren Dateimanager.</string>
+    <string name="toast_http_code_error">Der Server antwortete mit einem Fehler.</string>
+    <string name="toast_generic_download_error">Diese Datei konnte nicht heruntergeladen werden.</string>
     <string name="toast_ssl_error">Fehler: Gesicherte Verbindung fehlgeschlagen.</string>
+    <string name="saved_to_download">Datei im Download Ordner gespeichert.</string>
+    <string name="save_to_download_failed">Datei konnte nicht im Download Ordner gespeichert werden.</string>
     <string name="action_about">Über</string>
     <string name="version">Version</string>
     <string name="intro">Einführung wiederholen</string>
@@ -12,39 +16,63 @@
     <string name="description__intro">Ein einfacher Dokumentenbetrachter für Pdf-Dateien.</string>
     <string name="myLicense">Lizenz</string>
     <string name="privacy">Datenschutz-Bestimmungen</string>
+    
     <string name="appChangelog">Änderungshistorie</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Speicherberechtigungen</string>
     <string name="description__permission">Diese App braucht natürlicherweise die Berechtigung, auf den Telefonspeicher zugreifen zu können. Bitte drücken Sie auf die Schaltfläche und erlauben Sie der App das Lesen des Telefonspeichers. Andernfalls funktioniert die App nicht ordnungsgemäß.</string>
+    
     <string name="libs">Open Source-Bibliotheken</string>
     <string name="code">Quellcode</string>
+    
     <string name="share">Datei teilen</string>
     <string name="print">Datei drucken</string>
     <string name="devnotice">Hinweise vom Entwickler</string>
-    <string name="theme_picker">Ansicht ändern</string>
+    <string name="theme_picker">Thema ändern</string>
     <string name="app_info">App-Info</string>
     <string name="author_info">Autor-Info</string>
     <string name="contribution">Mitwirkende</string>
+    
     <string name="label_theme_picker">Themenauswahl</string>
+    
     <string name="pref_theme_title">Themen</string>
     <string name="pref_theme_summary">Vorinstalliertes Thema auswählen</string>
-    <string name="pref_primary_color_summary">Wird überwiegend in der App verwendet.</string>
+    
     <string name="pref_primary_color_title">Hauptfarbe</string>
+    <string name="pref_primary_color_summary">Wird überwiegend in der App verwendet.</string>
+    
     <string name="pref_accent_color_title">Akzentfarbe</string>
     <string name="pref_accent_color_summary">Hebt ausgewählten Bereich der Benutzeroberfläche hervor.</string>
+    
     <string name="pref_background_color_title">Hintergrundfarbe</string>
     <string name="pref_background_color_summary">Farbe für den Hintergrund des App-Inhaltes</string>
     <string name="pref_category_appearance">Erscheinungsbild</string>
+    
     <string name="pref_colored_navigation_bar_title">Farbe der Navigationsleiste</string>
     <string name="pref_colored_navigation_bar_summary">Hauptfarbe auf die Navigationsleiste anwenden</string>
     <string name="meta">Dateiinfo</string>
     <string name="quality">Wiedergabe in hoher Qualität</string>
     <string name="settings">Einstellungen</string>
-    <string name="title_activity_settings">Einstellungen</string>
     <string name="alias">Kantenglättung</string>
     <string name="scroll">Horizontales Scrollen</string>
+    <string name="snap">Seite einrasten</string>
+    <string name="snap_summary">Ansicht nach jedem Wischen auf die aktuelle Seite zentrieren</string>
     <string name="fling">Seitenumbruch</string>
+    <string name="fling_summary">Schnell wischen, um direkt auf die nächste Seite zu springen</string>
     <string name="qualitysettings">Qualität</string>
     <string name="scrollsettings">Scrollen</string>
+    <string name="title_activity_settings">Einstellungen</string>
     <string name="buttonLog">Weiter</string>
+    <string name="show_in_launcher">App im Launcher anzeigen</string>
+    <string name="show_in_launcher_summary">Möglicherweise müssen Sie Ihren Launcher neu starten, damit diese Option wirksam wird</string>
+    <string name="pdf_title">Titel: %1$s</string>
+    <string name="pdf_author">Autor: %1$s</string>
+    <string name="pdf_creation_date">Erstellungsdatum: %1$s</string>
+    
+    <string name="file_opening_error">Beim Öffnen der Datei trat ein Fehler auf.</string>
+    <string name="protected_pdf">Geschütztes PDF</string>
+    <string name="enter_password">Geben Sie das korrekte Passwort ein, um das Dokument zu öffnen:</string>
+    <string name="wrong_password">Falsches Passwort.</string>
+    
+    <string name="dark_pdf">Dunkles Thema für PDF</string>
 </resources>
