@@ -74,8 +74,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-import static android.content.pm.PackageManager.PERMISSION_DENIED;
-
 public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -187,19 +185,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private void readUriFromIntent(Intent intent) {
         Uri intentUri = intent.getData();
-        if (intentUri == null) {
-            return;
+        if (intentUri != null) {
+            uri = intentUri;
         }
-
-        // Happens when the content provider URI used to open the document expires
-        if ("content".equals(intentUri.getScheme()) &&
-            checkCallingOrSelfUriPermission(intentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
-            Log.w(TAG, "No read permission for URI " + intentUri);
-            uri = null;
-            return;
-        }
-
-        uri = intentUri;
     }
 
     void shareFile() {
