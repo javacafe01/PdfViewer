@@ -76,7 +76,7 @@ import java.io.IOException;
 
 public class MainActivity extends CyaneaAppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = "MainActivity";
 
     private PrintManager mgr;
     private SharedPreferences prefManager;
