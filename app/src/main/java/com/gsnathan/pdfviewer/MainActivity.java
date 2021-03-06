@@ -400,6 +400,8 @@ public class MainActivity extends CyaneaAppCompatActivity {
                         result = cursor.getString(indexDisplayName);
                     }
                 }
+            } catch (Exception e) {
+                Log.w(TAG, "Couldn't retrieve file name", e);
             }
         }
         if (result == null) {
