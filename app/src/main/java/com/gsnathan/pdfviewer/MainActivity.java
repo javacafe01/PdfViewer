@@ -104,10 +104,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
         new StartActivityForResult(),
-        result -> {
-            if (uri != null)
-                displayFromUri(uri);
-        }
+        result -> displayFromUri(uri)
     );
 
     @Override
@@ -132,14 +129,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
         if (savedInstanceState != null) {
             restoreInstanceState(savedInstanceState);
         } else {
-            readUriFromIntent(getIntent());
+            uri = getIntent().getData();
+            if (uri == null)
+                pickFile();
         }
-        if (uri == null) {
-            pickFile();
-            setTitle("");
-        } else {
-            displayFromUri(uri);
-        }
+        displayFromUri(uri);
     }
 
     @Override
@@ -181,13 +175,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         uri = savedState.getParcelable("uri");
         pageNumber = savedState.getInt("pageNumber");
         pdfPassword = savedState.getString("pdfPassword");
-    }
-
-    private void readUriFromIntent(Intent intent) {
-        Uri intentUri = intent.getData();
-        if (intentUri != null) {
-            uri = intentUri;
-        }
     }
 
     void shareFile() {
@@ -319,6 +306,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void displayFromUri(Uri uri) {
+        if (uri == null) {
+            setTitle("");
+            return;
+        }
+
         pdfFileName = getFileName(uri);
         setTitle(pdfFileName);
         setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
