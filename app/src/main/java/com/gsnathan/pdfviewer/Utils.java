@@ -24,6 +24,7 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -76,6 +77,8 @@ public class Utils {
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
         email.putExtra(Intent.EXTRA_TEXT, text);
         email.putExtra(Intent.EXTRA_STREAM, filePath);
+        email.setClipData(new ClipData(subject, new String[] { "application/pdf" }, new ClipData.Item(filePath)));
+        email.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         return Intent.createChooser(email, title);
     }
 
