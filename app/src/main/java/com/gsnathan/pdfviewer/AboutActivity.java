@@ -149,7 +149,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void emailDev(View v) {
-        startActivity(Utils.emailIntent("gokulswamilive@gmail.com", "Pdf Viewer Plus", APP_VERSION_RELEASE, "Send email..."));
+        startActivity(Utils.emailIntent("gokulswamilive@gmail.com", "Pdf Viewer Plus", APP_VERSION_RELEASE));
     }
 
     public void navToGit(View v) {

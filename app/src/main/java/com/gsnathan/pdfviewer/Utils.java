@@ -62,13 +62,12 @@ public class Utils {
         log.show(context.getSupportFragmentManager(), "Log");
     }
 
-    static Intent emailIntent(String emailAddress, String subject, String text, String title) {
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.setType("text/email");
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+    static Intent emailIntent(String emailAddress, String subject, String text) {
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:" + emailAddress));
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
         email.putExtra(Intent.EXTRA_TEXT, text);
-        return Intent.createChooser(email, title);
+        return email;
     }
 
     static Intent fileShareIntent(String chooserTitle, String fileName, Uri fileUri) {
