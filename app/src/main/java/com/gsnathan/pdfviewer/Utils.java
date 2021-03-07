@@ -70,6 +70,13 @@ public class Utils {
         return email;
     }
 
+    static Intent plainTextShareIntent(String chooserTitle, String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        return Intent.createChooser(intent, chooserTitle);
+    }
+
     static Intent fileShareIntent(String chooserTitle, String fileName, Uri fileUri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("application/pdf");

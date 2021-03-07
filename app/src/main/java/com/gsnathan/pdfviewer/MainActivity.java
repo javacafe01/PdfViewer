@@ -203,7 +203,13 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void shareFile() {
-        startActivity(Utils.fileShareIntent(getResources().getString(R.string.share), pdfFileName, uri));
+        Intent sharingIntent;
+        if (uri.getScheme() != null && uri.getScheme().startsWith("http")) {
+            sharingIntent = Utils.plainTextShareIntent(getString(R.string.share), uri.toString());
+        } else {
+            sharingIntent = Utils.fileShareIntent(getString(R.string.share), pdfFileName, uri);
+        }
+        startActivity(sharingIntent);
     }
 
     private void openSelectedDocument(Uri selectedDocumentUri) {
