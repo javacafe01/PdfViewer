@@ -95,16 +95,8 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .build()
                 )
                 .addAttributions(
-                        new Attribution.Builder("AndroidAnnotations")
-                                .addCopyrightNotice("Copyright 2012-2016 eBusiness Information\n" +
-                                        "Copyright 2016-2017 the AndroidAnnotations project")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/androidannotations/androidannotations")
-                                .build()
-                )
-                .addAttributions(
                         new Attribution.Builder("AppIntro")
-                                .addCopyrightNotice("Copyright 2018 paorotolo")
+                                .addCopyrightNotice("Copyright 2018 Paolo Rotolo")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/paolorotolo/AppIntro")
                                 .build()
