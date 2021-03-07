@@ -71,12 +71,12 @@ public class Utils {
     }
 
     static Intent fileShareIntent(String chooserTitle, String fileName, Uri fileUri) {
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.setType("application/pdf");
-        email.putExtra(Intent.EXTRA_STREAM, fileUri);
-        email.setClipData(new ClipData(fileName, new String[] { "application/pdf" }, new ClipData.Item(fileUri)));
-        email.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        return Intent.createChooser(email, chooserTitle);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.setClipData(new ClipData(fileName, new String[] { "application/pdf" }, new ClipData.Item(fileUri)));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        return Intent.createChooser(intent, chooserTitle);
     }
 
     static Intent linkIntent(String url) {
