@@ -71,15 +71,13 @@ public class Utils {
         return Intent.createChooser(email, title);
     }
 
-    static Intent emailIntent(String subject, String text, String title, Uri filePath) {
+    static Intent fileShareIntent(String chooserTitle, String fileName, Uri fileUri) {
         Intent email = new Intent(Intent.ACTION_SEND);
-        email.setType("text/email");
-        email.putExtra(Intent.EXTRA_SUBJECT, subject);
-        email.putExtra(Intent.EXTRA_TEXT, text);
-        email.putExtra(Intent.EXTRA_STREAM, filePath);
-        email.setClipData(new ClipData(subject, new String[] { "application/pdf" }, new ClipData.Item(filePath)));
+        email.setType("application/pdf");
+        email.putExtra(Intent.EXTRA_STREAM, fileUri);
+        email.setClipData(new ClipData(fileName, new String[] { "application/pdf" }, new ClipData.Item(fileUri)));
         email.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        return Intent.createChooser(email, title);
+        return Intent.createChooser(email, chooserTitle);
     }
 
     static Intent linkIntent(String url) {
