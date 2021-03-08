@@ -53,6 +53,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -70,7 +71,10 @@ import com.shockwave.pdfium.PdfPasswordException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends CyaneaAppCompatActivity {
 
@@ -98,6 +102,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private final ActivityResultLauncher<String> saveToDownloadPermissionLauncher = registerForActivityResult(
         new RequestPermission(),
         this::saveDownloadedFileAfterPermissionRequest
+    );
+
+    private final ActivityResultLauncher<String> readFileErrorPermissionLauncher = registerForActivityResult(
+        new RequestPermission(),
+        this::restartAppIfGranted
     );
 
     private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
@@ -272,9 +281,31 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 pdfPassword = null;  // prevent the toast from being shown again if the user rotates the screen
             }
             askForPdfPassword();
+        } else if (couldNotOpenFileDueToMissingPermission(exception)) {
+            readFileErrorPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
         } else {
             Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
             Log.e(TAG, "Error when opening file", exception);
+        }
+    }
+
+    private boolean couldNotOpenFileDueToMissingPermission(Throwable e) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED)
+            return false;
+
+        String exceptionMessage = e.getMessage();
+        return e instanceof FileNotFoundException &&
+            exceptionMessage != null && exceptionMessage.contains("Permission denied");
+    }
+
+    private void restartAppIfGranted(boolean isPermissionGranted) {
+        if (isPermissionGranted) {
+            // This is a quick and dirty way to make the system restart the current activity *and the current app process*.
+            // This is needed because on Android 6 storage permission grants do not take effect until
+            // the app process is restarted.
+            System.exit(0);
+        } else {
+            Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
         }
     }
 
