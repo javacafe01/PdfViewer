@@ -74,11 +74,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-import static android.content.pm.PackageManager.PERMISSION_DENIED;
-
 public class MainActivity extends CyaneaAppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = "MainActivity";
 
     private PrintManager mgr;
     private SharedPreferences prefManager;
@@ -106,10 +104,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
         new StartActivityForResult(),
-        result -> {
-            if (uri != null)
-                displayFromUri(uri);
-        }
+        result -> displayFromUri(uri)
     );
 
     @Override
@@ -134,14 +129,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
         if (savedInstanceState != null) {
             restoreInstanceState(savedInstanceState);
         } else {
-            readUriFromIntent(getIntent());
+            uri = getIntent().getData();
+            if (uri == null)
+                pickFile();
         }
-        if (uri == null) {
-            pickFile();
-            setTitle("");
-        } else {
-            displayFromUri(uri);
-        }
+        displayFromUri(uri);
     }
 
     @Override
@@ -183,23 +175,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
         uri = savedState.getParcelable("uri");
         pageNumber = savedState.getInt("pageNumber");
         pdfPassword = savedState.getString("pdfPassword");
-    }
-
-    private void readUriFromIntent(Intent intent) {
-        Uri intentUri = intent.getData();
-        if (intentUri == null) {
-            return;
-        }
-
-        // Happens when the content provider URI used to open the document expires
-        if ("content".equals(intentUri.getScheme()) &&
-            checkCallingOrSelfUriPermission(intentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
-            Log.w(TAG, "No read permission for URI " + intentUri);
-            uri = null;
-            return;
-        }
-
-        uri = intentUri;
     }
 
     void shareFile() {
@@ -331,6 +306,11 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     void displayFromUri(Uri uri) {
+        if (uri == null) {
+            setTitle("");
+            return;
+        }
+
         pdfFileName = getFileName(uri);
         setTitle(pdfFileName);
         setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
@@ -420,6 +400,8 @@ public class MainActivity extends CyaneaAppCompatActivity {
                         result = cursor.getString(indexDisplayName);
                     }
                 }
+            } catch (Exception e) {
+                Log.w(TAG, "Couldn't retrieve file name", e);
             }
         }
         if (result == null) {
