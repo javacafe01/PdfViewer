@@ -515,7 +515,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                             getString(R.string.pdf_author, getArguments().getString(AUTHOR_ARGUMENT)) + "\n" +
                             getString(R.string.pdf_creation_date, getArguments().getString(CREATION_DATE_ARGUMENT)))
                     .setPositiveButton(R.string.ok, (dialog, which) -> {})
-                    .setIcon(R.drawable.alert_icon)
+                    .setIcon(R.drawable.info_icon)
                     .create();
         }
     }
