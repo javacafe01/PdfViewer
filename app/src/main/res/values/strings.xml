@@ -70,6 +70,7 @@
 
     <string name="share">Share File</string>
     <string name="print">Print File</string>
+    <string name="fullscreen">Fullscreen</string>
     <string name="devnotice">Developer Notice</string>
     <string name="theme_picker">Change Theme</string>
     <string name="app_info">App Info</string>
