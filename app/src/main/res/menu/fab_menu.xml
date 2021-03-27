@@ -33,7 +33,7 @@
     <item
         android:id="@+id/fullscreen"
         android:icon="@drawable/fullscreen_icon"
-        android:title="@string/fullscreen"
+        android:title="@string/full_screen"
         android:orderInCategory="7"
         app:showAsAction="always" />
 

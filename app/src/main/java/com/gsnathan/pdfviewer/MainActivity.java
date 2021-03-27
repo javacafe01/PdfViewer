@@ -317,8 +317,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void toggleFullscreen() {
-        final Window w = getWindow();
-        final View view = findViewById(R.id.pdfView);
+        final View view = viewBinding.pdfView;
         if (!isFullscreenToggled) {
             getSupportActionBar().hide();
             isFullscreenToggled = true;
