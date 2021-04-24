@@ -119,4 +119,5 @@
 
 
     <string name="dark_pdf">Dark theme for PDF</string>
+    <string name="keep_screen_on">Keep the screen on</string>
 </resources>
