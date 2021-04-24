@@ -62,7 +62,6 @@
     <string name="appChangelog">Registro de cambios</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permisos de almacenamiento</string>
-    <string name="description__permission">Esta aplicación necesita permiso para acceder al almacenamiento del dispositivo. Sin él, la aplicación no funcionará correctamente.</string>
 
     <string name="libs">Librerías de código abierto</string>
     <string name="git" translatable="false">Github</string>

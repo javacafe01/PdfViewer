@@ -30,7 +30,6 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -41,10 +40,12 @@ import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -63,29 +64,36 @@ import com.github.barteksc.pdfviewer.util.Constants;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.gsnathan.pdfviewer.databinding.ActivityMainBinding;
 import com.gsnathan.pdfviewer.databinding.PasswordDialogBinding;
+import com.jaredrummler.cyanea.Cyanea;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfPasswordException;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.NonConfigurationInstance;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static android.content.pm.PackageManager.PERMISSION_DENIED;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-@EActivity
 public class MainActivity extends CyaneaAppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = "MainActivity";
 
     private PrintManager mgr;
     private SharedPreferences prefManager;
 
+    private Uri uri;
+    private int pageNumber = 0;
+    private String pdfPassword;
+    private String pdfFileName = "";
+
+    private byte[] downloadedPdfFileContent;
+
     private boolean isBottomNavigationHidden = false;
+    private boolean isFullscreenToggled = false;
 
     private ActivityMainBinding viewBinding;
 
@@ -97,6 +105,16 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private final ActivityResultLauncher<String> saveToDownloadPermissionLauncher = registerForActivityResult(
         new RequestPermission(),
         this::saveDownloadedFileAfterPermissionRequest
+    );
+
+    private final ActivityResultLauncher<String> readFileErrorPermissionLauncher = registerForActivityResult(
+        new RequestPermission(),
+        this::restartAppIfGranted
+    );
+
+    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+        new StartActivityForResult(),
+        result -> displayFromUri(uri)
     );
 
     @Override
@@ -118,13 +136,25 @@ public class MainActivity extends CyaneaAppCompatActivity {
         onFirstInstall();
         onFirstUpdate();
 
-        readUriFromIntent(getIntent());
-        if (uri == null) {
-            pickFile();
-            setTitle("");
+        if (savedInstanceState != null) {
+            restoreInstanceState(savedInstanceState);
         } else {
-            displayFromUri(uri);
+            uri = getIntent().getData();
+            if (uri == null)
+                pickFile();
         }
+        displayFromUri(uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (prefManager.getBoolean("screen_on_pref", false)) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+        // Workaround for android:background XML attribute not being applied on all devices
+        viewBinding.bottomNavigation.setBackgroundColor(Cyanea.getInstance().getPrimary());
     }
 
     private void onFirstInstall() {
@@ -147,46 +177,28 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    private void readUriFromIntent(Intent intent) {
-        Uri intentUri = intent.getData();
-        if (intentUri == null) {
-            return;
-        }
-
-        // Happens when the content provider URI used to open the document expires
-        if ("content".equals(intentUri.getScheme()) &&
-            checkCallingOrSelfUriPermission(intentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_DENIED) {
-            Log.w(TAG, "No read permission for URI " + intentUri);
-            uri = null;
-            return;
-        }
-
-        uri = intentUri;
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable("uri", uri);
+        outState.putInt("pageNumber", pageNumber);
+        outState.putString("pdfPassword", pdfPassword);
+        super.onSaveInstanceState(outState);
     }
 
-    @NonConfigurationInstance
-    Uri uri;
-
-    @NonConfigurationInstance
-    Integer pageNumber = 0;
-
-    @NonConfigurationInstance
-    String pdfPassword;
-
-    private String pdfFileName = "";
-
-    private byte[] downloadedPdfFileContent;
-
-    private final ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
-            new StartActivityForResult(),
-            result -> {
-                if (uri != null)
-                    displayFromUri(uri);
-            }
-    );
+    private void restoreInstanceState(Bundle savedState) {
+        uri = savedState.getParcelable("uri");
+        pageNumber = savedState.getInt("pageNumber");
+        pdfPassword = savedState.getString("pdfPassword");
+    }
 
     void shareFile() {
-        startActivity(Utils.emailIntent(pdfFileName, "", getResources().getString(R.string.share), uri));
+        Intent sharingIntent;
+        if (uri.getScheme() != null && uri.getScheme().startsWith("http")) {
+            sharingIntent = Utils.plainTextShareIntent(getString(R.string.share), uri.toString());
+        } else {
+            sharingIntent = Utils.fileShareIntent(getString(R.string.share), pdfFileName, uri);
+        }
+        startActivity(sharingIntent);
     }
 
     private void openSelectedDocument(Uri selectedDocumentUri) {
@@ -231,6 +243,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
                     if (uri != null)
                         printDocument();
                     break;
+                case R.id.fullscreen:
+                    toggleFullscreen();
+                    return true;
                 default:
                     break;
             }
@@ -276,9 +291,31 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 pdfPassword = null;  // prevent the toast from being shown again if the user rotates the screen
             }
             askForPdfPassword();
+        } else if (couldNotOpenFileDueToMissingPermission(exception)) {
+            readFileErrorPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
         } else {
             Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
             Log.e(TAG, "Error when opening file", exception);
+        }
+    }
+
+    private boolean couldNotOpenFileDueToMissingPermission(Throwable e) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED)
+            return false;
+
+        String exceptionMessage = e.getMessage();
+        return e instanceof FileNotFoundException &&
+            exceptionMessage != null && exceptionMessage.contains("Permission denied");
+    }
+
+    private void restartAppIfGranted(boolean isPermissionGranted) {
+        if (isPermissionGranted) {
+            // This is a quick and dirty way to make the system restart the current activity *and the current app process*.
+            // This is needed because on Android 6 storage permission grants do not take effect until
+            // the app process is restarted.
+            System.exit(0);
+        } else {
+            Toast.makeText(this, R.string.file_opening_error, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -313,20 +350,57 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .setDuration(100);
     }
 
+    private void toggleFullscreen() {
+        final View view = viewBinding.pdfView;
+        if (!isFullscreenToggled) {
+            getSupportActionBar().hide();
+            isFullscreenToggled = true;
+            view.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        } else {
+            getSupportActionBar().show();
+            isFullscreenToggled = false;
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
+    }
+
     void displayFromUri(Uri uri) {
+        if (uri == null) {
+            setTitle("");
+            return;
+        }
+
         pdfFileName = getFileName(uri);
         setTitle(pdfFileName);
         setTaskDescription(new ActivityManager.TaskDescription(pdfFileName));
 
         String scheme = uri.getScheme();
         if (scheme != null && scheme.contains("http")) {
+            downloadOrShowDownloadedFile(uri);
+        } else {
+            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
+        }
+    }
+
+    private void downloadOrShowDownloadedFile(Uri uri) {
+        if (downloadedPdfFileContent == null) {
+            downloadedPdfFileContent = (byte[]) getLastCustomNonConfigurationInstance();
+        }
+        if (downloadedPdfFileContent != null) {
+            configurePdfViewAndLoad(viewBinding.pdfView.fromBytes(downloadedPdfFileContent));
+        } else {
             // we will get the pdf asynchronously with the DownloadPDFFile object
             viewBinding.progressBar.setVisibility(View.VISIBLE);
             DownloadPDFFile downloadPDFFile = new DownloadPDFFile(this);
             downloadPDFFile.execute(uri.toString());
-        } else {
-            configurePdfViewAndLoad(viewBinding.pdfView.fromUri(uri));
         }
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return downloadedPdfFileContent;
     }
 
     public void hideProgressBar() {
@@ -340,7 +414,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void saveToDownloadFolderIfAllowed(byte[] fileContent) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (Utils.canWriteToDownloadFolder(this)) {
             trySaveToDownloadFolder(fileContent, false);
         } else {
             saveToDownloadPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -387,6 +461,8 @@ public class MainActivity extends CyaneaAppCompatActivity {
                         result = cursor.getString(indexDisplayName);
                     }
                 }
+            } catch (Exception e) {
+                Log.w(TAG, "Couldn't retrieve file name", e);
             }
         }
         if (result == null) {
@@ -465,7 +541,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                             getString(R.string.pdf_author, getArguments().getString(AUTHOR_ARGUMENT)) + "\n" +
                             getString(R.string.pdf_creation_date, getArguments().getString(CREATION_DATE_ARGUMENT)))
                     .setPositiveButton(R.string.ok, (dialog, which) -> {})
-                    .setIcon(R.drawable.alert_icon)
+                    .setIcon(R.drawable.info_icon)
                     .create();
         }
     }

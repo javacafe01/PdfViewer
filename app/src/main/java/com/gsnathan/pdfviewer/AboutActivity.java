@@ -24,10 +24,12 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
@@ -93,16 +95,8 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                                 .build()
                 )
                 .addAttributions(
-                        new Attribution.Builder("AndroidAnnotations")
-                                .addCopyrightNotice("Copyright 2012-2016 eBusiness Information\n" +
-                                        "Copyright 2016-2017 the AndroidAnnotations project")
-                                .addLicense(License.APACHE)
-                                .setWebsite("https://github.com/androidannotations/androidannotations")
-                                .build()
-                )
-                .addAttributions(
                         new Attribution.Builder("AppIntro")
-                                .addCopyrightNotice("Copyright 2018 paorotolo")
+                                .addCopyrightNotice("Copyright 2018 Paolo Rotolo")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/paolorotolo/AppIntro")
                                 .build()
@@ -149,7 +143,12 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void emailDev(View v) {
-        startActivity(Utils.emailIntent("gokulswamilive@gmail.com", "Pdf Viewer Plus", APP_VERSION_RELEASE, "Send email..."));
+        String email = "gokulswamilive@gmail.com";
+        try {
+            startActivity(Utils.emailIntent(email, "Pdf Viewer Plus", APP_VERSION_RELEASE));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, email, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void navToGit(View v) {

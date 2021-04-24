@@ -37,18 +37,9 @@ android {
         applicationId "com.gsnathan.pdfviewer"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 27
-        versionName "3.6"
+        versionCode 28
+        versionName "3.7"
         vectorDrawables.useSupportLibrary = true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true
-                arguments = [
-                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
-                ]
-            }
-        }
     }
 
     buildFeatures {
@@ -86,11 +77,6 @@ dependencies {
 
     //Pdf Viewer Library (Proguard config done)
     implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
-
-    //Android Annotations Library (Proguard config not needed)
-    //compileOnly
-    annotationProcessor 'org.androidannotations:androidannotations:4.6.0'
-    implementation 'org.androidannotations:androidannotations-api:4.6.0'
 
     //License Presenter Library (Proguard config not needed)
     implementation 'com.github.franmontiel:AttributionPresenter:1.0.1'

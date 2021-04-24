@@ -6,7 +6,7 @@
     <string name="toast_ssl_error">Connessione sicura fallita.</string>
     <string name="saved_to_download">Il file è stato salvato nella cartella dei download.</string>
     <string name="save_to_download_failed">Non è stato possibile salvare il file nella cartella dei download.</string>
-    <string name="action_about">Informazioni</string>
+    <string name="action_about">Informazioni su…</string>
     <string name="version">Versione</string>
     <string name="intro">Ripeti l\'introduzione</string>
     <string name="email">Email</string>
@@ -19,7 +19,7 @@
     <string name="appChangelog">Novità</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permessi di archiviazione</string>
-    <string name="description__permission">Quest\'app necessita dei permessi di lettura nell\'archivio. Premi il pulsante per consentire l\'accesso all\'archivio del telefono, altrimenti l\'app non funzionerà correttamente.</string>
+    <string name="description__permission">Ora ti verrà richiesto di consentire all\'app di accedere alla memoria del telefono. Senza quest\'autorizzazione, l\'app potrebbe non riuscire ad aprire i file in alcuni casi.</string>
 
     <string name="libs">Librerie open source</string>
     <string name="code">Codice sorgente</string>
@@ -72,4 +72,5 @@
     <string name="enter_password">Inserisci la password corretta per aprire il documento:</string>
     <string name="wrong_password">Password errata.</string>
     <string name="dark_pdf">Modalità scura per il PDF</string>
+    <string name="keep_screen_on">Mantieni lo schermo acceso</string>
 </resources>

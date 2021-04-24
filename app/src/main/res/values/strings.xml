@@ -62,7 +62,7 @@
     <string name="appChangelog">Change Log</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Storage Permissions</string>
-    <string name="description__permission">Of course this app needs permission to access the phone\'s storage. Please click on the button and allow the app the to read the phone\'s storage. Without it, the app will not work properly.</string>
+    <string name="description__permission">You will now be prompted to allow the app to access the phone\'s storage. Without this permission, documents might fail to open in some cases.</string>
 
     <string name="libs">Open Source Libraries</string>
     <string name="git" translatable="false">Github</string>
@@ -70,6 +70,7 @@
 
     <string name="share">Share File</string>
     <string name="print">Print File</string>
+    <string name="full_screen">Full Screen</string>
     <string name="devnotice">Developer Notice</string>
     <string name="theme_picker">Change Theme</string>
     <string name="app_info">App Info</string>
@@ -119,4 +120,5 @@
 
 
     <string name="dark_pdf">Dark theme for PDF</string>
+    <string name="keep_screen_on">Keep the screen on</string>
 </resources>

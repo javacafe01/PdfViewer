@@ -24,10 +24,14 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.content.ClipData;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -45,10 +49,10 @@ public class Utils {
 
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("Multi-document mode", "You can now open multiple documents at the same time!", R.drawable.star_icon),
-                new WhatsNewItem("Pdf Night Mode", "PDFs can now be viewed in night mode! (Look in settings)", R.drawable.star_icon),
-                new WhatsNewItem("Optimizations and UI improvements", "Especially when opening files from the Internet.", R.drawable.star_icon),
-                new WhatsNewItem("Bugs", "A bunch of bug fixes.", R.drawable.star_icon)
+                new WhatsNewItem("Full screen mode", "A new button has been added to the bottom bar to read PDFs in full screen!", R.drawable.star_icon),
+                new WhatsNewItem("Keep the screen on while reading", "You can enable this feature in Settings.", R.drawable.star_icon),
+                new WhatsNewItem("Sharing improvements and fixes", "Including better support for third-party share dialogs.", R.drawable.star_icon),
+                new WhatsNewItem("Bugs", "A bunch of bug fixes and robustness improvements.", R.drawable.star_icon)
         );
         log.setTitleColor(Color.BLACK);
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
@@ -61,22 +65,28 @@ public class Utils {
         log.show(context.getSupportFragmentManager(), "Log");
     }
 
-    static Intent emailIntent(String emailAddress, String subject, String text, String title) {
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.setType("text/email");
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+    static Intent emailIntent(String emailAddress, String subject, String text) {
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:" + emailAddress));
         email.putExtra(Intent.EXTRA_SUBJECT, subject);
         email.putExtra(Intent.EXTRA_TEXT, text);
-        return Intent.createChooser(email, title);
+        return email;
     }
 
-    static Intent emailIntent(String subject, String text, String title, Uri filePath) {
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.setType("text/email");
-        email.putExtra(Intent.EXTRA_SUBJECT, subject);
-        email.putExtra(Intent.EXTRA_TEXT, text);
-        email.putExtra(Intent.EXTRA_STREAM, filePath);
-        return Intent.createChooser(email, title);
+    static Intent plainTextShareIntent(String chooserTitle, String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        return Intent.createChooser(intent, chooserTitle);
+    }
+
+    static Intent fileShareIntent(String chooserTitle, String fileName, Uri fileUri) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.setClipData(new ClipData(fileName, new String[] { "application/pdf" }, new ClipData.Item(fileUri)));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        return Intent.createChooser(intent, chooserTitle);
     }
 
     static Intent linkIntent(String url) {
@@ -91,6 +101,14 @@ public class Utils {
 
     static String getAppVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    static boolean canWriteToDownloadFolder(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            return true;
+
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     static byte[] readBytesToEnd(InputStream inputStream) throws IOException {

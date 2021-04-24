@@ -30,4 +30,11 @@
         android:orderInCategory="6"
         app:showAsAction="always"  />
 
+    <item
+        android:id="@+id/fullscreen"
+        android:icon="@drawable/fullscreen_icon"
+        android:title="@string/full_screen"
+        android:orderInCategory="7"
+        app:showAsAction="always" />
+
 </menu>
