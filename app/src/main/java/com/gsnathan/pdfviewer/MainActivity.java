@@ -40,6 +40,7 @@ import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -146,6 +147,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (prefManager.getBoolean("screen_on_pref", false)) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         // Workaround for android:background XML attribute not being applied on all devices
         viewBinding.bottomNavigation.setBackgroundColor(Cyanea.getInstance().getPrimary());
     }

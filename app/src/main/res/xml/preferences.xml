@@ -22,6 +22,10 @@
             android:defaultValue="false"
             android:title="@string/dark_pdf" android:key="pdftheme_pref"/>
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/keep_screen_on" android:key="screen_on_pref"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
