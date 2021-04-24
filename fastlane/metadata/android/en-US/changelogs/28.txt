@@ -1,0 +1,4 @@
+- Added full screen mode
+- Added a new option to keep the screen on while reading
+- Sharing improvements and fixes
+- Miscellaneous bug fixes and robustness improvements
