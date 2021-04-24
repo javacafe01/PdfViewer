@@ -45,6 +45,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -92,6 +93,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private byte[] downloadedPdfFileContent;
 
     private boolean isBottomNavigationHidden = false;
+    private boolean isFullscreenToggled = false;
 
     private ActivityMainBinding viewBinding;
 
@@ -241,6 +243,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
                     if (uri != null)
                         printDocument();
                     break;
+                case R.id.fullscreen:
+                    toggleFullscreen();
+                    return true;
                 default:
                     break;
             }
@@ -343,6 +348,22 @@ public class MainActivity extends CyaneaAppCompatActivity {
         viewBinding.bottomNavigation.animate()
                 .translationY(0)
                 .setDuration(100);
+    }
+
+    private void toggleFullscreen() {
+        final View view = viewBinding.pdfView;
+        if (!isFullscreenToggled) {
+            getSupportActionBar().hide();
+            isFullscreenToggled = true;
+            view.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        } else {
+            getSupportActionBar().show();
+            isFullscreenToggled = false;
+            view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
     }
 
     void displayFromUri(Uri uri) {

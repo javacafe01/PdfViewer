@@ -26,6 +26,7 @@
     
     <string name="share">Datei teilen</string>
     <string name="print">Datei drucken</string>
+    <string name="full_screen">Vollbild</string>
     <string name="devnotice">Hinweise vom Entwickler</string>
     <string name="theme_picker">Thema ändern</string>
     <string name="app_info">App-Info</string>
