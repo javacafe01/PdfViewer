@@ -49,10 +49,10 @@ public class Utils {
 
     static void showLog(AppCompatActivity context) {
         WhatsNew log = WhatsNew.newInstance(
-                new WhatsNewItem("Multi-document mode", "You can now open multiple documents at the same time!", R.drawable.star_icon),
-                new WhatsNewItem("Pdf Night Mode", "PDFs can now be viewed in night mode! (Look in settings)", R.drawable.star_icon),
-                new WhatsNewItem("Optimizations and UI improvements", "Especially when opening files from the Internet.", R.drawable.star_icon),
-                new WhatsNewItem("Bugs", "A bunch of bug fixes.", R.drawable.star_icon)
+                new WhatsNewItem("Full screen mode", "A new button has been added to the bottom bar to read PDFs in full screen!", R.drawable.star_icon),
+                new WhatsNewItem("Keep the screen on while reading", "You can enable this feature in Settings.", R.drawable.star_icon),
+                new WhatsNewItem("Sharing improvements and fixes", "Including better support for third-party share dialogs.", R.drawable.star_icon),
+                new WhatsNewItem("Bugs", "A bunch of bug fixes and robustness improvements.", R.drawable.star_icon)
         );
         log.setTitleColor(Color.BLACK);
         log.setTitleText(context.getResources().getString(R.string.appChangelog));
