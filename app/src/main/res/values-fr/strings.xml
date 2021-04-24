@@ -19,7 +19,6 @@
     <string name="appChangelog">Journal des modifications</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Autorisation de stockage</string>
-    <string name="description__permission">Cette application nécessite bien entendu l\'autorisation d\'accéder à la mémoire de stockage du téléphone. Veuillez appuyer sur le bouton et autoriser l\'application à accéder à la mémoire du téléphone. À défaut, l\'application ne fonctionnera pas correctement.</string>
     <string name="libs">Bibliothèques Open Source</string>
     <string name="code">Code Source</string>
     <string name="share">Partager le fichier</string>

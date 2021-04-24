@@ -20,8 +20,7 @@
     <string name="appChangelog">Änderungshistorie</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Speicherberechtigungen</string>
-    <string name="description__permission">Diese App braucht natürlicherweise die Berechtigung, auf den Telefonspeicher zugreifen zu können. Bitte drücken Sie auf die Schaltfläche und erlauben Sie der App das Lesen des Telefonspeichers. Andernfalls funktioniert die App nicht ordnungsgemäß.</string>
-    
+
     <string name="libs">Open Source-Bibliotheken</string>
     <string name="code">Quellcode</string>
     

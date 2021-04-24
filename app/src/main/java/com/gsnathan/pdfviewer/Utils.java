@@ -25,10 +25,13 @@
 package com.gsnathan.pdfviewer;
 
 import android.content.ClipData;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -98,6 +101,14 @@ public class Utils {
 
     static String getAppVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    static boolean canWriteToDownloadFolder(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+            return true;
+
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     static byte[] readBytesToEnd(InputStream inputStream) throws IOException {

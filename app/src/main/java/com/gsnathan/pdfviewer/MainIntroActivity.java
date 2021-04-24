@@ -66,7 +66,7 @@ public class MainIntroActivity extends AppIntro {
             third.setImageDrawable(R.drawable.patterns_permissions);
             third.setBgColor(bg);
             addSlide(AppIntroFragment.newInstance(third));
-            askForPermissions(new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 3);
+            askForPermissions(new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE }, 3);
         }
 
         showSkipButton(false);

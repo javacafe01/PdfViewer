@@ -58,7 +58,6 @@
     <string name="appChangelog">Registro de mudanças</string>
     <string name="ok">Ok</string>
     <string name="title_permission">Permissão de armazenamento</string>
-    <string name="description__permission">É claro que este app precisa de permissão para acessar o armazenamento do smartphone. Por favor, clique no botão e permita que o app leia o armazenamento interno. Sem isso, o aplicativo não vai funcionar corretamente.</string>
 
     <string name="libs">Bibliotecas de código aberto</string>
     <string name="git" translatable="false">Github</string>
@@ -94,7 +93,7 @@
     <string name="settings">Configurações</string>
     <string name="alias">Anti-Aliasing</string>
     <string name="scroll">Rolagem horizontal</string>
-    <string name="snap" translatable="false">Page Snap</string>
+    <string name="snap">Page Snap</string>
     <string name="fling">Page Fling</string>
     <string name="qualitysettings">Qualidade</string>
     <string name="scrollsettings">Rolagem</string>
