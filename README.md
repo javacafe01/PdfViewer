@@ -22,7 +22,9 @@
 |:-:|:-:|:-:|
 | <img src ="https://github.com/JavaCafe01/PdfViewer/blob/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="190" height="340"/> | <img src ="https://github.com/JavaCafe01/PdfViewer/blob/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="190" height="340"/> | <img src ="https://github.com/JavaCafe01/PdfViewer/blob/dev/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="190" height="340"/> |
 
-## Permissions
+## Permissions and privacy
+This app does not collect any data.  
+The following permissions are required to provide specific features in the app:
 * *Internet*: For opening PDFs through links
 * *Storage*: For saving downloading PDFs and opening them from storage
 
