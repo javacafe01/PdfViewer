@@ -24,12 +24,17 @@
 
 package com.gsnathan.pdfviewer;
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 import com.franmontiel.attributionpresenter.AttributionPresenter;
 import com.franmontiel.attributionpresenter.entities.Attribution;
@@ -71,7 +76,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     }
 
     public void showPrivacy(View v) {
-        startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer/blob/master/privacy_policy.md"));
+        new PrivacyInfoDialog().show(getSupportFragmentManager(), "privacy_dialog");
     }
 
     public void showLicense(View v) {
@@ -158,6 +163,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
     public void navToSourceCode(View v) {
         startActivity(Utils.linkIntent("https://github.com/JavaCafe01/PdfViewer"));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -167,4 +173,16 @@ public class AboutActivity extends CyaneaAppCompatActivity {
         return false;
     }
 
+    public static class PrivacyInfoDialog extends DialogFragment {
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            return builder.setTitle(R.string.privacy)
+                    .setMessage(R.string.privacy_info)
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {})
+                    .setIcon(R.drawable.privacy_icon)
+                    .create();
+        }
+    }
 }
