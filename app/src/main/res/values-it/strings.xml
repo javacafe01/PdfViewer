@@ -73,4 +73,5 @@
     <string name="wrong_password">Password errata.</string>
     <string name="dark_pdf">Modalità scura per il PDF</string>
     <string name="keep_screen_on">Mantieni lo schermo acceso</string>
+    <string name="privacy_info">Questa app non raccoglie alcun dato.\nI seguenti permessi sono richiesti per fornire specifiche funzionalità dell\'applicazione:\n- <b>Internet</b>: aprire i PDF tramite link\n- <b>Archiviazione</b>: aprire file dalla memoria interna, salvare i PDF aperti tramite link</string>
 </resources>
