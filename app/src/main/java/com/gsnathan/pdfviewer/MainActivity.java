@@ -81,6 +81,9 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final String PREF_PAGE_NUMBER = "pageNumber";
+    private static final String PREF_URI = "uri";
+    private static final String PREF_PASSWORD = "pdfPassword";
 
     private PrintManager mgr;
     private SharedPreferences prefManager;
@@ -139,6 +142,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
         if (savedInstanceState != null) {
             restoreInstanceState(savedInstanceState);
         } else {
+            // Nullable state workaround
+            pageNumber = prefManager.getInt(PREF_PAGE_NUMBER, pageNumber);
+
             uri = getIntent().getData();
             if (uri == null)
                 pickFile();
@@ -179,16 +185,20 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable("uri", uri);
-        outState.putInt("pageNumber", pageNumber);
-        outState.putString("pdfPassword", pdfPassword);
+        outState.putParcelable(PREF_URI, uri);
+        outState.putInt(PREF_PAGE_NUMBER, pageNumber);
+        outState.putString(PREF_PASSWORD, pdfPassword);
+
+        // Nullable state workaround
+        prefManager.edit().putInt(PREF_PAGE_NUMBER, pageNumber).apply();
+
         super.onSaveInstanceState(outState);
     }
 
     private void restoreInstanceState(Bundle savedState) {
-        uri = savedState.getParcelable("uri");
-        pageNumber = savedState.getInt("pageNumber");
-        pdfPassword = savedState.getString("pdfPassword");
+        uri = savedState.getParcelable(PREF_URI);
+        pageNumber = savedState.getInt(PREF_PAGE_NUMBER);
+        pdfPassword = savedState.getString(PREF_PASSWORD);
     }
 
     void shareFile() {
