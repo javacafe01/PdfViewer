@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pick_file">Kies een bestand</string>
+    <string name="toast_pick_file_error">Kan geen bestand kiezen. Controleer in de bestandsbrowser.</string>
+    <string name="toast_http_code_error">Fout bij laden van pagina, http-foutcode:</string>
+    <string name="toast_generic_download_error">We kunnen dit bestand om verschillende redenen niet downloaden.</string>
+    <string name="toast_ssl_error">Beveiligde verbinding mislukt.</string>
+    <string name="saved_to_download">Bestand opgeslagen in de map Downloads</string>
+    <string name="save_to_download_failed">Kan het bestand niet opslaan in de map Downloads.</string>
+    <string name="action_about">Over</string>
+    <string name="version">Versie</string>
+    <string name="intro">Speel de intro opnieuw af</string>
+    <string name="email">E-mail</string>
+    <string name="description_open">Deze applicatie is natuurlijk open source. U hebt altijd toestemming om uw eigen wijzigingen in deze app aan te brengen. De link naar de broncode staat in het gedeelte Over.</string>
+    <string name="title_open">Vrijheid</string>
+    <string name="description__intro">Een eenvoudige PDF-reader.</string>
+    <string name="myLicense">Licentie</string>
+    <string name="privacy">Privacybeleid</string>
+  
+    <string name="appChangelog">Logboek wijzigingen</string>
+    <string name="ok">Ok</string>
+    <string name="title_permission">Opslag autorisatie</string>
+    <string name="description__permission">Nu wordt u gevraagd om de app toegang te geven tot het telefoongeheugen. Zonder deze toestemming kan de app in sommige gevallen geen bestanden openen.</string>
+
+    <string name="libs">Open source-bibliotheken</string>
+    <string name="code">Broncode</string>
+  
+    <string name="share">Deel bestand</string>
+    <string name="print">Bestand printen</string>
+    <string name="full_screen">Volledig scherm</string>
+    <string name="devnotice">Opmerking van de ontwikkelaar</string>
+    <string name="theme_picker">Thema veranderen</string>
+    <string name="app_info">App informatie</string>
+    <string name="author_info">Auteur Info</string>
+    <string name="contribution">bijdragers</string>
+  
+    <string name="label_theme_picker">Themabrowser</string>
+  
+    <string name="pref_theme_title">Thema\'s</string>
+    <string name="pref_theme_summary">Kies een vooraf geïnstalleerd thema</string>
+  
+    <string name="pref_primary_color_title">Hoofdkleur</string>
+    <string name="pref_primary_color_summary">Wordt het vaakst weergegeven in uw app.</string>
+  
+    <string name="pref_accent_color_title">Accent kleur</string>
+    <string name="pref_accent_color_summary">Gemarkeerde delen van de interface.</string>
+  
+    <string name="pref_background_color_title">Achtergrond kleur</string>
+    <string name="pref_background_color_summary">Achtergrondkleur van de inhoud van de applicatie.</string>
+    <string name="pref_category_appearance">Uiterlijk</string>
+  
+    <string name="pref_colored_navigation_bar_title">Kleur navigatiebalk</string>
+    <string name="pref_colored_navigation_bar_summary">Pas de hoofdkleur toe op de navigatiebalk</string>
+    <string name="meta">Bestandsinformatie</string>
+    <string name="quality">Render in hoge kwaliteit</string>
+    <string name="settings">Voorkeuren</string>
+    <string name="alias">Anti-aliasing</string>
+    <string name="scroll">Horizontaal scrollen</string>
+    <string name="snap">Klik de zijkant op zijn plaats</string>
+    <string name="snap_summary">Centreren op huidige pagina na elke veegbeweging</string>
+    <string name="fling">Pagina-einde</string>
+    <string name="fling_summary">Veeg snel om naar de volgende pagina te gaan</string>
+    <string name="qualitysettings">Kwaliteit</string>
+    <string name="scrollsettings">Scrollen</string>
+    <string name="title_activity_settings">Voorkeuren</string>
+    <string name="buttonLog">Doorgaan</string>
+    <string name="show_in_launcher">Toon de app in de launcher</string>
+    <string name="show_in_launcher_summary">Mogelijk moet u de app opnieuw opstarten om deze optie van kracht te laten worden</string>
+    <string name="pdf_title">Titel : %1$s</string>
+    <string name="pdf_author">Auteur : %1$s</string>
+    <string name="pdf_creation_date">Creatiedatum : %1$s</string>
+  
+    <string name="file_opening_error">Er is een fout opgetreden bij het openen van het bestand.</string>
+    <string name="protected_pdf">Beveiligde PDF</string>
+    <string name="enter_password">Voer het juiste wachtwoord in om het document te openen:</string>
+    <string name="wrong_password">Verkeerd wachtwoord.</string>
+    
+    <string name="dark_pdf">Donker thema voor PDF</string>
+	<string name="keep_screen_on">Houd het scherm aan</string>
+    <string name="privacy_info">Deze app verzamelt geen gegevens.\nDe volgende machtigingen zijn vereist om specifieke functies in de app te bieden:\n- <b>Internet</b>: PDF\'s openen via links\n- <b>Opslag</b>: bestanden openen vanuit opslag, PDF\'s opslaan die zijn geopend via links</string>
+</resources>
