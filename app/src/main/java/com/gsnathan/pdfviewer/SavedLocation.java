@@ -9,14 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 @Entity
 public class SavedLocation {
-    public SavedLocation(@NotNull String location, int pageNumber) {
-        this.location = location;
+    public SavedLocation(@NotNull byte[] hash, int pageNumber) {
+        this.hash = hash;
         this.pageNumber = pageNumber;
     }
 
     @PrimaryKey
     @NonNull
-    public String location;
+    public byte[] hash;
 
     @ColumnInfo(name = "pageNumber")
     public int pageNumber;

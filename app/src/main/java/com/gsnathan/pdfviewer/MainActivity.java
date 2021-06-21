@@ -77,6 +77,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -85,6 +88,9 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
+    /** For performance reasons, we won't hash the entire PDF but only up to this many bytes. */
+    private static final int HASH_SIZE = 1024 * 1024;
 
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -99,6 +105,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private String pdfFileName = "";
 
     private byte[] downloadedPdfFileContent;
+    private byte[] fileContentHash = null;
 
     private boolean isBottomNavigationHidden = false;
     private boolean isFullscreenToggled = false;
@@ -262,10 +269,32 @@ public class MainActivity extends CyaneaAppCompatActivity {
         });
     }
 
+    byte[] computeHash() {
+        try {
+            MessageDigest digester = MessageDigest.getInstance("MD5");
+            if (downloadedPdfFileContent != null) {
+                digester.update(downloadedPdfFileContent, 0, HASH_SIZE);
+            } else {
+                InputStream is = getContentResolver().openInputStream(uri);
+                byte[] buffer = new byte[HASH_SIZE];
+                int amountRead = is.read(buffer);
+                if (amountRead != -1) {
+                    digester.update(buffer, 0, amountRead);
+                }
+            }
+            return digester.digest();
+        } catch (NoSuchAlgorithmException | IOException e) {
+            return null;
+        }
+    }
+
     void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
         if (pageNumber == 0) { // attempt to find a saved location
             executor.execute(() -> { // off UI thread
-                Integer maybePageNumber = appDb.savedLocationDao().findSavedPage(uri.toString());
+                fileContentHash = computeHash();
+                Integer maybePageNumber = fileContentHash == null
+                        ? Integer.valueOf(0)
+                        : appDb.savedLocationDao().findSavedPage(fileContentHash);
                 handler.post(() -> // back on UI thread
                     configurePdfViewAndLoadWithPageNumber(
                         viewConfigurator,
@@ -473,9 +502,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void setCurrentPage(int page, int pageCount) {
-        if (uri != null) {
+        if (fileContentHash != null) {
+            byte[] hash = fileContentHash; // Don't want fileContentHash to change out from under us
             executor.execute(() -> // off UI thread
-                appDb.savedLocationDao().insert(new SavedLocation(uri.toString(), pageNumber))
+                appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
             );
         }
         pageNumber = page;

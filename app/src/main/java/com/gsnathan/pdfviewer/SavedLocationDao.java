@@ -7,8 +7,8 @@ import androidx.room.Query;
 
 @Dao
 public interface SavedLocationDao {
-    @Query("SELECT pageNumber FROM SavedLocation WHERE location = :location")
-    Integer findSavedPage(String location);
+    @Query("SELECT pageNumber FROM SavedLocation WHERE hash = :hash")
+    Integer findSavedPage(byte[] hash);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(SavedLocation saveLocations);
