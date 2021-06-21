@@ -278,9 +278,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 InputStream is = getContentResolver().openInputStream(uri);
                 byte[] buffer = new byte[HASH_SIZE];
                 int amountRead = is.read(buffer);
-                if (amountRead != -1) {
-                    digester.update(buffer, 0, amountRead);
+                if (amountRead == -1) {
+                    return null;
                 }
+                digester.update(buffer, 0, amountRead);
             }
             return digester.digest();
         } catch (NoSuchAlgorithmException | IOException e) {
