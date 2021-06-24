@@ -273,7 +273,8 @@ public class MainActivity extends CyaneaAppCompatActivity {
         try {
             MessageDigest digester = MessageDigest.getInstance("MD5");
             if (downloadedPdfFileContent != null) {
-                digester.update(downloadedPdfFileContent, 0, HASH_SIZE);
+                int size = Math.min(HASH_SIZE, downloadedPdfFileContent.length);
+                digester.update(downloadedPdfFileContent, 0, size);
             } else {
                 InputStream is = getContentResolver().openInputStream(uri);
                 byte[] buffer = new byte[HASH_SIZE];
