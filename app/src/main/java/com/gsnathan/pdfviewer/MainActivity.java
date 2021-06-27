@@ -58,7 +58,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.room.Room;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
@@ -78,6 +77,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Executor;
@@ -105,7 +105,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private String pdfFileName = "";
 
     private byte[] downloadedPdfFileContent;
-    private byte[] fileContentHash = null;
+    private String fileContentHash = null;
 
     private boolean isBottomNavigationHidden = false;
     private boolean isFullscreenToggled = false;
@@ -148,7 +148,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
 
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
-        appDb = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "app-db").build();
+        appDb = AppDatabase.getInstance(getApplicationContext());
         onFirstInstall();
         onFirstUpdate();
 
@@ -269,7 +269,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         });
     }
 
-    byte[] computeHash() {
+    String computeHash() {
         try {
             MessageDigest digester = MessageDigest.getInstance("MD5");
             if (downloadedPdfFileContent != null) {
@@ -284,7 +284,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 }
                 digester.update(buffer, 0, amountRead);
             }
-            return digester.digest();
+            return String.format("%032x", new BigInteger(1, digester.digest()));
         } catch (NoSuchAlgorithmException | IOException e) {
             return null;
         }
@@ -326,7 +326,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .enableAnnotationRendering(true)
                 .enableAntialiasing(prefManager.getBoolean("alias_pref", true))
                 .onTap(this::toggleBottomNavigationVisibility)
-                .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
+                .onPageScroll(this::onPdfPageScroll)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onError(this::handleFileOpeningError)
@@ -376,7 +376,18 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    private void toggleBottomNavigationAccordingToPosition(int page, float positionOffset) {
+    private void onPdfPageScroll(int page, float positionOffset) {
+        if (fileContentHash != null) {
+            String hash = fileContentHash; // Don't want fileContentHash to change out from under us
+            executor.execute(() -> // off UI thread
+                    appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
+            );
+        }
+
+        toggleBottomNavigationAccordingToPosition(positionOffset);
+    }
+
+    private void toggleBottomNavigationAccordingToPosition(float positionOffset) {
         if (positionOffset == 0) {
             showBottomNavigationView();
         } else if (!isBottomNavigationHidden) {
@@ -504,12 +515,6 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void setCurrentPage(int page, int pageCount) {
-        if (fileContentHash != null) {
-            byte[] hash = fileContentHash; // Don't want fileContentHash to change out from under us
-            executor.execute(() -> // off UI thread
-                appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
-            );
-        }
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
     }
