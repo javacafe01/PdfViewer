@@ -326,7 +326,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 .enableAnnotationRendering(true)
                 .enableAntialiasing(prefManager.getBoolean("alias_pref", true))
                 .onTap(this::toggleBottomNavigationVisibility)
-                .onPageScroll(this::onPdfPageScroll)
+                .onPageScroll(this::toggleBottomNavigationAccordingToPosition)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onError(this::handleFileOpeningError)
@@ -376,18 +376,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 
-    private void onPdfPageScroll(int page, float positionOffset) {
-        if (fileContentHash != null) {
-            String hash = fileContentHash; // Don't want fileContentHash to change out from under us
-            executor.execute(() -> // off UI thread
-                    appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
-            );
-        }
-
-        toggleBottomNavigationAccordingToPosition(positionOffset);
-    }
-
-    private void toggleBottomNavigationAccordingToPosition(float positionOffset) {
+    private void toggleBottomNavigationAccordingToPosition(int page, float positionOffset) {
         if (positionOffset == 0) {
             showBottomNavigationView();
         } else if (!isBottomNavigationHidden) {
@@ -515,6 +504,13 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void setCurrentPage(int page, int pageCount) {
+        if (fileContentHash != null) {
+            String hash = fileContentHash; // Don't want fileContentHash to change out from under us
+            executor.execute(() -> // off UI thread
+                    appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
+            );
+        }
+
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
     }
