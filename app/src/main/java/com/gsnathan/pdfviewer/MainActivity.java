@@ -504,10 +504,10 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void setCurrentPage(int page, int pageCount) {
-        if (fileContentHash != null) {
-            String hash = fileContentHash; // Don't want fileContentHash to change out from under us
+        String hash = fileContentHash; // Don't want fileContentHash to change out from under us
+        if (hash != null) {
             executor.execute(() -> // off UI thread
-                    appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
+                appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
             );
         }
 
