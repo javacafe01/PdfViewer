@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Intro -->
+    <string name="description__intro">Простий додаток для перегляду PDF файлів.</string>
+    <string name="title_open">Свобода дій</string>
+    <string name="description_open">Цей додаток з відкритим вихідним кодом. Ви можете вносити свої зміни в додаток. Посилання на вихідний код знаходиться в розділі «Про програму».</string>
+    <string name="title_permission">Дозволи</string>
+
+    <!-- Main menu -->
+    <string name="pick_file">Вибрати файл</string>
+    <string name="toast_pick_file_error">Неможливо вибрати файл. Перевірте ваш файловий менеджер.</string>
+    <string name="toast_ssl_error">Не вдалося встановити захищене з'єднання.</string>
+    <string name="share">Поділитися</string>
+    <string name="meta">Інформація про файл</string>
+    <string name="print">Друк</string>
+
+    <!-- Theme -->
+    <string name="theme_picker">Змінити тему</string>
+    <string name="pref_category_appearance">Зовнішний вигляд</string>
+    <string name="pref_theme_title">Теми</string>
+    <string name="label_theme_picker">Вибір теми</string>
+    <string name="pref_theme_summary">Виберіть попередньо встановлену тему</string>
+    <string name="pref_primary_color_title">Основний колір</string>
+    <string name="pref_primary_color_summary">Найчастіше відображається в вашому додатку.</string>
+    <string name="pref_accent_color_title">Колір заголовків</string>
+    <string name="pref_accent_color_summary">Підсвічує виділену область призначеного для користувача інтерфейсу.</string>
+    <string name="pref_background_color_title">Колір фону</string>
+    <string name="pref_background_color_summary">Колір для фону вмісту додатка</string>
+    <string name="pref_colored_navigation_bar_title">Колір панелі навігації</string>
+    <string name="pref_colored_navigation_bar_summary">Застосувати основний колір до панелі навігації</string>
+
+    <!-- Settings -->
+    <string name="title_activity_settings">Налаштування</string>
+    <string name="settings">Налаштування</string>
+    <string name="qualitysettings">Якість</string>
+    <string name="quality">Висока якість зображення</string>
+    <string name="alias">Згладжування</string>
+    <string name="scrollsettings">Прокрутка</string>
+    <string name="scroll">Горизонтальна прокрутка</string>
+    <string name="fling">Перегортання сторінок</string>
+
+    <!-- About -->
+    <string name="action_about">Про додаток</string>
+    <string name="app_info">Інформація щодо додатку</string>
+    <string name="intro">Повтор введення</string>
+    <string name="appChangelog">Журнал змін</string>
+    <string name="buttonLog">Продовжити</string>
+    <string name="myLicense">Ліцензія</string>
+    <string name="privacy">Політика конфіденціальності</string>
+    <string name="code">Вихідний код</string>
+    <string name="libs">Бібліотека з вихідним кодом</string>
+    <string name="author_info">Про автора</string>
+    <string name="email">E-Mail</string>
+    <string name="contribution">Автори</string>
+
+    <string name="ok">ОК</string>
+    <string name="version">Версія</string>
+    <string name="devnotice">Сповіщення розробника</string>
+
+</resources>
