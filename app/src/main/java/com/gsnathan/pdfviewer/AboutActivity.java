@@ -144,7 +144,7 @@ public class AboutActivity extends CyaneaAppCompatActivity {
                 .build();
 
         //show license dialogue
-        attributionPresenter.showDialog("Open Source Libraries");
+        attributionPresenter.showDialog(getString(R.string.libs));
     }
 
     public void emailDev(View v) {
