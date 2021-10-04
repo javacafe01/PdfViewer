@@ -35,17 +35,18 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.view.WindowManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -75,6 +76,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
@@ -82,8 +89,15 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    /** For performance reasons, we won't hash the entire PDF but only up to this many bytes. */
+    private static final int HASH_SIZE = 1024 * 1024;
+
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
     private PrintManager mgr;
     private SharedPreferences prefManager;
+    private AppDatabase appDb;
 
     private Uri uri;
     private int pageNumber = 0;
@@ -91,6 +105,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
     private String pdfFileName = "";
 
     private byte[] downloadedPdfFileContent;
+    private String fileContentHash = null;
 
     private boolean isBottomNavigationHidden = false;
     private boolean isFullscreenToggled = false;
@@ -122,7 +137,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         super.onCreate(savedInstanceState);
         viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
-        
+
         Constants.THUMBNAIL_RATIO = 1f;
         setBottomBarListeners();
 
@@ -133,6 +148,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         prefManager = PreferenceManager.getDefaultSharedPreferences(this);
 
         mgr = (PrintManager) getSystemService(PRINT_SERVICE);
+        appDb = AppDatabase.getInstance(getApplicationContext());
         onFirstInstall();
         onFirstUpdate();
 
@@ -253,18 +269,59 @@ public class MainActivity extends CyaneaAppCompatActivity {
         });
     }
 
+    String computeHash() {
+        try {
+            MessageDigest digester = MessageDigest.getInstance("MD5");
+            if (downloadedPdfFileContent != null) {
+                int size = Math.min(HASH_SIZE, downloadedPdfFileContent.length);
+                digester.update(downloadedPdfFileContent, 0, size);
+            } else {
+                InputStream is = getContentResolver().openInputStream(uri);
+                byte[] buffer = new byte[HASH_SIZE];
+                int amountRead = is.read(buffer);
+                if (amountRead == -1) {
+                    return null;
+                }
+                digester.update(buffer, 0, amountRead);
+            }
+            return String.format("%032x", new BigInteger(1, digester.digest()));
+        } catch (NoSuchAlgorithmException | IOException e) {
+            return null;
+        }
+    }
+
     void configurePdfViewAndLoad(PDFView.Configurator viewConfigurator) {
+        if (pageNumber == 0) { // attempt to find a saved location
+            executor.execute(() -> { // off UI thread
+                fileContentHash = computeHash();
+                Integer maybePageNumber = fileContentHash == null
+                        ? Integer.valueOf(0)
+                        : appDb.savedLocationDao().findSavedPage(fileContentHash);
+                handler.post(() -> // back on UI thread
+                    configurePdfViewAndLoadWithPageNumber(
+                        viewConfigurator,
+                        maybePageNumber != null ? maybePageNumber : 0
+                    )
+                );
+            });
+        } else {
+            configurePdfViewAndLoadWithPageNumber(viewConfigurator, pageNumber);
+        }
+    }
+
+    void configurePdfViewAndLoadWithPageNumber(PDFView.Configurator viewConfigurator, int pageNum) {
         if (!prefManager.getBoolean("pdftheme_pref", false)) {
             viewBinding.pdfView.setBackgroundColor(Color.LTGRAY);
         } else {
             viewBinding.pdfView.setBackgroundColor(0xFF212121);
         }
+
         viewBinding.pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         viewBinding.pdfView.setMinZoom(0.5f);
         viewBinding.pdfView.setMidZoom(2.0f);
         viewBinding.pdfView.setMaxZoom(5.0f);
         viewConfigurator
-                .defaultPage(pageNumber)
+                .defaultPage(pageNum)
                 .onPageChange(this::setCurrentPage)
                 .enableAnnotationRendering(true)
                 .enableAntialiasing(prefManager.getBoolean("alias_pref", true))
@@ -447,6 +504,13 @@ public class MainActivity extends CyaneaAppCompatActivity {
     }
 
     private void setCurrentPage(int page, int pageCount) {
+        String hash = fileContentHash; // Don't want fileContentHash to change out from under us
+        if (hash != null) {
+            executor.execute(() -> // off UI thread
+                appDb.savedLocationDao().insert(new SavedLocation(hash, pageNumber))
+            );
+        }
+
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
     }
@@ -546,4 +610,3 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
     }
 }
-
