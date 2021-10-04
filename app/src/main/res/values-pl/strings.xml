@@ -1,0 +1,125 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2018 Gokul Swaminathan
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<resources>
+    <string name="app_name" translatable="false">Pdf Viewer Plus</string>
+    <string name="pick_file">Wybierz plik</string>
+    <string name="toast_pick_file_error">Nie można wybrać pliku. Sprawdź status menedżera plików.</string>
+    <string name="toast_http_code_error">Otrzymano błąd od zdalnego serwera.</string>
+    <string name="toast_generic_download_error">Z jakiegoś powodu nie można było pobrać tego pliku.</string>
+    <string name="toast_ssl_error">Nie ustanowiono bezpiecznego połączenia.</string>
+    <string name="saved_to_download">Plik zapisany do folderu Pobrane.</string>
+    <string name="save_to_download_failed">Nie można było zapisać pliku do folderu Pobrane.</string>
+    <string name="action_about">Informacje</string>
+    <string name="version">Wersja</string>
+    <string name="intro">Odtwórz wprowadzenie</string>
+    <string name="author" translatable="false">Gokul Swaminathan</string>
+    <string name="email">E-mail</string>
+    <string name="description_open">Jest to oczywiście aplikacja o otwartym źródle. Zawsze posiadasz możliwość modyfikowania tej aplikacji zgodnie ze swoimi upodobaniami. Odnośnik do kodu źródłowego znajduje się w sekcji Informacje.</string>
+    <string name="title_open">Wolność</string>
+    <string name="title_intro" translatable="false">Pdf Viewer Plus</string>
+    <string name="description__intro">Prosta przeglądarka dokumentów PDF.</string>
+    <string name="myLicense">Licencja</string>
+    <string name="privacy">Polityka prywatności</string>
+
+    <string name="license" translatable="false">
+        MIT License\n\nCopyright (&#169;) 2018 Gokul Swaminathan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+    </string>
+
+    <string name="appChangelog">Lista zmian</string>
+    <string name="ok">Ok</string>
+    <string name="title_permission">Dostęp do pamięci</string>
+    <string name="description__permission">W tym kroku poprosimy Cię o przyznanie tej aplikacji uprawnienia dostępu do pamięci urządzenia. W większości przypadków brak tego uprawnienia uniemożliwia otwieranie dokumentów.</string>
+
+    <string name="libs">Biblioteki Open Source</string>
+    <string name="git" translatable="false">Github</string>
+    <string name="code">Kod źródłowy</string>
+
+    <string name="share">Udostępnij</string>
+    <string name="print">Drukuj</string>
+    <string name="full_screen">Pełny ekran</string>
+    <string name="devnotice">Uwaga od programisty</string>
+    <string name="theme_picker">Zmień motyw</string>
+    <string name="app_info">O aplikacji</string>
+    <string name="author_info">O autorze</string>
+    <string name="contribution">Współtwórcy</string>
+
+    <string name="label_theme_picker">Wybierz motyw</string>
+
+    <string name="pref_theme_title">Motywy</string>
+    <string name="pref_theme_summary">Wybierz spośród wbudowanych motywów</string>
+
+    <string name="pref_primary_color_title">Kolor podstawowy</string>
+    <string name="pref_primary_color_summary">Główny kolor aplikacji.</string>
+
+    <string name="pref_accent_color_title">Kolor akcentu</string>
+    <string name="pref_accent_color_summary">Ma zastosowanie do niektórych elementów interfejsu.</string>
+
+    <string name="pref_background_color_title">Kolor tła</string>
+    <string name="pref_background_color_summary">Kolor tła dla treści aplikacji.</string>
+    <string name="pref_category_appearance">Wygląd</string>
+
+    <string name="pref_colored_navigation_bar_title">Kolor paska nawigacji</string>
+    <string name="pref_colored_navigation_bar_summary">Zastosuj kolor podstawowy do paska nawigacji</string>
+    <string name="meta">Informacje o pliku</string>
+    <string name="quality">Wysoka jakość renderowania</string>
+    <string name="settings">Ustawienia</string>
+    <string name="alias">Anti-Aliasing</string>
+    <string name="scroll">Przewijanie w poziomie</string>
+    <string name="snap">Centrowanie strony</string>
+    <string name="snap_summary">Wyśrodkuj widok strony po każdym przeciągnięciu</string>
+    <string name="fling">Przekręcanie kartek</string>
+    <string name="fling_summary">Przeciągnij szybko palcem, aby przejść na kolejną stronę</string>
+    <string name="qualitysettings">Wizualne</string>
+    <string name="scrollsettings">Przewijanie</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="buttonLog">Kontynuuj</string>
+    <string name="show_in_launcher">Wyświetl aplikację na ekranie głównym</string>
+    <string name="show_in_launcher_summary">Może być wymagane ponowne uruchomienie aplikacji ekranu głównego, aby wprowadzić tę zmianę</string>
+    <string name="pdf_title">Tytuł: %1$s</string>
+    <string name="pdf_author">Autor: %1$s</string>
+    <string name="pdf_creation_date">Data utworzenia: %1$s</string>
+
+    <string name="file_opening_error">Wystąpił błąd podczas otwierania pliku.</string>
+    <string name="protected_pdf">Chroniony PDF</string>
+    <string name="enter_password">Wprowadź poprawne hasło, aby otworzyć dokument:</string>
+    <string name="wrong_password">Niepoprawne hasło.</string>
+
+
+    <string name="dark_pdf">Ciemny motyw plików PDF</string>
+    <string name="keep_screen_on">Nie wyłączaj ekranu</string>
+    <string name="privacy_info">Ta aplikacja nie zbiera żadnych danych.\nNastępujące uprawnienia są wymagane do poprawnego funkcjonowania określonych funkcji aplikacji:\n- <b>Internet</b>: otwieranie odnośników do plików PDF\n- <b>Pamięć</b>: otwieranie plików na urządzeniu, zapisywanie plików PDF z odnośników</string>
+</resources>
