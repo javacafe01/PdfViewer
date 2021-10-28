@@ -27,10 +27,10 @@
     <string name="pick_file">Pick File</string>
     <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
     <string name="toast_http_code_error">Remote server responded with an error.</string>
-    <string name="toast_generic_download_error">We couldn\'t download this file for some reason.</string>
+    <string name="toast_generic_download_error">We could not download this file for some reason.</string>
     <string name="toast_ssl_error">Secure connection failed.</string>
     <string name="saved_to_download">File saved to Download folder.</string>
-    <string name="save_to_download_failed">Couldn\'t save file to Download folder.</string>
+    <string name="save_to_download_failed">Could not save file to Download folder.</string>
     <string name="action_about">About</string>
     <string name="version">Version</string>
     <string name="intro">Replay Intro</string>
@@ -89,7 +89,7 @@
     <string name="pref_accent_color_summary">Accents select parts of the UI.</string>
 
     <string name="pref_background_color_title">Background color</string>
-    <string name="pref_background_color_summary">The underlying color of the app’s content.</string>
+    <string name="pref_background_color_summary">The underlying color of the app\'s content.</string>
     <string name="pref_category_appearance">Appearance</string>
 
     <string name="pref_colored_navigation_bar_title">Navigation bar color</string>
