@@ -65,7 +65,7 @@
     <string name="description__permission">You will now be prompted to allow the app to access the phone\'s storage. Without this permission, documents might fail to open in some cases.</string>
 
     <string name="libs">Open Source Libraries</string>
-    <string name="git" translatable="false">Github</string>
+    <string name="git" translatable="false">GitHub</string>
     <string name="code">Source Code</string>
 
     <string name="share">Share File</string>
