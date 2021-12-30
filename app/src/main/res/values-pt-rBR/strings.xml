@@ -36,7 +36,7 @@
     <string name="intro">Repetir introdução</string>
     <string name="author" translatable="false">Gokul Swaminathan</string>
     <string name="email">E-mail</string>
-    <string name="description_open">É claro que este app é código aberto. Você sempre tem o privilégio de fazer suas próprias modificações neste app. O link para o código-fonte está na seção Sobre.</string>
+    <string name="description_open">É claro que este app tem o código aberto. Você sempre tem o privilégio de fazer suas próprias modificações nele. O link para o código-fonte está na seção Sobre.</string>
     <string name="title_open">Liberdade</string>
     <string name="title_intro" translatable="false">Pdf Viewer Plus</string>
     <string name="description__intro">Um simples visualizador de documentos PDF.</string>
@@ -89,7 +89,7 @@
     <string name="pref_accent_color_summary">Destaca certas partes da interface.</string>
 
     <string name="pref_background_color_title">Cor de fundo</string>
-    <string name="pref_background_color_summary">A cor subjacente do conteúdo do app.</string>
+    <string name="pref_background_color_summary">A cor de fundo do conteúdo do aplicativo.</string>
     <string name="pref_category_appearance">Aparência</string>
 
     <string name="pref_colored_navigation_bar_title">Cor da barra de navegação</string>
