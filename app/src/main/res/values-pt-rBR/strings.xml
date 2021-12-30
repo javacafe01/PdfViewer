@@ -24,20 +24,24 @@
 
 <resources>
     <string name="app_name" translatable="false">Pdf Viewer Plus</string>
-    <string name="pick_file">Selecionar arquivo</string>
-    <string name="toast_pick_file_error">Não foi possível selecionar um arquivo. Verifique o status do gerenciador de arquivos.</string>
-    <string name="toast_ssl_error">Falha na conexão segura.</string>
+    <string name="pick_file">Escolher arquivo</string>
+    <string name="toast_pick_file_error">Não foi possível escolher o arquivo. Verifique o status do gerenciador de arquivos.</string>
+    <string name="toast_http_code_error">O servidor remoto respondeu com um erro.</string>
+    <string name="toast_generic_download_error">Nós não podemos baixar este arquivo por algum motivo.</string>
+    <string name="toast_ssl_error">A conexão segura falhou.</string>
+    <string name="saved_to_download">Arquivo salvo na pasta Download.</string>
+    <string name="save_to_download_failed">Não foi possível salvar o arquivo na pasta Download.</string>
     <string name="action_about">Sobre</string>
     <string name="version">Versão</string>
     <string name="intro">Repetir introdução</string>
     <string name="author" translatable="false">Gokul Swaminathan</string>
     <string name="email">E-mail</string>
-    <string name="description_open">É claro que este app tem o código aberto. Você sempre tem o privilégio de fazer suas próprias modificações nele. O link do código fonte está na seção Sobre.</string>
+    <string name="description_open">É claro que este app é código aberto. Você sempre tem o privilégio de fazer suas próprias modificações neste app. O link para o código-fonte está na seção Sobre.</string>
     <string name="title_open">Liberdade</string>
     <string name="title_intro" translatable="false">Pdf Viewer Plus</string>
-    <string name="description__intro">Um simples visualizador de documentos PDF</string>
+    <string name="description__intro">Um simples visualizador de documentos PDF.</string>
     <string name="myLicense">Licença</string>
-    <string name="privacy">Política de privacidade</string>
+    <string name="privacy">Política de Privacidade</string>
 
     <string name="license" translatable="false">
         MIT License\n\nCopyright (&#169;) 2018 Gokul Swaminathan\n\nPermission is hereby granted, free of charge, to any person obtaining a copy
@@ -55,17 +59,19 @@
         SOFTWARE.
     </string>
 
-    <string name="appChangelog">Registro de mudanças</string>
+    <string name="appChangelog">Notas da versão</string>
     <string name="ok">Ok</string>
-    <string name="title_permission">Permissão de armazenamento</string>
+    <string name="title_permission">Permissões de armazenamento</string>
+    <string name="description__permission">Agora irá ser solicitado que você permita o acesso ao armazenamento do telefone. Sem esta permissão, os documentos podem não abrir em alguns casos.</string>
 
-    <string name="libs">Bibliotecas de código aberto</string>
-    <string name="git" translatable="false">Github</string>
-    <string name="code">Código fonte</string>
+    <string name="libs">Bibliotecas de código livre</string>
+    <string name="git" translatable="false">GitHub</string>
+    <string name="code">Código-fonte</string>
 
     <string name="share">Compartilhar arquivo</string>
     <string name="print">Imprimir arquivo</string>
-    <string name="devnotice">Notícia do desenvolvedor</string>
+    <string name="full_screen">Tela cheia</string>
+    <string name="devnotice">Aviso do desenvolvedor</string>
     <string name="theme_picker">Mudar tema</string>
     <string name="app_info">Informações do app</string>
     <string name="author_info">Informações do autor</string>
@@ -83,21 +89,37 @@
     <string name="pref_accent_color_summary">Destaca certas partes da interface.</string>
 
     <string name="pref_background_color_title">Cor de fundo</string>
-    <string name="pref_background_color_summary">A cor de fundo do conteúdo do aplicativo.</string>
+    <string name="pref_background_color_summary">A cor subjacente do conteúdo do app.</string>
     <string name="pref_category_appearance">Aparência</string>
 
     <string name="pref_colored_navigation_bar_title">Cor da barra de navegação</string>
-    <string name="pref_colored_navigation_bar_summary">Aplicar a cor primária à barra de navegação</string>
+    <string name="pref_colored_navigation_bar_summary">Aplica a cor primária à barra de navegação</string>
     <string name="meta">Informações do arquivo</string>
-    <string name="quality">Renderização em alta qualidade</string>
+    <string name="quality">Renderização de alta qualidade</string>
     <string name="settings">Configurações</string>
     <string name="alias">Anti-Aliasing</string>
     <string name="scroll">Rolagem horizontal</string>
-    <string name="snap">Page Snap</string>
-    <string name="fling">Page Fling</string>
-    <string name="qualitysettings">Qualidade</string>
+    <string name="snap">Snap de página</string>
+    <string name="snap_summary">Centraliza a visão na página atual após cada swipe</string>
+    <string name="fling">Fling de página</string>
+    <string name="fling_summary">Faz um rápido swipe para pular diretamente para a próxima página</string>
+    <string name="qualitysettings">Visual</string>
     <string name="scrollsettings">Rolagem</string>
     <string name="title_activity_settings">Configurações</string>
     <string name="buttonLog">Continuar</string>
+    <string name="show_in_launcher">Mostrar no lançador de aplicativos</string>
+    <string name="show_in_launcher_summary">Você talvez precise reiniciar seu lançador para que esta opção surta efeito</string>
+    <string name="pdf_title">Título: %1$s</string>
+    <string name="pdf_author">Autor: %1$s</string>
+    <string name="pdf_creation_date">Data de criação: %1$s</string>
 
+    <string name="file_opening_error">Um erro ocorreu ao abrir o arquivo.</string>
+    <string name="protected_pdf">PDF protegido</string>
+    <string name="enter_password">Insira a senha correta para abrir o documento:</string>
+    <string name="wrong_password">Senha incorreta.</string>
+
+
+    <string name="dark_pdf">Tema escuro para o PDF</string>
+    <string name="keep_screen_on">Manter a tela ligada</string>
+    <string name="privacy_info">Este app não coleta nenhum dado. \nAs seguintes permissões são necessárias para oferecer funcionalidades específicas no aplicativo:\n- <b>Internet</b>: abrir PDFs através de links\n- <b>Armazenamento</b>: abrir arquivos do armazenamento, salvar PDFs abertos através de links</string>
 </resources>
