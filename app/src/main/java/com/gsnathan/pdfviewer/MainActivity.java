@@ -461,6 +461,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if(viewBinding.pdfView.getPageCount() == 0){
+                    return;
+                }
                 pageNumber = Integer.parseInt(input.getText().toString()) - 1;
                 viewBinding.pdfView.jumpTo(pageNumber);
                 setCurrentPage(pageNumber,viewBinding.pdfView.getPageCount());
