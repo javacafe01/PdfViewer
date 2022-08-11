@@ -1,3 +1,12 @@
+### This is a Fork
+This repo is a fork of <a href="https://github.com/JavaCafe01/PdfViewer">https://github.com/JavaCafe01/PdfViewer</a>.
+
+These are the added functionalities:
+* Jump to a specific page. <a href="https://github.com/JavaCafe01/PdfViewer/pull/176">Requested to merge</a>.
+
+If you have any issues or pull requests, please open them in the <a href="https://github.com/JavaCafe01/PdfViewer">base repo</a> because I am not a mantainer, thanks.
+
+
 <p align="center">
 
 <img src="./images/high_res.png" width="120" />
