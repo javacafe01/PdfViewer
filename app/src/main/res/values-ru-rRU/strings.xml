@@ -41,6 +41,7 @@
     <string name="fling">Перелистывание страниц</string>
 
     <!-- About -->
+    <string name="go_to_page">Перейти на страницу</string>
     <string name="action_about">О приложении</string>
     <string name="app_info">Информация о приложении</string>
     <string name="intro">Повтор введения</string>

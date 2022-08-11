@@ -31,6 +31,7 @@
     <string name="toast_ssl_error">Secure connection failed.</string>
     <string name="saved_to_download">File saved to Download folder.</string>
     <string name="save_to_download_failed">Couldn\'t save file to Download folder.</string>
+    <string name="go_to_page">Go to page</string>
     <string name="action_about">About</string>
     <string name="version">Version</string>
     <string name="intro">Replay Intro</string>
