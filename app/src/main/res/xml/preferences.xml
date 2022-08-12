@@ -27,10 +27,10 @@
             android:title="@string/keep_screen_on" android:key="screen_on_pref"/>
 
         <SeekBarPreference
-            android:defaultValue="5"
+            android:defaultValue="4"
             android:title="@string/maximum_zoom" android:key="max_zoom_pref"
             android:max="9"
-            app:showSeekBarValue="true" />
+            app:showSeekBarValue="true"/>
 
     </PreferenceCategory>
 
