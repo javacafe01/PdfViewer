@@ -26,6 +26,12 @@
             android:defaultValue="false"
             android:title="@string/keep_screen_on" android:key="screen_on_pref"/>
 
+        <EditTextPreference
+            android:defaultValue="5"
+            android:title="@string/maximum_zoom" android:key="maximum_zoom_pref"
+            android:inputType="numberDecimal"
+            android:dialogMessage="The default value is 5"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
