@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreference
         android:defaultValue="true"
@@ -26,11 +26,11 @@
             android:defaultValue="false"
             android:title="@string/keep_screen_on" android:key="screen_on_pref"/>
 
-        <EditTextPreference
+        <SeekBarPreference
             android:defaultValue="5"
-            android:title="@string/maximum_zoom" android:key="maximum_zoom_pref"
-            android:inputType="numberDecimal"
-            android:dialogMessage="The default value is 5"/>
+            android:title="@string/maximum_zoom" android:key="max_zoom_pref"
+            android:max="9"
+            app:showSeekBarValue="true" />
 
     </PreferenceCategory>
 

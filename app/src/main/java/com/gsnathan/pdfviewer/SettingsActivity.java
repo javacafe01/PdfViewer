@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.SeekBarPreference;
 
 import com.jaredrummler.cyanea.app.CyaneaPreferenceActivity;
 
@@ -51,6 +53,19 @@ public class SettingsActivity extends CyaneaPreferenceActivity {
                 }
             });
         }
+
+        Preference seekBar = (Preference)findPreference("max_zoom_pref");
+        int current_value = PreferenceManager.getDefaultSharedPreferences(this).getInt("max_zoom_pref",5);
+        String seekBarTitle = getResources().getString(R.string.maximum_zoom) + " " + String.valueOf(++current_value);
+        seekBar.setTitle(seekBarTitle);
+        seekBar.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                final int progress = Integer.valueOf(String.valueOf(o)) + 1;
+                preference.setTitle(getResources().getString(R.string.maximum_zoom) + " " + progress);
+                return true;
+            }
+        });
     }
 
     private void setOptionsListTopMargin() {

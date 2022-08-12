@@ -262,7 +262,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         viewBinding.pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         viewBinding.pdfView.setMinZoom(0.5f);
         viewBinding.pdfView.setMidZoom(2.0f);
-        viewBinding.pdfView.setMaxZoom(Float.parseFloat(prefManager.getString("maximum_zoom_pref", "5")));
+        viewBinding.pdfView.setMaxZoom((float)prefManager.getInt("max_zoom_pref", 4) + 1);
         viewConfigurator
                 .defaultPage(pageNumber)
                 .onPageChange(this::setCurrentPage)
