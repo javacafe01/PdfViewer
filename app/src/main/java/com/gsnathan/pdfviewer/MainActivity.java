@@ -259,10 +259,12 @@ public class MainActivity extends CyaneaAppCompatActivity {
         } else {
             viewBinding.pdfView.setBackgroundColor(0xFF212121);
         }
+        float maxZoom = (float)(prefManager.getInt("max_zoom_pref", 4) + 1);
+        float midZoom = Math.min(2.0f, maxZoom);
         viewBinding.pdfView.useBestQuality(prefManager.getBoolean("quality_pref", false));
         viewBinding.pdfView.setMinZoom(0.5f);
-        viewBinding.pdfView.setMidZoom(2.0f);
-        viewBinding.pdfView.setMaxZoom((float)prefManager.getInt("max_zoom_pref", 4) + 1);
+        viewBinding.pdfView.setMidZoom(midZoom);
+        viewBinding.pdfView.setMaxZoom(maxZoom);
         viewConfigurator
                 .defaultPage(pageNumber)
                 .onPageChange(this::setCurrentPage)
