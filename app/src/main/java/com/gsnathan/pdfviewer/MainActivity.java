@@ -42,6 +42,8 @@ import android.print.PrintManager;
 import android.provider.OpenableColumns;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -455,18 +457,14 @@ public class MainActivity extends CyaneaAppCompatActivity {
 
         EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setGravity(Gravity.CENTER);
 
         builder.setView(input);
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(viewBinding.pdfView.getPageCount() == 0){
-                    return;
-                }
-                pageNumber = Integer.parseInt(input.getText().toString()) - 1;
-                viewBinding.pdfView.jumpTo(pageNumber);
-                setCurrentPage(pageNumber,viewBinding.pdfView.getPageCount());
+                jumpToPage(Integer.parseInt(input.getText().toString()));
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -475,7 +473,25 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 dialog.cancel();
             }
         });
+
+        builder.setOnKeyListener((dialog, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                dialog.cancel();
+                jumpToPage(Integer.parseInt(input.getText().toString()));
+                return true;
+            }
+            return false;
+        });
         builder.show();
+    }
+
+    private void jumpToPage(int page){
+        if(viewBinding.pdfView.getPageCount() == 0){
+            return;
+        }
+        pageNumber = page - 1;
+        viewBinding.pdfView.jumpTo(pageNumber);
+        setCurrentPage(pageNumber, viewBinding.pdfView.getPageCount());
     }
 
     private void setCurrentPage(int page, int pageCount) {
