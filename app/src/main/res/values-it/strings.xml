@@ -6,6 +6,7 @@
     <string name="toast_ssl_error">Connessione sicura fallita.</string>
     <string name="saved_to_download">Il file è stato salvato nella cartella dei download.</string>
     <string name="save_to_download_failed">Non è stato possibile salvare il file nella cartella dei download.</string>
+    <string name="go_to_page">Vai a pagina</string>
     <string name="action_about">Informazioni su…</string>
     <string name="version">Versione</string>
     <string name="intro">Ripeti l\'introduzione</string>
