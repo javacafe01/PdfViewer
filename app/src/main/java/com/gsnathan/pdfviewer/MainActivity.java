@@ -491,6 +491,7 @@ public class MainActivity extends CyaneaAppCompatActivity {
         }
         pageNumber = page - 1;
         viewBinding.pdfView.jumpTo(pageNumber);
+        viewBinding.pdfView.performPageSnap();
         setCurrentPage(pageNumber, viewBinding.pdfView.getPageCount());
     }
 
