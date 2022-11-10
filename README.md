@@ -1,3 +1,10 @@
+# ANOUNCEMENT
+
+Hi everyone, you've probably noticed, but I haven't been maintaining this project at all. Unfortunately, I have not been interested in developing anymore, do to Uni being more intense than ever. The good news is that there is a great project based off of PdfViewer Plus, [MJ PDF Reader](https://gitlab.com/mudlej_android/mj_pdf_reader), over on GitLab. The author has kept it FOSS, has been refractoring the code (especially my terrible code), converting it to Kotlin, and also adding more features. Please go ahead and support that project!
+
+Due to that project existing, I will be taking down the apks off of the Playstore (if Google hasn't done that already), and take down the F-Droid listing for it.
+
+
 <p align="center">
 
 <img src="./images/high_res.png" width="120" />
