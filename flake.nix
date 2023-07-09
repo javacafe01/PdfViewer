@@ -48,7 +48,7 @@
           # android-studio = pkgs.androidStudioPackage.canary;
         };
 
-        devShell = import ./devshell.nix { inherit pkgs; };
+        devShell = import ./nix/devshell.nix { inherit pkgs; };
       }
     );
 }
