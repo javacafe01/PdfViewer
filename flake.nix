@@ -37,13 +37,13 @@
             platforms-android-30
 
             # Other useful packages for a development environment.
-            # sources-android-30
-            # system-images-android-30-google-apis-x86
-            # system-images-android-30-google-apis-playstore-x86
+            sources-android-30
+            system-images-android-30-google-apis-x86
+            system-images-android-30-google-apis-playstore-x86
           ]);
 
-          android-studio = pkgs.androidStudioPackages.stable;
-          # android-studio = pkgs.androidStudioPackages.beta;
+          # android-studio = pkgs.androidStudioPackages.stable;
+          android-studio = pkgs.androidStudioPackages.beta;
           # android-studio = pkgs.androidStudioPackages.preview;
           # android-studio = pkgs.androidStudioPackage.canary;
         };
