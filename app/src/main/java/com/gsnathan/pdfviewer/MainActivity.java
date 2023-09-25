@@ -28,6 +28,7 @@ import android.Manifest;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -39,13 +40,17 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.print.PrintManager;
 import android.provider.OpenableColumns;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -446,6 +451,50 @@ public class MainActivity extends CyaneaAppCompatActivity {
         settingsLauncher.launch(new Intent(this, SettingsActivity.class));
     }
 
+    private void goToPage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.go_to_page));
+
+        EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setGravity(Gravity.CENTER);
+
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                jumpToPage(Integer.parseInt(input.getText().toString()));
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setOnKeyListener((dialog, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                dialog.cancel();
+                jumpToPage(Integer.parseInt(input.getText().toString()));
+                return true;
+            }
+            return false;
+        });
+        builder.show();
+    }
+
+    private void jumpToPage(int page){
+        if(viewBinding.pdfView.getPageCount() == 0){
+            return;
+        }
+        pageNumber = page - 1;
+        viewBinding.pdfView.jumpTo(pageNumber);
+        viewBinding.pdfView.performPageSnap();
+        setCurrentPage(pageNumber, viewBinding.pdfView.getPageCount());
+    }
+
     private void setCurrentPage(int page, int pageCount) {
         pageNumber = page;
         setTitle(String.format("%s %s / %s", pdfFileName + " ", page + 1, pageCount));
@@ -520,6 +569,9 @@ public class MainActivity extends CyaneaAppCompatActivity {
                 return true;
             case R.id.settings:
                 navToSettings();
+                return true;
+            case R.id.go_to_page:
+                goToPage();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
