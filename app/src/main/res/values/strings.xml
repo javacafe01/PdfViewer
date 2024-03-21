@@ -121,5 +121,6 @@
 
     <string name="dark_pdf">Dark theme for PDF</string>
     <string name="keep_screen_on">Keep the screen on</string>
+    <string name="maximum_zoom">Maximum zoom:</string>
     <string name="privacy_info">This app does not collect any data.\nThe following permissions are required to provide specific features in the app:\n- <b>Internet</b>: open PDFs through links\n- <b>Storage</b>: open files from storage, save PDFs opened through links</string>
 </resources>
